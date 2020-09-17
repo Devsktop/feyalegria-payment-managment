@@ -311,7 +311,6 @@ router.post('/verifyDB', (req, res) => {
     host: 'localhost',
     user: 'root',
     password: ''
-    //database: 'vapersve'
   });
 
   mysqlConnection2.query(
