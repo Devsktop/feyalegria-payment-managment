@@ -19,7 +19,7 @@
   // app.use('/api/tasks', require('./routes/task.routes'));
 
   app.listen(app.get('port'), () => {
-    console.log('server on port 3500 bb');
+    console.log('server on port 3500');
   });
 
   module.exports = app;
