@@ -42,10 +42,12 @@ router.post('/students', (req, res) => {
     ],
     (err, rows) => {
       if (!err) {
-        res.json({
-          status: 'ok',
+        res.status(200).json({
           id: rows.insertId
         });
+      } else if (err.errno === 1062) {
+        // Handle Duplicate entry error
+        res.status(409).json({ err });
       } else {
         res.json({
           status: 'error',

@@ -1,9 +1,11 @@
 const t1 = `
-CREATE TABLE dolarprice (
-  iddolarPrice int(11) NOT NULL,
-  date date NOT NULL,
-  price double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE dolarPrice (
+  iddolarPrice INT NOT NULL AUTO_INCREMENT,
+  date DATE NOT NULL,
+  price DOUBLE NOT NULL,
+  PRIMARY KEY (iddolarPrice),
+  UNIQUE INDEX iddolarPrice_UNIQUE (iddolarPrice))
+ENGINE = InnoDB;
 `;
 
 const t2 = `
@@ -195,4 +197,23 @@ CREATE TABLE users (
 
 const insert = `INSERT INTO usuario (Username,Password,Admin,Pregunta_Seg,Respuesta_Seg) VALUES ('admin','admin','SUPER_ADMIN','Universidad donde estudio','urbe')`;
 
-module.exports = [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, insert];
+module.exports = [
+  t1,
+  t2,
+  t3,
+  t4,
+  t5,
+  t6,
+  t7,
+  t8,
+  t9,
+  t10,
+  t11,
+  t12,
+  t13,
+  t14,
+  t15,
+  t16,
+  t17,
+  insert
+];
