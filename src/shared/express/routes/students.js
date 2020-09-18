@@ -1,23 +1,45 @@
-/* eslint-disable global-require */
-/* eslint-disable camelcase */
-/* eslint-disable new-cap */
 const express = require('express');
-const router = express.Router();
 const mysqlConnection = require('../database');
-const mysql = require('mysql');
-const path = require('path');
 
-//Rutas o Endpoints
+const router = express.Router();
+
+// Rutas o Endpoints
 
 // 1.- Add Students http://localhost:3500/api/students
 router.post('/students', (req, res) => {
-  const { names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia } = req.body;
+  const {
+    names,
+    lastnames,
+    dni,
+    birthDate,
+    relationship,
+    state,
+    blood,
+    weight,
+    size,
+    email,
+    phone,
+    socialMedia
+  } = req.body;
   const query = ` INSERT INTO students (names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
      `;
 
   mysqlConnection.query(
     query,
-    [ names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia ],
+    [
+      names,
+      lastnames,
+      dni,
+      birthDate,
+      relationship,
+      state,
+      blood,
+      weight,
+      size,
+      email,
+      phone,
+      socialMedia
+    ],
     (err, rows) => {
       if (!err) {
         res.json({
@@ -60,15 +82,41 @@ router.delete('/students', (req, res) => {
   });
 });
 
-//4.- Update Student---->http://localhost:3500/api/updStudent
+// 4.- Update Student---->http://localhost:3500/api/updStudent
 router.post('/updStudent', (req, res) => {
-  const { names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia } = req.body;
+  const {
+    names,
+    lastnames,
+    dni,
+    birthDate,
+    relationship,
+    state,
+    blood,
+    weight,
+    size,
+    email,
+    phone,
+    socialMedia
+  } = req.body;
   const query = ` CALL updStudent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
      `;
 
   mysqlConnection.query(
     query,
-    [names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia],
+    [
+      names,
+      lastnames,
+      dni,
+      birthDate,
+      relationship,
+      state,
+      blood,
+      weight,
+      size,
+      email,
+      phone,
+      socialMedia
+    ],
     (err, rows, fields) => {
       if (!err) {
         res.json({
