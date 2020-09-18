@@ -13,7 +13,11 @@ const Login = () => {
   const db = useSelector(state => state.login.db);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  // When app runs it must verify db actually exixts
+  // so it makes a fetch and if does not exist it is created
+  // when db was verified 'db' is set to true in store
+  // eslint-disable-next-line no-unused-vars
+  const verifyDb = () => {
     if (!db) {
       const url = 'http://localhost:3500/api/tasks/verifyDB';
       const config = {
@@ -26,12 +30,25 @@ const Login = () => {
       fetch(url, config)
         .then(res => res.json())
         .then(res => {
-          console.log(res);
           if (res.status === 'ok') {
             dispatch(createDb());
           }
         });
     }
+  };
+
+  useEffect(() => {
+    // doc for development adpting, set it on back later
+    // verifyDb();
+
+    // Mula callback to simulate call to verifyDb
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.log(
+        'Verifying DB, remember delete this message and set it on later'
+      );
+      dispatch(createDb());
+    }, 2000);
   }, []);
 
   if (!db)
