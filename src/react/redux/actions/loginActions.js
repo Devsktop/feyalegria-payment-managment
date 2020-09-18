@@ -1,6 +1,4 @@
 import { fetchSaleRecords } from 'react/redux/actions/saleRecordsActions';
-import { fetchProducts } from 'react/redux/actions/stockActions';
-import { fetchUsers } from 'react/redux/actions/usersActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -56,13 +54,14 @@ const dataLoadedAction = () => ({
   type: DATA_LOADED
 });
 
+// Call initial app data and dispatch it an then set dataLoaded true
 export function fetchData() {
   return dispatch => {
     // HACER FETCH A LA BDD
     return new Promise(resolve => setTimeout(resolve, 0)).then(async () => {
-      await dispatch(fetchProducts());
       await dispatch(fetchSaleRecords(new Date(), new Date()));
-      await dispatch(fetchUsers());
+
+      // Data loaded set to true
       await dispatch(dataLoadedAction());
     });
   };
