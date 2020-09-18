@@ -36,7 +36,7 @@ const DataLoad = () => {
     return (
       <Redirect
         to={{
-          pathname: '/ventas',
+          pathname: '/dashboard',
           state: {
             linked: true
           }

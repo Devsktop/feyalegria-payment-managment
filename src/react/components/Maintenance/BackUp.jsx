@@ -140,12 +140,3 @@ const BackUp = () => {
 };
 
 export default BackUp;
-
-
-funtion doSomething() {
-  if(true){
-    console.log("something")
-  }else{
-    console.log("Other thing")
-  }
-}

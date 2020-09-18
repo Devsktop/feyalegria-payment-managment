@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
