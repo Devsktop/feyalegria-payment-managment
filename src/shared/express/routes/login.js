@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mysqlConnection = require('../database');
 
@@ -6,54 +5,22 @@ const router = express.Router();
 
 // Rutas o Endpoints
 
-// 2.-Select User http://localhost:3500/api/login
+// Verify User Login http://localhost:3500/api/login
 router.post('/login', (req, res) => {
-  mysqlConnection.query('SELECT * from grades', (err, rows, fields) => {
+  const { user, password } = req.body;
+  const query = `SELECT idusers ,username, password from users where username  = '${user}' AND password = '${password}' limit 1;
+       `;
+
+  mysqlConnection.query(query, [user, password], (err, rows) => {
     if (!err) {
-      res.json(rows);
+      const { idusers, username } = rows[0];
+      res.status(200).json({ idusers, username });
     } else {
-      console.log(err);
+      res.status(404).json({
+        err
+      });
     }
   });
-});
-
-// 3.-Delete Grades ---> http://localhost:3500/api/grades
-router.delete('/grades', (req, res) => {
-  const { id } = req.body;
-  const query = `  DELETE FROM grades WHERE grades.idgrades  =(?);
-     `;
-
-  mysqlConnection.query(query, [id], (err, rows, fields) => {
-    if (!err) {
-      res.json({ status: 'ok' });
-    } else {
-      res.json({ status: 'error' });
-    }
-  });
-});
-
-//4.- Update Grades ---->http://localhost:3500/api/updGrades
-router.post('/updGrades', (req, res) => {
-  const { scholarYear  } = req.body;
-  const query = ` CALL updGrades(?);
-     `;
-
-  mysqlConnection.query(
-    query,
-    [scholarYear ],
-    (err, rows, fields) => {
-      if (!err) {
-        res.json({
-          status: 'ok'
-        });
-      } else {
-        res.json({
-          status: 'error',
-          err
-        });
-      }
-    }
-  );
 });
 
 module.exports = router;

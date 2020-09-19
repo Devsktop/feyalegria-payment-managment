@@ -17,6 +17,7 @@
 
   // Routes
   // app.use('/api/tasks', require('./routes/task.routes'));
+  app.use('/api', require('./routes/login'));
 
   app.listen(app.get('port'), () => {
     console.log('server on port 3500');
