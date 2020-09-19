@@ -11,7 +11,6 @@ import {
 const initialState = {
   logged: false,
   isLogin: false,
-  admin: '',
   attempts: 0,
   dataLoaded: false,
   db: false,
@@ -29,7 +28,6 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLogin: false,
-        admin: payload.admin,
         id: payload.id,
         logged: true
       };
@@ -53,7 +51,6 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         logged: false,
-        admin: '',
         id: '',
         attempts: 0,
         dataLoaded: false
