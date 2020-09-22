@@ -1,8 +1,8 @@
 // POST - api/login - (user: String, password: String)
 interface res_login {
-  user: string;
-  admin: boolean;
-}
+  idusers: string;
+  username: string;
+} //READY
 
 // GET - api/students - call to initial props
 interface students {

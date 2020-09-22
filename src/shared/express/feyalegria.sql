@@ -1,13 +1,15 @@
-const t1 = `
+CREATE SCHEMA feyalegria DEFAULT CHARACTER SET utf8 ;
+USE feyalegria ;
+
+
 CREATE TABLE dniType (
   iddniType INT NOT NULL AUTO_INCREMENT,
   letter VARCHAR(45) NOT NULL,
   PRIMARY KEY (iddniType),
   UNIQUE INDEX iddniType_UNIQUE (iddniType),
   UNIQUE INDEX letter_UNIQUE (letter));
-`;
 
-const t2 = `
+
 CREATE TABLE representatives (
   idrepresentative INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
@@ -28,18 +30,16 @@ CREATE TABLE representatives (
     REFERENCES dniType (iddniType)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t3 = `
+
 CREATE TABLE grades (
   idgrades INT NOT NULL AUTO_INCREMENT,
   scholarYear VARCHAR(45) NOT NULL,
   PRIMARY KEY (idgrades),
   UNIQUE INDEX idgrades_UNIQUE (idgrades),
   UNIQUE INDEX scholarYear_UNIQUE (scholarYear));
-`;
 
-const t4 = `
+
 CREATE TABLE sections (
   idsections INT NOT NULL AUTO_INCREMENT,
   section VARCHAR(45) NOT NULL,
@@ -54,9 +54,7 @@ CREATE TABLE sections (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-`;
 
-const t5 = `
 CREATE TABLE students (
   idStudents INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
@@ -105,9 +103,8 @@ CREATE TABLE students (
     REFERENCES sections (idGrades)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t6 = `
+
 CREATE TABLE products (
   idproducts INT NOT NULL AUTO_INCREMENT,
   product VARCHAR(45) NOT NULL,
@@ -115,18 +112,16 @@ CREATE TABLE products (
   mandatory BOOLEAN NOT NULL,
   PRIMARY KEY (idproducts),
   UNIQUE INDEX idproducts_UNIQUE (idproducts));
-`;
 
-const t7 = `
+
 CREATE TABLE rates (
   idrates INT NOT NULL AUTO_INCREMENT,
   price DOUBLE NOT NULL,
   type VARCHAR(45) NOT NULL,
   PRIMARY KEY (idrates),
   UNIQUE INDEX idrates_UNIQUE (idrates));
-`;
 
-const t8 = `
+
 CREATE TABLE paymentsConcepts (
   idpaymentsConcepts INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL,
@@ -140,9 +135,8 @@ CREATE TABLE paymentsConcepts (
     REFERENCES rates (idrates)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t9 = `
+
 CREATE TABLE registers (
   idregister INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL,
@@ -161,36 +155,32 @@ CREATE TABLE registers (
     REFERENCES representatives (idrepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t10 = `
+
 CREATE TABLE dolarPrice (
   iddolarPrice INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL,
   price DOUBLE NOT NULL,
   PRIMARY KEY (iddolarPrice),
   UNIQUE INDEX iddolarPrice_UNIQUE (iddolarPrice));
-`;
 
-const t11 = `
+
 CREATE TABLE globals (
   idglobals INT NOT NULL AUTO_INCREMENT,
   actualMonth INT NOT NULL,
   stundetsIn VARCHAR(45) NOT NULL,
   PRIMARY KEY (idglobals),
   UNIQUE INDEX idglobals_UNIQUE (idglobals));
-`;
 
-const t12 = `
+
 CREATE TABLE log (
   idlog INT NOT NULL AUTO_INCREMENT,
   date DATETIME(6) NOT NULL,
   operation VARCHAR(45) NOT NULL,
   PRIMARY KEY (idlog),
   UNIQUE INDEX idlog_UNIQUE (idlog));
-`;
 
-const t13 = `
+
 CREATE TABLE users (
   idusers INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
@@ -200,9 +190,8 @@ CREATE TABLE users (
   PRIMARY KEY (idusers),
   UNIQUE INDEX idusers_UNIQUE (idusers),
   UNIQUE INDEX username_UNIQUE (username));
-`;
 
-const t14 = `
+
 CREATE TABLE inscriptionsBalance (
   idinscriptionsBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
@@ -227,9 +216,8 @@ CREATE TABLE inscriptionsBalance (
     REFERENCES registers (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t15 = `
+
 CREATE TABLE monthlyPaymentsBalance (
   idmonthlyPaymentsBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
@@ -254,9 +242,8 @@ CREATE TABLE monthlyPaymentsBalance (
     REFERENCES registers (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t16 = `
+
 CREATE TABLE paymentsConceptsBalance (
   idpaymentsConceptsBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
@@ -295,9 +282,8 @@ CREATE TABLE paymentsConceptsBalance (
     REFERENCES paymentsConcepts (idRates)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
 
-const t17 = `
+
 CREATE TABLE productsBalance (
   idproductBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
@@ -329,27 +315,3 @@ CREATE TABLE productsBalance (
     REFERENCES products (idproducts)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-`;
-
-const insert = `INSERT INTO users (username,password,question,answer) VALUES ('admin','admin','Universidad donde estudio','urbe')`;
-
-module.exports = [
-  t1,
-  t2,
-  t3,
-  t4,
-  t5,
-  t6,
-  t7,
-  t8,
-  t9,
-  t10,
-  t11,
-  t12,
-  t13,
-  t14,
-  t15,
-  t16,
-  t17,
-  insert
-];
