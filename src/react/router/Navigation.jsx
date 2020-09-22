@@ -6,10 +6,12 @@ import Swal from 'sweetalert2';
 import { logOut } from 'react/redux/actions/loginActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCartPlus,
-  faQuestion,
-  faDoorOpen,
-  faDollarSign
+  faHome,
+  faPlus,
+  faAddressBook,
+  faUserTie,
+  faUserGraduate,
+  faCreditCard
 } from '@fortawesome/free-solid-svg-icons';
 import DolarPortal from 'react/components/DolarPortal';
 import NavIconLink from './NavIconLink';
@@ -59,13 +61,6 @@ const Navigation = () => {
       <div className="container">
         <div className="logo">
           <p>Fe y alegría</p>
-          {dataLoaded && (
-            <FontAwesomeIcon
-              icon={faDollarSign}
-              className="dollar-icon"
-              onClick={dolar}
-            />
-          )}
         </div>
         {dataLoaded && (
           <ul className="navbar">
@@ -73,13 +68,27 @@ const Navigation = () => {
               <NavLink
                 className="navbar-link"
                 to={{
-                  pathname: '/ventas',
+                  pathname: '/dashboard',
                   state: {
                     linked: true
                   }
                 }}
               >
-                <NavIconLink icon={faCartPlus} text="Ventas" />
+                <NavIconLink icon={faHome} text="Inicio" />
+              </NavLink>
+            </li>
+
+            <li className="navbar-item">
+              <NavLink
+                className="navbar-link"
+                to={{
+                  pathname: '/income',
+                  state: {
+                    linked: true
+                  }
+                }}
+              >
+                <NavIconLink icon={faPlus} text="Agregar ingreso" />
               </NavLink>
             </li>
 
@@ -93,18 +102,61 @@ const Navigation = () => {
                   }
                 }}
               >
-                <NavIconLink icon={faQuestion} text="Ayuda" />
+                <NavIconLink icon={faAddressBook} text="Registros" />
               </NavLink>
             </li>
+
             <li className="navbar-item">
+              <NavLink
+                className="navbar-link"
+                to={{
+                  pathname: '/help',
+                  state: {
+                    linked: true
+                  }
+                }}
+              >
+                <NavIconLink icon={faUserTie} text="Representantes" />
+              </NavLink>
+            </li>
+
+            <li className="navbar-item">
+              <NavLink
+                className="navbar-link"
+                to={{
+                  pathname: '/help',
+                  state: {
+                    linked: true
+                  }
+                }}
+              >
+                <NavIconLink icon={faUserGraduate} text="Estudiantes" />
+              </NavLink>
+            </li>
+
+            <li className="navbar-item">
+              <NavLink
+                className="navbar-link"
+                to={{
+                  pathname: '/help',
+                  state: {
+                    linked: true
+                  }
+                }}
+              >
+                <NavIconLink icon={faCreditCard} text="Precios" />
+              </NavLink>
+            </li>
+
+            {/* <li className="navbar-item">
               <a className="navbar-link" href="#" onClick={exit}>
                 <NavIconLink icon={faDoorOpen} text="Salir" />
               </a>
-            </li>
+            </li> */}
           </ul>
         )}
       </div>
-      {showDolar && <DolarPortal onClose={closeDolarPortal} />}
+      {/* {showDolar && <DolarPortal onClose={closeDolarPortal} />} */}
     </nav>
   );
 };
