@@ -34,8 +34,8 @@ function createWindow() {
       slashes: true
     });
   mainWindow = new BrowserWindow({
-    resizable: false,
-    autoHideMenuBar: true,
+    resizable: true,
+    autoHideMenuBar: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       devTools: true
