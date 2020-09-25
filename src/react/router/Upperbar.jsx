@@ -15,6 +15,9 @@ import { logOut } from 'react/redux/actions/loginActions';
 // Components
 import DolarPortal from 'react/components/DolarPortal';
 
+// Assets
+import logo from './logo.png';
+
 const UpperBar = () => {
   const dispatch = useDispatch();
   const [showDolar, setShowDolar] = useState(false);
@@ -60,7 +63,7 @@ const UpperBar = () => {
   return (
     <div className="upper_bar">
       <span className="upper_bar_right">
-        <img src="logo192.png" alt="logo" className="upper_bar_logo" />
+        <img src={logo} alt="logo" className="upper_bar_logo" />
         <FontAwesomeIcon icon={faBars} className="upper_bar_menu" />
       </span>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
