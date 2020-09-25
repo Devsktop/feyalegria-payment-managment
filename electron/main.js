@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
@@ -13,13 +14,15 @@ const {
   REDUX_DEVTOOLS
 } = require('electron-devtools-installer');
 
-installExtension(REACT_DEVELOPER_TOOLS)
-  .then(name => console.log(`Added Extension:  ${name}`))
-  .catch(err => console.log('An error occurred: ', err));
+app.whenReady().then(() => {
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err));
 
-installExtension(REDUX_DEVTOOLS)
-  .then(name => console.log(`Added Extension:  ${name}`))
-  .catch(err => console.log('An error occurred: ', err));
+  installExtension(REDUX_DEVTOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err));
+});
 
 let mainWindow;
 function createWindow() {

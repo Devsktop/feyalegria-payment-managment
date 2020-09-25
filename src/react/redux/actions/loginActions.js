@@ -1,6 +1,4 @@
 import { fetchSaleRecords } from 'react/redux/actions/saleRecordsActions';
-import { fetchProducts } from 'react/redux/actions/stockActions';
-import { fetchUsers } from 'react/redux/actions/usersActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -10,9 +8,9 @@ const isLogin = () => ({
 
 export const CORRECT_LOG = 'CORRECT_LOG';
 
-const correctLog = (admin, id) => ({
+const correctLog = id => ({
   type: CORRECT_LOG,
-  payload: { admin, id }
+  payload: { id }
 });
 
 export const BAD_LOG = 'BAD_LOG';
@@ -21,27 +19,37 @@ const badLog = () => ({
   type: BAD_LOG
 });
 
-export function login({ user, pass }) {
+export function login({ user, password }) {
   return dispatch => {
+    // Simulte login, replace later
     dispatch(isLogin());
-    // HACER FETCH A LA BDD
-    const config = {
-      method: 'POST',
-      body: JSON.stringify({ userN: user, pass }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-
-    return fetch('http://localhost:3500/api/tasks/Login', config)
-      .then(res => res.json())
-      .then(({ userdata }) => {
-        if (userdata.resp) dispatch(badLog());
-        else if (userdata.Admin) {
-          dispatch(correctLog(userdata.Admin, userdata.Id_Usuario));
-        }
-      });
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.log('simulating login call, remember to delete this later');
+      dispatch(correctLog(0));
+    }, 2000);
   };
+
+  // return dispatch => {
+  //   dispatch(isLogin());
+  //   // HACER FETCH A LA BDD
+  //   const config = {
+  //     method: 'POST',
+  //     body: JSON.stringify({ userN: user, pass }),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   };
+
+  //   return fetch('http://localhost:3500/api/tasks/Login', config)
+  //     .then(res => res.json())
+  //     .then(({ userdata }) => {
+  //       if (userdata.resp) dispatch(badLog());
+  //       else if (userdata.Admin) {
+  //         dispatch(correctLog(userdata.Id_Usuario));
+  //       }
+  //     });
+  // };
 }
 
 export const RESET_ATTEMPTS = 'RESET_ATTEMPTS';
@@ -56,13 +64,14 @@ const dataLoadedAction = () => ({
   type: DATA_LOADED
 });
 
+// Call initial app data and dispatch it an then set dataLoaded true
 export function fetchData() {
   return dispatch => {
     // HACER FETCH A LA BDD
     return new Promise(resolve => setTimeout(resolve, 0)).then(async () => {
-      await dispatch(fetchProducts());
       await dispatch(fetchSaleRecords(new Date(), new Date()));
-      await dispatch(fetchUsers());
+
+      // Data loaded set to true
       await dispatch(dataLoadedAction());
     });
   };

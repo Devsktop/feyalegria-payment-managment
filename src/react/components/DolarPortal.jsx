@@ -3,8 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setDolar } from 'react/redux/actions/cartActions';
-
 const DolarPortal = ({ onClose }) => {
   const dispatch = useDispatch();
   const initialDolar = useSelector(state => state.cart.exchange);
@@ -32,27 +30,27 @@ const DolarPortal = ({ onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const url = 'http://localhost:3500/api/tasks/actdolar';
-    const config = {
-      method: 'POST',
-      body: JSON.stringify({ Dolar: dolar }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
+    // const url = 'http://localhost:3500/api/tasks/actdolar';
+    // const config = {
+    //   method: 'POST',
+    //   body: JSON.stringify({ Dolar: dolar }),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // };
 
-    fetch(url, config)
-      .then(res => res.json())
-      .then(res => {
-        if (res.status === 'ok') {
-          dispatch(setDolar(parseInt(dolar, 10)));
-        } else {
-          console.log('hubo un error');
-        }
-      })
-      .catch(() => {
-        console.log('hubo un error');
-      });
+    // fetch(url, config)
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     if (res.status === 'ok') {
+    //       dispatch(setDolar(parseInt(dolar, 10)));
+    //     } else {
+    //       console.log('hubo un error');
+    //     }
+    //   })
+    //   .catch(() => {
+    //     console.log('hubo un error');
+    //   });
 
     if (onClose) onClose();
   };
