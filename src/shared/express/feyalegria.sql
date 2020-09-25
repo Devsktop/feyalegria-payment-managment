@@ -3,60 +3,60 @@ USE feyalegria ;
 
 
 CREATE TABLE dniType (
-  iddniType INT NOT NULL AUTO_INCREMENT,
+  idDniType INT NOT NULL AUTO_INCREMENT,
   letter VARCHAR(45) NOT NULL,
-  PRIMARY KEY (iddniType),
-  UNIQUE INDEX iddniType_UNIQUE (iddniType),
+  PRIMARY KEY (idDniType),
+  UNIQUE INDEX idDniType_UNIQUE (idDniType),
   UNIQUE INDEX letter_UNIQUE (letter));
 
 
 CREATE TABLE representatives (
-  idrepresentative INT NOT NULL AUTO_INCREMENT,
+  idRepresentative INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
   lastnames VARCHAR(45) NOT NULL,
-  id VARCHAR(45) NOT NULL,
+  dni VARCHAR(45) NOT NULL,
   balance FLOAT NOT NULL,
   phone VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   monthsToPay INT NOT NULL,
-  inscription TINYINT NOT NULL,
-  dniType INT NOT NULL,
-  PRIMARY KEY (idrepresentative),
-  UNIQUE INDEX idrepresentative_UNIQUE (idrepresentative),
-  UNIQUE INDEX id_UNIQUE (id),
-  INDEX fk_representatives_dniType1_idx (dniType),
+  inscription BOOLEAN NOT NULL,
+  idDniType INT NOT NULL,
+  PRIMARY KEY (idRepresentative),
+  UNIQUE INDEX idRepresentative_UNIQUE (idRepresentative),
+  UNIQUE INDEX dni_UNIQUE (dni),
+  INDEX fk_representatives_dniType1_idx (idDniType),
   CONSTRAINT fk_representatives_dniType1
-    FOREIGN KEY (dniType)
-    REFERENCES dniType (iddniType)
+    FOREIGN KEY (idDniType)
+    REFERENCES dniType (idDniType)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE grades (
-  idgrades INT NOT NULL AUTO_INCREMENT,
+  idGrade INT NOT NULL AUTO_INCREMENT,
   scholarYear VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idgrades),
-  UNIQUE INDEX idgrades_UNIQUE (idgrades),
+  PRIMARY KEY (idGrade),
+  UNIQUE INDEX idGrade_UNIQUE (idGrade),
   UNIQUE INDEX scholarYear_UNIQUE (scholarYear));
 
 
 CREATE TABLE sections (
-  idsections INT NOT NULL AUTO_INCREMENT,
+  idSection INT NOT NULL AUTO_INCREMENT,
   section VARCHAR(45) NOT NULL,
   capacity INT NOT NULL,
-  idGrades INT NOT NULL,
-  PRIMARY KEY (idsections),
-  INDEX fk_sections_grades1_idx (idGrades),
-  UNIQUE INDEX idsections_UNIQUE (idsections),
+  idGrade INT NOT NULL,
+  PRIMARY KEY (idSection),
+  INDEX fk_sections_grades1_idx (idGrade),
+  UNIQUE INDEX idSection_UNIQUE (idSection),
   CONSTRAINT fk_sections_grades1
-    FOREIGN KEY (idGrades)
-    REFERENCES grades (idgrades)
+    FOREIGN KEY (idGrade)
+    REFERENCES grades (idGrade)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE students (
-  idStudents INT NOT NULL AUTO_INCREMENT,
+  idStudent INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
   lastnames VARCHAR(45) NOT NULL,
   dni VARCHAR(45) NOT NULL,
@@ -70,75 +70,75 @@ CREATE TABLE students (
   phone VARCHAR(45) NULL,
   socialMedia VARCHAR(45) NULL,
   balance DOUBLE NOT NULL,
-  inscription TINYINT NOT NULL,
+  inscription BOOLEAN NOT NULL,
   monthsToPay INT NOT NULL,
   idRepresentative INT NOT NULL,
-  dniType INT NOT NULL,
+  idDniType INT NOT NULL,
   idSection INT NOT NULL,
-  idGrades INT NOT NULL,
-  PRIMARY KEY (idStudents),
-  UNIQUE INDEX idStudents_UNIQUE (idStudents),
+  idGrade INT NOT NULL,
+  PRIMARY KEY (idStudent),
+  UNIQUE INDEX idStudent_UNIQUE (idStudent),
   UNIQUE INDEX dni_UNIQUE (dni),
   INDEX fk_students_representatives_idx (idRepresentative),
-  INDEX fk_students_dniType1_idx (dniType),
+  INDEX fk_students_dniType1_idx (idDniType),
   INDEX fk_students_sections1_idx (idSection),
-  INDEX fk_students_grades1_idx (idGrades),
+  INDEX fk_students_grades1_idx (idGrade),
   CONSTRAINT fk_students_representatives
     FOREIGN KEY (idRepresentative)
-    REFERENCES representatives (idrepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_students_dniType1
-    FOREIGN KEY (dniType)
-    REFERENCES dniType (iddniType)
+    FOREIGN KEY (idDniType)
+    REFERENCES dniType (idDniType)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_students_sections1
     FOREIGN KEY (idSection)
-    REFERENCES sections (idsections)
+    REFERENCES sections (idSection)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_students_grades1
-    FOREIGN KEY (idGrades)
-    REFERENCES sections (idGrades)
+    FOREIGN KEY (idGrade)
+    REFERENCES sections (idGrade)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE products (
-  idproducts INT NOT NULL AUTO_INCREMENT,
+  idProduct INT NOT NULL AUTO_INCREMENT,
   product VARCHAR(45) NOT NULL,
   price DOUBLE NOT NULL,
   mandatory BOOLEAN NOT NULL,
-  PRIMARY KEY (idproducts),
-  UNIQUE INDEX idproducts_UNIQUE (idproducts));
+  PRIMARY KEY (idProduct),
+  UNIQUE INDEX idProduct_UNIQUE (idProduct));
 
 
 CREATE TABLE rates (
-  idrates INT NOT NULL AUTO_INCREMENT,
+  idRate INT NOT NULL AUTO_INCREMENT,
   price DOUBLE NOT NULL,
   type VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idrates),
-  UNIQUE INDEX idrates_UNIQUE (idrates));
+  PRIMARY KEY (idRate),
+  UNIQUE INDEX idRate_UNIQUE (idRate));
 
 
 CREATE TABLE paymentsConcepts (
-  idpaymentsConcepts INT NOT NULL AUTO_INCREMENT,
+  idPaymentsConcept INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL,
   price DOUBLE NOT NULL,
-  idRates INT NOT NULL,
-  PRIMARY KEY (idpaymentsConcepts),
-  UNIQUE INDEX idpaymentsConcepts_UNIQUE (idpaymentsConcepts),
-  INDEX fk_paymentsConcepts_rates1_idx (idRates),
+  idRate INT NOT NULL,
+  PRIMARY KEY (idPaymentsConcept),
+  UNIQUE INDEX idPaymentsConcept_UNIQUE (idPaymentsConcept),
+  INDEX fk_paymentsConcepts_rates1_idx (idRate),
   CONSTRAINT fk_paymentsConcepts_rates1
-    FOREIGN KEY (idRates)
-    REFERENCES rates (idrates)
+    FOREIGN KEY (idRate)
+    REFERENCES rates (idRate)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE registers (
-  idregister INT NOT NULL AUTO_INCREMENT,
+  idRegister INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL,
   bank VARCHAR(45) NOT NULL,
   reference VARCHAR(45) NOT NULL,
@@ -147,53 +147,53 @@ CREATE TABLE registers (
   dolars DOUBLE NULL,
   observation VARCHAR(150) NULL,
   idRepresentative INT NOT NULL,
-  PRIMARY KEY (idregister),
-  UNIQUE INDEX idregister_UNIQUE (idregister),
+  PRIMARY KEY (idRegister),
+  UNIQUE INDEX idRegister_UNIQUE (idRegister),
   INDEX fk_registers_representatives1_idx (idRepresentative),
   CONSTRAINT fk_registers_representatives1
     FOREIGN KEY (idRepresentative)
-    REFERENCES representatives (idrepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE dolarPrice (
-  iddolarPrice INT NOT NULL AUTO_INCREMENT,
+  idDolarPrice INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL,
   price DOUBLE NOT NULL,
-  PRIMARY KEY (iddolarPrice),
-  UNIQUE INDEX iddolarPrice_UNIQUE (iddolarPrice));
+  PRIMARY KEY (idDolarPrice),
+  UNIQUE INDEX idDolarPrice_UNIQUE (idDolarPrice));
 
 
 CREATE TABLE globals (
-  idglobals INT NOT NULL AUTO_INCREMENT,
+  idGlobal INT NOT NULL AUTO_INCREMENT,
   actualMonth INT NOT NULL,
   stundetsIn VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idglobals),
-  UNIQUE INDEX idglobals_UNIQUE (idglobals));
+  PRIMARY KEY (idGlobal),
+  UNIQUE INDEX idGlobal_UNIQUE (idGlobal));
 
 
 CREATE TABLE log (
-  idlog INT NOT NULL AUTO_INCREMENT,
+  idLog INT NOT NULL AUTO_INCREMENT,
   date DATETIME(6) NOT NULL,
   operation VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idlog),
-  UNIQUE INDEX idlog_UNIQUE (idlog));
+  PRIMARY KEY (idLog),
+  UNIQUE INDEX idLog_UNIQUE (idLog));
 
 
 CREATE TABLE users (
-  idusers INT NOT NULL AUTO_INCREMENT,
+  idUser INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
   question VARCHAR(45) NOT NULL,
   answer VARCHAR(45) NOT NULL,
-  PRIMARY KEY (idusers),
-  UNIQUE INDEX idusers_UNIQUE (idusers),
+  PRIMARY KEY (idUser),
+  UNIQUE INDEX idUser_UNIQUE (idUser),
   UNIQUE INDEX username_UNIQUE (username));
 
 
 CREATE TABLE inscriptionsBalance (
-  idinscriptionsBalance INT NOT NULL AUTO_INCREMENT,
+  idInscriptionsBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
@@ -202,13 +202,13 @@ CREATE TABLE inscriptionsBalance (
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
-  PRIMARY KEY (idinscriptionsBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idinscriptionsBalance),
+  PRIMARY KEY (idInscriptionsBalance),
+  UNIQUE INDEX idinscriptions_UNIQUE (idInscriptionsBalance),
   INDEX fk_inscriptionsBalance_registers1_idx (idRegister),
   INDEX fk_inscriptionsBalance_represantive1_idx (idRepresentative),
   CONSTRAINT fk_inscriptionsBalance_registers1
     FOREIGN KEY (idRegister)
-    REFERENCES registers (idregister)
+    REFERENCES registers (idRegister)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_inscriptionsBalance_represantive1
@@ -219,7 +219,7 @@ CREATE TABLE inscriptionsBalance (
 
 
 CREATE TABLE monthlyPaymentsBalance (
-  idmonthlyPaymentsBalance INT NOT NULL AUTO_INCREMENT,
+  idMonthlyPaymentsBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
@@ -228,13 +228,13 @@ CREATE TABLE monthlyPaymentsBalance (
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
-  PRIMARY KEY (idmonthlyPaymentsBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idmonthlyPaymentsBalance),
+  PRIMARY KEY (idMonthlyPaymentsBalance),
+  UNIQUE INDEX idinscriptions_UNIQUE (idMonthlyPaymentsBalance),
   INDEX fk_monthlyPaymentsBalance_registers1_idx (idRegister),
   INDEX fk_monthlyPaymentsBalance_represantives1_idx (idRepresentative),
   CONSTRAINT fk_monthlyPaymentsBalance_registers1
     FOREIGN KEY (idRegister)
-    REFERENCES registers (idregister)
+    REFERENCES registers (idRegister)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_monthlyPaymentsBalance_represantives1
@@ -245,7 +245,7 @@ CREATE TABLE monthlyPaymentsBalance (
 
 
 CREATE TABLE paymentsConceptsBalance (
-  idpaymentsConceptsBalance INT NOT NULL AUTO_INCREMENT,
+  idPaymentsConceptBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
@@ -254,17 +254,17 @@ CREATE TABLE paymentsConceptsBalance (
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
-  idPaymentsConcepts INT NOT NULL,
-  idRates INT NOT NULL,
-  PRIMARY KEY (idpaymentsConceptsBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idpaymentsConceptsBalance),
+  idPaymentsConcept INT NOT NULL,
+  idRate INT NOT NULL,
+  PRIMARY KEY (idPaymentsConceptBalance),
+  UNIQUE INDEX idinscriptions_UNIQUE (idPaymentsConceptBalance),
   INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
   INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
-  INDEX fk_paymentsConceptsBalance_paymentsConcepts1_idx (idPaymentsConcepts),
-  INDEX fk_paymentsConceptsBalance_rates1_idx (idRates),
+  INDEX fk_paymentsConceptsBalance_paymentsConcepts1_idx (idPaymentsConcept),
+  INDEX fk_paymentsConceptsBalance_rates1_idx (idRate),
   CONSTRAINT fk_paymentsConceptsBalance_registers1
     FOREIGN KEY (idRegister)
-    REFERENCES registers (idregister)
+    REFERENCES registers (idRegister)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_representatives1
@@ -273,19 +273,19 @@ CREATE TABLE paymentsConceptsBalance (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_paymentsConcepts1
-    FOREIGN KEY (idPaymentsConcepts)
-    REFERENCES paymentsConcepts (idpaymentsConcepts)
+    FOREIGN KEY (idPaymentsConcept)
+    REFERENCES paymentsConcepts (idPaymentsConcept)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_rates1
-    FOREIGN KEY (idRates)
-    REFERENCES paymentsConcepts (idRates)
+    FOREIGN KEY (idRate)
+    REFERENCES paymentsConcepts (idRate)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
 CREATE TABLE productsBalance (
-  idproductBalance INT NOT NULL AUTO_INCREMENT,
+  idProductBalance INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
@@ -294,15 +294,15 @@ CREATE TABLE productsBalance (
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
-  idProducts INT NOT NULL,
-  PRIMARY KEY (idproductBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idproductBalance),
+  idProduct INT NOT NULL,
+  PRIMARY KEY (idProductBalance),
+  UNIQUE INDEX idinscriptions_UNIQUE (idProductBalance),
   INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
   INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
-  INDEX fk_productsBalance_products1_idx (idProducts),
+  INDEX fk_productsBalance_products1_idx (idProduct),
   CONSTRAINT fk_paymentsConceptsBalance_registers10
     FOREIGN KEY (idRegister)
-    REFERENCES registers (idregister)
+    REFERENCES registers (idRegister)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_representatives10
@@ -311,7 +311,7 @@ CREATE TABLE productsBalance (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_productsBalance_products1
-    FOREIGN KEY (idProducts)
-    REFERENCES products (idproducts)
+    FOREIGN KEY (idProduct)
+    REFERENCES products (idProduct)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);

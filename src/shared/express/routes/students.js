@@ -58,17 +58,6 @@ router.post('/students', (req, res) => {
   );
 });
 
-// 2.-Select Students http://localhost:3500/api/students
-router.get('/students', (req, res) => {
-  mysqlConnection.query('SELECT * from students', (err, rows, fields) => {
-    if (!err) {
-      res.json(rows);
-    } else {
-      console.log(err);
-    }
-  });
-});
-
 // 3.-Delete Student ---> http://localhost:3500/api/students
 router.delete('/students', (req, res) => {
   const { id } = req.body;
@@ -132,6 +121,88 @@ router.post('/updStudent', (req, res) => {
       }
     }
   );
+});
+
+// 1.-Select 10 Solvent & 10 Insolvent Students http://localhost:3500/api/students
+router.get('/students', (req, res) => {
+  const students = {};
+  let totalStudents;
+  let insolventTotal;
+  let solventTotal;
+
+  // Query to select 10 Solvent Students
+  let query =
+    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, birthdate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance >= 0 LIMIT 10;';
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      rows.forEach(row => {
+        students[row.idStudent] = { ...row, solvent: true };
+      });
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
+
+  // Query to select 10 Insolvent Students
+  query =
+    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, birthdate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance < 0 LIMIT 10;';
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      rows.forEach(row => {
+        students[row.idStudent] = { ...row, solvent: false };
+      });
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
+
+  // Query to get students total
+  query = 'SELECT COUNT(idStudent) AS totalStudents from students';
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      totalStudents = rows[0].totalStudents;
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
+
+  // Query to get Students solventTotal
+  query =
+    'SELECT COUNT(idStudent) AS solventTotal from students where inscription = true AND balance >= 0';
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      solventTotal = rows[0].solventTotal;
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
+
+  // Query to get Students insolventTotal
+  query =
+    'SELECT COUNT(idStudent) AS insolventTotal from students where balance < 0';
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      insolventTotal = rows[0].insolventTotal;
+      res.status(200).json({
+        students,
+        totalStudents,
+        solventTotal,
+        insolventTotal
+      });
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
 });
 
 module.exports = router;

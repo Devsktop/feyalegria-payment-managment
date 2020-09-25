@@ -2,12 +2,12 @@
 interface res_login {
   idusers: string;
   username: string;
-} //READY
+} // READY
 
 // GET - api/students - call to initial props
 interface students {
   // 10 solvent and 10 insolvent
-  [student]: {
+  [students]: {
     idStudent: {
       name: string;
       dni: string;
@@ -21,8 +21,8 @@ interface students {
   // Total currently joined
   total: number;
   solventTotal: number;
-  insolventTotoal: number;
-}
+  insolventTotal: number;
+} // READY
 
 // GET - api/students/[section]
 interface students {
