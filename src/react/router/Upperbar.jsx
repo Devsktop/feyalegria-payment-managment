@@ -20,19 +20,36 @@ import logo from './logo.png';
 
 const UpperBar = () => {
   const dispatch = useDispatch();
+  const initialDolar = useSelector(state => state.upperbar.dolar);
   const [showDolar, setShowDolar] = useState(false);
   const history = useHistory();
 
   const dataLoaded = useSelector(state => state.login.dataLoaded);
   if (!dataLoaded) return null;
 
+  // eslint-disable-next-line no-unused-vars
+  const handleMenu = () => {};
+
   // Handle dollar button
-  const dolar = () => {
+  const openDolarPortal = () => {
     setShowDolar(true);
   };
 
   const closeDolarPortal = () => {
     setShowDolar(false);
+  };
+
+  // Show dolar portal if value is zero
+  const handleDolarPortal = () => {
+    if (initialDolar === 0) {
+      return <DolarPortal />;
+    }
+
+    if (showDolar) {
+      return <DolarPortal onClose={closeDolarPortal} />;
+    }
+
+    return null;
   };
 
   // Handle exit button
@@ -64,15 +81,21 @@ const UpperBar = () => {
     <div className="upper_bar">
       <span className="upper_bar_right">
         <img src={logo} alt="logo" className="upper_bar_logo" />
-        <FontAwesomeIcon icon={faBars} className="upper_bar_menu" />
+        <FontAwesomeIcon
+          icon={faBars}
+          className="upper_bar_menu"
+          onClick={handleMenu}
+        />
       </span>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <span className="upper_bar_dolar" onClick={dolar}>
+      <span className="upper_bar_dolar" onClick={openDolarPortal}>
         <FontAwesomeIcon
           icon={faHandHoldingUsd}
           className="upper_bar_dolar_icon"
         />
-        <span className="upper_bar_dolar_price">350.000Bs.S</span>
+        <span className="upper_bar_dolar_price">
+          {parseInt(initialDolar, 10)}
+        </span>
       </span>
 
       <FontAwesomeIcon
@@ -80,7 +103,7 @@ const UpperBar = () => {
         className="upper_bar_exit"
         onClick={exit}
       />
-      {showDolar && <DolarPortal onClose={closeDolarPortal} />}
+      {handleDolarPortal()}
     </div>
   );
 };
