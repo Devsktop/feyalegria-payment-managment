@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 
 // Actions
 import { logOut } from 'react/redux/actions/loginActions';
+import { showMenu } from 'react/redux/actions/upperbarActions';
 
 // Components
 import DolarPortal from 'react/components/DolarPortal';
@@ -28,7 +29,9 @@ const UpperBar = () => {
   if (!dataLoaded) return null;
 
   // eslint-disable-next-line no-unused-vars
-  const handleMenu = () => {};
+  const handleMenu = () => {
+    dispatch(showMenu());
+  };
 
   // Handle dollar button
   const openDolarPortal = () => {

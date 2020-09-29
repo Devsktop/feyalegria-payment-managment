@@ -1,8 +1,7 @@
 export const SHOW_MENU = 'SHOW_MENU';
 
-export const showMenu = show => ({
-  type: SHOW_MENU,
-  payload: { show }
+export const showMenu = () => ({
+  type: SHOW_MENU
 });
 
 export const SET_DOLAR = 'SET_DOLAR';

@@ -9,7 +9,7 @@ export default function reducer(state = initialState, { type, payload }) {
     case SHOW_MENU:
       return {
         ...state,
-        showMenu: payload.show
+        showMenu: !state.showMenu
       };
 
     case SET_DOLAR:
