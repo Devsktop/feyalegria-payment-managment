@@ -12,13 +12,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import NavIconLink from './NavIconLink';
 
-const Navigation = () => {
+const Menu = () => {
   const dataLoaded = useSelector(state => state.login.dataLoaded);
   const showMenu = useSelector(state => state.upperbar.showMenu);
 
   if (!dataLoaded) return null;
   return (
-    <nav className={`navigation ${showMenu ? 'open' : null}`}>
+    <nav className={`menu ${showMenu ? 'open' : null}`}>
       <div className="container">
         <ul className="navbar">
           <li className="navbar-item">
@@ -110,4 +110,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Menu;

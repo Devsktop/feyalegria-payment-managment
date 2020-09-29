@@ -15,14 +15,14 @@ import Maintenance from 'react/components/Maintenance/Maintenance';
 
 // Navigations
 import UpperBar from './Upperbar';
-import Navigation from './Navigation';
+import Menu from './Menu';
 
 const AppRouter = () => {
   return (
     <Router>
       <UpperBar />
       <div className="main_panel">
-        <Navigation />
+        <Menu />
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/load" component={DataLoad} />
