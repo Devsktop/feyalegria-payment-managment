@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 const NavIconLink = ({ icon, text }) => {
   return (
     <span className="nav-icon">
-      <FontAwesomeIcon icon={icon} />
+      <span className="icon">
+        <FontAwesomeIcon icon={icon} />
+      </span>
       <p>{text}</p>
     </span>
   );

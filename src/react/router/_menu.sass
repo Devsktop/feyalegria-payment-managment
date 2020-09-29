@@ -1,67 +1,64 @@
 .menu
-    display: none
-    background-color: #49c0f0
-    padding: 10px 0
-    margin-bottom: 20px
+    background-color: $primary  
+    transition: width .5s ease-out
+    .navbar
+        display: flex
+        flex-direction: column
+
+        &-item
+            position: relative 
+
+            &:hover
+                background-color: $primary-dark
+            
+        &-link
+            display: block 
+            padding: 15px 10px
+            color: #ffffff
+            text-decoration: none
+            overflow: hidden
+
+            &.active
+                background-color: $primary-dark
+
+                &::after
+                    content: ' '
+                    position: absolute
+                    top: -0
+                    right: -7px
+                    width: 7px
+                    height: 100%
+                    border-radius: 0 $bradius $bradius 0
+                    background-color: $primary-dark
+
+
+            .nav-icon
+                display: flex
+                align-items: center
+                justify-content: flex-start
+
+                .icon
+                    text-align: center
+                    min-width: 3.7vw
+
+                svg 
+                    font-size: 2rem
+                    text-align: center
+                
+                p 
+                    white-space: nowrap;
+                    display: none
 
     &.open
-        display: block
+        width: 250px
 
-    .container
-        display: flex
-        justify-content: space-between
-        align-items: center
-        height: 100%
-        width: 95%
-        
+        .icon
+            margin-right: 15px!important
 
-        .logo
-            display: flex
-            align-items: center
-            color: #ffffff
-            font-size: 3rem
-            font-family: 'Maiandra GD', Arial
-            text-transform: uppercase
+        p 
+            display: block!important
+    
 
-            .dollar-icon
-                margin-left: 20px
-                padding: 5px
-                width: 40px
-                height: 40px
-                background-color: #fff
-                font-size: 3rem
-                color: #0d3f8a
-                border-radius: 50%
-                cursor: pointer
-
-
-        .navbar
-            display: flex
-            align-items: center
-            justify-content: space-between
-            list-style: none
-            font-family: "Comic Sans MS", cursive, sans-serif !important
-
-            &-item
-                margin: 0 10px
-
-            &-link 
-                color: #ffffff
-                text-decoration: none
-                font-size: 1.2rem
-               
-                &:hover,
-                &.active
-                    color: #0d3f8a
-
-
-                .nav-icon
-                    display: flex
-                    flex-direction: column
-                    align-items: center
-
-                    svg
-                        font-size: 2rem
                     
 
 

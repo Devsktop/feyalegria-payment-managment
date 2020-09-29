@@ -23,13 +23,15 @@ const AppRouter = () => {
       <UpperBar />
       <div className="main_panel">
         <Menu />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/load" component={DataLoad} />
-          <Route exact path="/dashboard" component={DashBoard} />
-          <Route exact path="/recover" component={UserRecover} />
-          <Route exact path="/mantenimiento" component={Maintenance} />
-        </Switch>
+        <div className="content">
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/load" component={DataLoad} />
+            <Route exact path="/dashboard" component={DashBoard} />
+            <Route exact path="/recover" component={UserRecover} />
+            <Route exact path="/mantenimiento" component={Maintenance} />
+          </Switch>
+        </div>
       </div>
       <Redirect exact from="/" to="/login" />
     </Router>
