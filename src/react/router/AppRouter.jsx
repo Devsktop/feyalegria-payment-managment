@@ -5,6 +5,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // SCREENS
 import Login from 'react/components/Login/Login';
@@ -18,12 +19,18 @@ import UpperBar from './Upperbar';
 import Menu from './Menu';
 
 const AppRouter = () => {
+  // if user is not logged will show login screen
+  // this screen must take all width of screen because does not
+  // have menu, so this var is used to conditionally set a css
+  // class ton content div.
+  const logged = useSelector(state => state.login.logged);
+
   return (
     <Router>
       <UpperBar />
       <div className="main_panel">
         <Menu />
-        <div className="content">
+        <div className={`content ${!logged ? 'full_screen' : ''}`}>
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/load" component={DataLoad} />
