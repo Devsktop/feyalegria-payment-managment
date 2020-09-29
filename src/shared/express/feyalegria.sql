@@ -145,6 +145,7 @@ CREATE TABLE registers (
   transfers DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
+  dolarPrice DOUBLE NULL,
   observation VARCHAR(150) NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idRegister),
@@ -155,14 +156,6 @@ CREATE TABLE registers (
     REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-
-CREATE TABLE dolarPrice (
-  idDolarPrice INT NOT NULL AUTO_INCREMENT,
-  date DATE NOT NULL,
-  price DOUBLE NOT NULL,
-  PRIMARY KEY (idDolarPrice),
-  UNIQUE INDEX idDolarPrice_UNIQUE (idDolarPrice));
 
 
 CREATE TABLE globals (
@@ -198,7 +191,6 @@ CREATE TABLE inscriptionsBalance (
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
   date DATE NOT NULL,
-  dolarPrice DOUBLE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
@@ -224,12 +216,11 @@ CREATE TABLE monthlyPaymentsBalance (
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
   date DATE NOT NULL,
-  dolarPrice DOUBLE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idMonthlyPaymentsBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idMonthlyPaymentsBalance),
+  UNIQUE INDEX idMonthlyPaymentsBalance_UNIQUE (idMonthlyPaymentsBalance),
   INDEX fk_monthlyPaymentsBalance_registers1_idx (idRegister),
   INDEX fk_monthlyPaymentsBalance_represantives1_idx (idRepresentative),
   CONSTRAINT fk_monthlyPaymentsBalance_registers1
@@ -250,14 +241,13 @@ CREATE TABLE paymentsConceptsBalance (
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
   date DATE NOT NULL,
-  dolarPrice DOUBLE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   idPaymentsConcept INT NOT NULL,
   idRate INT NOT NULL,
   PRIMARY KEY (idPaymentsConceptBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idPaymentsConceptBalance),
+  UNIQUE INDEX idPaymentsConceptBalance_UNIQUE (idPaymentsConceptBalance),
   INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
   INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
   INDEX fk_paymentsConceptsBalance_paymentsConcepts1_idx (idPaymentsConcept),
@@ -296,7 +286,7 @@ CREATE TABLE productsBalance (
   idRepresentative INT NOT NULL,
   idProduct INT NOT NULL,
   PRIMARY KEY (idProductBalance),
-  UNIQUE INDEX idinscriptions_UNIQUE (idProductBalance),
+  UNIQUE INDEX idProductBalance_UNIQUE (idProductBalance),
   INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
   INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
   INDEX fk_productsBalance_products1_idx (idProduct),
@@ -313,5 +303,29 @@ CREATE TABLE productsBalance (
   CONSTRAINT fk_productsBalance_products1
     FOREIGN KEY (idProduct)
     REFERENCES products (idProduct)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+    
+    CREATE TABLE advancements (
+  idAdvancement INT NOT NULL AUTO_INCREMENT,
+  transfer DOUBLE NULL,
+  cash DOUBLE NULL,
+  dolars DOUBLE NULL,
+  dolarPrice DOUBLE NOT NULL,
+  idRegister INT NOT NULL,
+  payedMonth INT NOT NULL,
+  PRIMARY KEY (idAdvancement),
+  UNIQUE INDEX idAdvancement_UNIQUE (idAdvancement),
+  INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
+  INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
+  CONSTRAINT fk_paymentsConceptsBalance_registers10
+    FOREIGN KEY (idRegister)
+    REFERENCES registers (idRegister)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_paymentsConceptsBalance_representatives10
+    FOREIGN KEY (idRepresentative)
+    REFERENCES registers (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
