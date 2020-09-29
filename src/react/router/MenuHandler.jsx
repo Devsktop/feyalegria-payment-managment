@@ -10,21 +10,21 @@ import { showMenu } from 'react/redux/actions/upperbarActions';
 import logo from './logo.png';
 
 const MenuHandler = () => {
-
-      // eslint-disable-next-line no-unused-vars
+  const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
   const handleMenu = () => {
     dispatch(showMenu());
   };
-    return (   
-        <span className="upper_bar_right">
-            <img src={logo} alt="logo" className="upper_bar_logo" />
-            <FontAwesomeIcon
-            icon={faBars}
-            className="upper_bar_menu"
-            onClick={handleMenu}
-            />
-      </span>
-     );
-}
- 
+  return (
+    <span className="upper_bar_right">
+      <img src={logo} alt="logo" className="upper_bar_logo" />
+      <FontAwesomeIcon
+        icon={faBars}
+        className="upper_bar_menu"
+        onClick={handleMenu}
+      />
+    </span>
+  );
+};
+
 export default MenuHandler;
