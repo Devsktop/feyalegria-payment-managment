@@ -11,13 +11,13 @@ import { showMenu } from 'react/redux/actions/upperbarActions';
 
 // Components
 import DolarPortalHandler from './DolarPortalHandler';
+import Logout from './Logout';
 
 // Assets
 import logo from './logo.png';
 
 const UpperBar = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const dataLoaded = useSelector(state => state.login.dataLoaded);
   if (!dataLoaded) return null;
@@ -25,31 +25,6 @@ const UpperBar = () => {
   // eslint-disable-next-line no-unused-vars
   const handleMenu = () => {
     dispatch(showMenu());
-  };
-
-  // Handle exit button
-  const exit = e => {
-    e.preventDefault();
-
-    Swal.fire({
-      title: '¿Cerrar sesión?',
-      text: '',
-      icon: 'warning',
-      customClass: {
-        icon: 'icon-class',
-        title: 'title-class',
-        content: 'content-class'
-      },
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Salir',
-      cancelButtonText: 'Cancelar',
-      preConfirm: () => {
-        dispatch(logOut());
-        history.push('/login');
-      }
-    });
   };
 
   return (
@@ -64,12 +39,7 @@ const UpperBar = () => {
       </span>
 
       <DolarPortalHandler />
-
-      <FontAwesomeIcon
-        icon={faDoorOpen}
-        className="upper_bar_exit"
-        onClick={exit}
-      />
+      <Logout />
     </div>
   );
 };
