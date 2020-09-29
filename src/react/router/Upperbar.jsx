@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBars,
-  faHandHoldingUsd,
-  faDoorOpen
-} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faDoorOpen } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 
 // Actions
@@ -14,15 +10,13 @@ import { logOut } from 'react/redux/actions/loginActions';
 import { showMenu } from 'react/redux/actions/upperbarActions';
 
 // Components
-import DolarPortal from 'react/components/DolarPortal';
+import DolarPortalHandler from './DolarPortalHandler';
 
 // Assets
 import logo from './logo.png';
 
 const UpperBar = () => {
   const dispatch = useDispatch();
-  const initialDolar = useSelector(state => state.upperbar.dolar);
-  const [showDolar, setShowDolar] = useState(false);
   const history = useHistory();
 
   const dataLoaded = useSelector(state => state.login.dataLoaded);
@@ -31,28 +25,6 @@ const UpperBar = () => {
   // eslint-disable-next-line no-unused-vars
   const handleMenu = () => {
     dispatch(showMenu());
-  };
-
-  // Handle dollar button
-  const openDolarPortal = () => {
-    setShowDolar(true);
-  };
-
-  const closeDolarPortal = () => {
-    setShowDolar(false);
-  };
-
-  // Show dolar portal if value is zero
-  const handleDolarPortal = () => {
-    if (initialDolar === 0) {
-      return <DolarPortal />;
-    }
-
-    if (showDolar) {
-      return <DolarPortal onClose={closeDolarPortal} />;
-    }
-
-    return null;
   };
 
   // Handle exit button
@@ -90,23 +62,14 @@ const UpperBar = () => {
           onClick={handleMenu}
         />
       </span>
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <span className="upper_bar_dolar" onClick={openDolarPortal}>
-        <FontAwesomeIcon
-          icon={faHandHoldingUsd}
-          className="upper_bar_dolar_icon"
-        />
-        <span className="upper_bar_dolar_price">
-          {parseInt(initialDolar, 10)}
-        </span>
-      </span>
+
+      <DolarPortalHandler />
 
       <FontAwesomeIcon
         icon={faDoorOpen}
         className="upper_bar_exit"
         onClick={exit}
       />
-      {handleDolarPortal()}
     </div>
   );
 };
