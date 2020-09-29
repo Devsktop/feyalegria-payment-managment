@@ -37,14 +37,19 @@ interface students {
       idStudent: number;
     };
   };
-}
+} // READY
 
 // GET - api/payments - call to initial props
 interface payments {
   today: {
-    transference: number;
+    transfers: number;
     cash: number;
-    dolar: number;
+    // Regular Arr
+    [dolar: number]: {
+      amount: number;
+      exchange: number;
+      convertion: number;
+    };
     total: number;
   };
   month: {
@@ -56,12 +61,12 @@ interface payments {
       amount: number;
       exchange: number;
       convertion: number;
-      total: number;
     };
     total: number;
     receivable: number;
   };
 
+  // Current Month
   advancement: {
     [monthsInAdvance: number]: {
       month: number;
@@ -73,7 +78,6 @@ interface payments {
         amount: number;
         exchange: number;
         convertion: number;
-        total: number;
       };
       total: number;
     };

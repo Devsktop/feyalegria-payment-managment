@@ -64,7 +64,7 @@ router.delete('/students', (req, res) => {
   const query = `  DELETE FROM students WHERE students.Id_students =(?);
      `;
 
-  mysqlConnection.query(query, [id], (err, rows, fields) => {
+  mysqlConnection.query(query, [id], err => {
     if (!err) {
       res.json({ status: 'ok' });
     } else {
@@ -108,7 +108,7 @@ router.post('/updStudent', (req, res) => {
       phone,
       socialMedia
     ],
-    (err, rows, fields) => {
+    err => {
       if (!err) {
         res.json({
           status: 'ok'
@@ -196,6 +196,33 @@ router.get('/students', (req, res) => {
         totalStudents,
         solventTotal,
         insolventTotal
+      });
+    } else {
+      res.status(404).json({
+        err
+      });
+    }
+  });
+});
+
+// 1.-Select Students By Section http://localhost:3500/api/students/:section
+router.get('/students/:section', (req, res) => {
+  const { section } = req.params;
+  const students = {};
+
+  // Query to select students by section
+  const query = `SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, birthdate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives WHERE representatives.idRepresentative = students.idRepresentative AND students.idSection = ${section};`;
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      rows.forEach(row => {
+        if (row.balance >= 0) {
+          students[row.idStudent] = { ...row, solvent: true };
+        } else {
+          students[row.idStudent] = { ...row, solvent: false };
+        }
+      });
+      res.status(200).json({
+        students
       });
     } else {
       res.status(404).json({

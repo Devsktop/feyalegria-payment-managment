@@ -31,3 +31,12 @@ INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, bloo
 ('Rebeca Andrea','Perez Lopez','27522522','1999-11-11','child','regular','A+','45','1.60','rebeca@gmail.com','04146613555','@rebe',10,true,0,2,1,2,5),
 ('Ariyuri Ariari','Perez Lopez','27115522','1999-11-11','child','regular','A+','45','1.60','rebeca@gmail.com','04146613555','@rebe',4,true,0,2,1,2,5);
 
+// Registers
+
+INSERT INTO registers (date, bank, reference, transfers, cash, dolars, dolarPrice, observation, idRepresentative) VALUES 
+    ('2020-09-29', 'Banesco', '123456789', '120000', '100000', '10', '440000', NULL, '2'),
+    ('2020-09-29', 'Provincial', '123456788', '150000', '200000', '12', '440000', NULL, '1'),
+    ('2020-09-29', 'Mercantil', '123452788', '150000', '200000', '12', '450000', NULL, '1'),
+    ('2020-09-28', 'Venezuela', '333452788', '100000', '130000', '10', '410000', NULL, '1'),
+    ('2020-09-30', 'Citybank', '333222788', '200000', '140000', '10', '440000', NULL, '1');
+
