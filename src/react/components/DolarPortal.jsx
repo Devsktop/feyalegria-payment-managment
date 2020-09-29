@@ -3,9 +3,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+// Actions
+import { setDolar } from 'react/redux/actions/upperbarActions';
+
 const DolarPortal = ({ onClose }) => {
   const dispatch = useDispatch();
-  const initialDolar = useSelector(state => state.cart.exchange);
+  const initialDolar = useSelector(state => state.upperbar.dolar);
   const [dolar, setDolarValue] = useState(initialDolar);
   const inputRef = useRef();
 
@@ -30,6 +33,7 @@ const DolarPortal = ({ onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    dispatch(setDolar(dolar));
     // const url = 'http://localhost:3500/api/tasks/actdolar';
     // const config = {
     //   method: 'POST',
