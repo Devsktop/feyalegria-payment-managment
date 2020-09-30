@@ -68,7 +68,7 @@ const DolarPortal = ({ onClose }) => {
             <input
               type="input"
               onChange={handleDolar}
-              value={dolar}
+              value={dolar !== '' ? parseInt(dolar, 10) : 0}
               className="center"
               ref={inputRef}
             />

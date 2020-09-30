@@ -21,8 +21,6 @@ const getTodayPayments = async () => {
       }
     });
   });
-
-  console.log(data);
 };
 
 // Query to get Today dolar array

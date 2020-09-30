@@ -9,7 +9,7 @@
         [type="input"],
         [type="password"]
             padding: 8px
-            margin-top: 8px
+            margin: 20px 0
             border: none;
             border-bottom: 2px solid $primary-light
             outline: none
@@ -28,7 +28,6 @@
         padding: .625em 2em
         font-size: 1rem
         cursor: pointer
-        margin: 0 10px
 
         &.button-large
             margin: 0
@@ -36,22 +35,23 @@
 
 
         &-cancel
-            background-color: rgb(221, 51, 51)
-            border: 1px solid rgb(221, 51, 51)
+            background-color: $primary
+            border: 1px solid $primary
             &:hover
-                background-color: rgb(184, 36, 36)
+                background-color: $primary-dark
 
         &-accept
-            background-color: rgb(48, 133, 214)
-            border: 1px solid rgb(48, 133, 214)
+            margin-right: 10px
+            background-color: $primary
+            border: 1px solid $primary
 
             &:hover
-                background-color: rgb(30, 107, 180)
+                background-color: $primary-dark
 
             &:disabled
-                background-color: rgb(199, 228, 255)
-                border: 1px solid rgb(199, 228, 255)
+                background-color: rgb(255, 195, 195)
+                border: 1px solid rgb(255, 195, 195)
                 cursor: auto
 
             &:focus
-                background-color: rgb(30, 107, 180)
+                background-color: $primary-dark
