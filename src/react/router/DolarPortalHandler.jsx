@@ -39,7 +39,7 @@ const DolarPortalHandler = () => {
           className="upper_bar_dolar_icon"
         />
         <span className="upper_bar_dolar_price">
-          {parseInt(initialDolar, 10)}
+          {`${parseInt(initialDolar, 10)} Bs.S`}
         </span>
       </span>
       {dolarPortal}

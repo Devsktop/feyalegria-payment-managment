@@ -18,6 +18,7 @@ const DolarPortal = ({ onClose }) => {
 
   const validateInput = e => {
     if (e.endsWith(' ')) return false;
+    if (e.length === 15) return false;
     if (e.charAt(e.length - 1).match(/\D/)) return false;
     return true;
   };
