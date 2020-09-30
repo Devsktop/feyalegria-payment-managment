@@ -100,7 +100,7 @@ interface payments {
   };
 }
 
-// POST - api/advancement/[month] - (month: number)
+// GET - api/advancement/[month] - (month: number)
 interface advancement {
   [monthsInAdvance: number]: {
     month: number;
@@ -117,7 +117,7 @@ interface advancement {
     total: number;
   };
 }
-// POST - api/arrear/[month] - (month: number)
+// GET - api/arrear/[month] - (month: number)
 interface arrears {
   [monthsInArrear: number]: {
     month: number;
