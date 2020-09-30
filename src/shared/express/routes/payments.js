@@ -4,25 +4,25 @@ const mysqlConnection = require('../database');
 const router = express.Router();
 
 // Query to get Today payments
-const getTodayPayments = res => {
-  let todayParam = null;
-  let todayDolarTotal = 0;
+const getTodayPayments = async () => {
   let err;
+
   const query = `SELECT SUM(transfers) AS transfers, SUM(cash) AS cash, SUM((transfers+cash)/dolarPrice) AS total FROM registers WHERE DAY(DATE) = DAY(DATE(now()));`;
-  mysqlConnection.query(query, (error, rows) => {
-    if (!error) {
-      const { transfers, cash, total } = rows[0];
-      todayParam = { transfers, cash, total };
-      todayDolarTotal = total;
-    } else {
-      err = error;
-    }
+
+  const data = await new Promise(resolve => {
+    mysqlConnection.query(query, (error, rows) => {
+      if (!error) {
+        const { transfers, cash, total } = rows[0];
+        const todayParam = { transfers, cash, total };
+        const todayDolarTotal = total;
+        resolve({ todayParam, todayDolarTotal });
+      } else {
+        resolve({ err });
+      }
+    });
   });
 
-  if (todayParam) {
-    return { todayParam, todayDolarTotal };
-  }
-  return res.status(404).json({ err });
+  console.log(data);
 };
 
 // Query to get Today dolar array

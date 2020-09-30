@@ -3,23 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-// Components
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-
 // Actions
 import { setDolar } from 'react/redux/actions/upperbarActions';
-
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: 'red'
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'red'
-    }
-  }
-})(TextField);
 
 const DolarPortal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -87,7 +72,6 @@ const DolarPortal = ({ onClose }) => {
               className="center"
               ref={inputRef}
             />
-            <CssTextField id="custom-css-standard-input" label="Custom CSS" />
           </label>
           <button
             type="submit"
