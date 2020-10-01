@@ -26,7 +26,10 @@ export function login({ user, password }) {
     setTimeout(() => {
       // eslint-disable-next-line no-console
       console.log('simulating login call, remember to delete this later');
-      dispatch(correctLog(0));
+
+      if (user === 'admin' && password === '123') {
+        dispatch(correctLog(0));
+      } else dispatch(badLog);
     }, 2000);
   };
 
