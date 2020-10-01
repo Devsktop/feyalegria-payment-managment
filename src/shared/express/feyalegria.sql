@@ -230,7 +230,7 @@ CREATE TABLE monthlyPaymentsBalance (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_monthlyPaymentsBalance_represantives1
     FOREIGN KEY (idRepresentative)
-    REFERENCES registers (idRepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -307,25 +307,49 @@ CREATE TABLE productsBalance (
     ON UPDATE NO ACTION);
 
     
-    CREATE TABLE advancements (
+CREATE TABLE advancements (
   idAdvancement INT NOT NULL AUTO_INCREMENT,
   transfer DOUBLE NULL,
   cash DOUBLE NULL,
   dolars DOUBLE NULL,
-  dolarPrice DOUBLE NOT NULL,
-  idRegister INT NOT NULL,
   payedMonth INT NOT NULL,
+  idRegister INT NOT NULL,
+  idRepresentative INT NOT NULL,
   PRIMARY KEY (idAdvancement),
   UNIQUE INDEX idAdvancement_UNIQUE (idAdvancement),
-  INDEX fk_paymentsConceptsBalance_registers1_idx (idRegister),
-  INDEX fk_paymentsConceptsBalance_representatives1_idx (idRepresentative),
-  CONSTRAINT fk_paymentsConceptsBalance_registers10
+  INDEX fk_advancements_registers1_idx (idRegister),
+  INDEX fk_advancements_representatives1_idx (idRepresentative),
+  CONSTRAINT fk_advancements_registers10
     FOREIGN KEY (idRegister)
     REFERENCES registers (idRegister)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_paymentsConceptsBalance_representatives10
+  CONSTRAINT fk_advancements_representatives10
     FOREIGN KEY (idRepresentative)
-    REFERENCES registers (idRepresentative)
+    REFERENCES representatives (idRepresentative)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE arrears (
+  idArrear INT NOT NULL AUTO_INCREMENT,
+  transfer DOUBLE NULL,
+  cash DOUBLE NULL,
+  dolars DOUBLE NULL,
+  payedMonth INT NOT NULL,
+  idRegister INT NOT NULL,
+  idRepresentative INT NOT NULL,
+  PRIMARY KEY (idArrear),
+  UNIQUE INDEX idArrear_UNIQUE (idArrear),
+  INDEX fk_arrears_registers1_idx (idRegister),
+  INDEX fk_arrears_representatives1_idx (idRepresentative),
+  CONSTRAINT fk_arrears_registers10
+    FOREIGN KEY (idRegister)
+    REFERENCES registers (idRegister)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_arrears_representatives10
+    FOREIGN KEY (idRepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);

@@ -40,3 +40,9 @@ INSERT INTO registers (date, bank, reference, transfers, cash, dolars, dolarPric
     ('2020-09-28', 'Venezuela', '333452788', '100000', '130000', '10', '410000', NULL, '1'),
     ('2020-09-30', 'Citybank', '333222788', '200000', '140000', '10', '440000', NULL, '1');
 
+// Monthly Paymentsbalance
+INSERT INTO monthlypaymentsbalance (transfer, cash, dolars, date, total, idRegister, idRepresentative) VALUES ('150000', '200000', '5', '2020-09-30', '6', '1', '2');
+
+// Advancements
+INSERT INTO advancements (transfer, cash, dolars, payedMonth, idRegister, idRepresentative) VALUES ('150000', '200000', '10', '1', '3', '2');
+

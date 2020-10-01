@@ -53,7 +53,7 @@ interface payments {
     total: number;
   };
   month: {
-    transference: number;
+    transfers: number;
     cash: number;
     // Regular Arr
     [dolar: number]: {
@@ -70,7 +70,7 @@ interface payments {
   advancement: {
     [monthsInAdvance: number]: {
       month: number;
-      transference: number;
+      transfer: number;
       cash: number;
       // Regular Arr
       [dolar: number]: {
@@ -93,7 +93,6 @@ interface payments {
         amount: number;
         exchange: number;
         convertion: number;
-        total: number;
       };
       total: number;
     };
