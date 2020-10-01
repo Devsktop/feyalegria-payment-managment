@@ -16,7 +16,7 @@ const DolarPortal = ({ onClose }) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    // inputRef.current.focus();
+    inputRef.current.focus();
   }, []);
 
   const validateInput = e => {
@@ -72,7 +72,7 @@ const DolarPortal = ({ onClose }) => {
               type="input"
               onChange={handleDolar}
               value={dolar !== '' ? parseInt(dolar, 10) : 0}
-              ref={inputRef}
+              inputRef={inputRef}
               label="Ingrese Precio del dolar:"
               id="standardt-dolar"
               className="center"
