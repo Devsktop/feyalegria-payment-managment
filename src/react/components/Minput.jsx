@@ -5,7 +5,12 @@ import TextField from '@material-ui/core/TextField';
 
 const StyledInput = withStyles({
   root: {
+    display: 'block',
+    width: '100%',
     margin: '20px 0',
+    '& .MuiInputBase-root': {
+      width: '100%'
+    },
     '& label': {
       color: '#e32526'
     },
