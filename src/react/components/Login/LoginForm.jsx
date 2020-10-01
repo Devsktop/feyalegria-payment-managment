@@ -4,6 +4,7 @@ import { login } from 'react/redux/actions/loginActions';
 
 // components
 import Minput from 'react/components/Minput';
+import Attempts from './Attempts';
 
 // Assets
 import logo from './logo.png';
@@ -59,6 +60,7 @@ const LoginForm = () => {
         >
           Ingresar
         </button>
+        <Attempts />
       </form>
     </div>
   );
