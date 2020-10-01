@@ -67,17 +67,16 @@ const DolarPortal = ({ onClose }) => {
     <div className="portal">
       <div className="portal-box">
         <form className="sweet-form" onSubmit={handleSubmit}>
-          <label htmlFor="dolar">
-            <Minput
-              type="input"
-              onChange={handleDolar}
-              value={dolar !== '' ? parseInt(dolar, 10) : 0}
-              inputRef={inputRef}
-              label="Ingrese Precio del dolar:"
-              id="standardt-dolar"
-              className="center"
-            />
-          </label>
+          <Minput
+            type="input"
+            onChange={handleDolar}
+            value={dolar !== '' ? parseInt(dolar, 10) : 0}
+            inputRef={inputRef}
+            label="Ingrese Precio del dolar:"
+            id="standardt-dolar"
+            className="center"
+          />
+
           <button
             type="submit"
             className={`button button-accept ${

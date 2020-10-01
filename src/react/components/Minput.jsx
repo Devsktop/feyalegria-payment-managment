@@ -18,7 +18,9 @@ const StyledInput = withStyles({
       color: '#c02f33'
     },
     '& label.Mui-focused': {
-      color: '#940206'
+      top: '-5px',
+      color: '#940206',
+      fontSize: '1.2rem'
     },
     '& .MuiInput-underline:before': {
       borderBottomColor: '#e32526'
