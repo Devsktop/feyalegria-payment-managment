@@ -97,7 +97,7 @@ interface payments {
       total: number;
     };
   };
-}
+} // READY
 
 // GET - api/advancement/[month] - (month: number)
 interface advancement {
