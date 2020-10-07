@@ -1,19 +1,19 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
+    es6: true
   },
   extends: ['airbnb', 'prettier', 'plugin:react/recommended'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['react', 'prettier'],
   rules: {
@@ -22,12 +22,13 @@ module.exports = {
     // 'react/forbid-prop-types': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    'no-use-before-define': 'off'
   },
   settings: {
     'import/resolver': {
       node: {
-        paths: ['src'],
-      },
-    },
-  },
+        paths: ['src']
+      }
+    }
+  }
 };

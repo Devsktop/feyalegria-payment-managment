@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { faTools } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Proptypes from 'prop-types';
+
+// Components
+import Miunput from 'react/components/Minput';
 
 const ValidateUser = ({ onAccept, goBack }) => {
   const [isValidating, setIsValidating] = useState(false);
@@ -30,52 +31,77 @@ const ValidateUser = ({ onAccept, goBack }) => {
     e.preventDefault();
     setIsValidating(true);
 
-    const url = 'http://localhost:3500/api/tasks/verificarUser';
-    const config = {
-      method: 'POST',
-      body: JSON.stringify({ userN: user }),
-      headers: {
-        'Content-Type': 'application/json'
+    // simulating verify user
+    setTimeout(() => {
+      if (user !== 'admin') {
+        Swal.fire({
+          title: 'El usuario ingresado no existe',
+          text: '',
+          icon: 'error',
+          confirmButtonText: 'Continuar',
+          customClass: {
+            icon: 'icon-class',
+            title: 'title-class'
+          }
+        });
+        setIsValidating(false);
+      } else {
+        const userQuestion = {
+          id: 0,
+          question: 'Quien es el mejor',
+          user
+        };
+        onAccept(userQuestion);
       }
-    };
+    }, 1000);
 
-    fetch(url, config)
-      .then(res => res.json())
-      .then(({ userdata }) => {
-        if (userdata.resp === null) {
-          Swal.fire({
-            title: 'El usuario ingresado no existe',
-            text: '',
-            icon: 'error',
-            confirmButtonText: 'Continuar',
-            customClass: {
-              icon: 'icon-class',
-              title: 'title-class'
-            }
-          });
-          setIsValidating(false);
-        } else {
-          const { Id_Usuario, Pregunta_Seg } = userdata;
+    // const url = 'http://localhost:3500/api/tasks/verificarUser';
+    // const config = {
+    //   method: 'POST',
+    //   body: JSON.stringify({ userN: user }),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // };
 
-          const userQuestion = {
-            id: Id_Usuario,
-            question: Pregunta_Seg,
-            user
-          };
-          onAccept(userQuestion);
-        }
-      });
+    // fetch(url, config)
+    //   .then(res => res.json())
+    //   .then(({ userdata }) => {
+    //     if (userdata.resp === null) {
+    //       Swal.fire({
+    //         title: 'El usuario ingresado no existe',
+    //         text: '',
+    //         icon: 'error',
+    //         confirmButtonText: 'Continuar',
+    //         customClass: {
+    //           icon: 'icon-class',
+    //           title: 'title-class'
+    //         }
+    //       });
+    //       setIsValidating(false);
+    //     } else {
+    //       const { Id_Usuario, Pregunta_Seg } = userdata;
+
+    //       const userQuestion = {
+    //         id: Id_Usuario,
+    //         question: Pregunta_Seg,
+    //         user
+    //       };
+    //       onAccept(userQuestion);
+    //     }
+    //   });
   };
 
   return (
     <>
-      <h2 className="login-title">Recuperación de usuario</h2>
-      <FontAwesomeIcon icon={faTools} className="login-icon" />
       <form className="sweet-form" onSubmit={handleSubmit}>
-        <label htmlFor="user">
-          Usuario:
-          <input type="input" onChange={handleUser} value={user} />
-        </label>
+        <h2 className="login-title">Recuperación de usuario</h2>
+        <Miunput
+          label="Usuario:"
+          type="input"
+          onChange={handleUser}
+          value={user}
+        />
         <button
           type="submit"
           className="button button-accept"

@@ -7,7 +7,7 @@ import Minput from 'react/components/Minput';
 import Attempts from './Attempts';
 
 // Assets
-import logo from './logo.png';
+import logo from '../logo.png';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
