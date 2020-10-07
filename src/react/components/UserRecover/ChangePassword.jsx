@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { faTools } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
 import Proptypes from 'prop-types';
+
+// Components
+import Minput from 'react/components/Minput';
 
 const ChangePassword = ({ goBack, id }) => {
   const [pass, setPass] = useState('');
@@ -77,21 +78,22 @@ const ChangePassword = ({ goBack, id }) => {
 
   return (
     <>
-      <h2 className="login-title">Cambio de contraseña</h2>
-      <FontAwesomeIcon icon={faTools} className="login-icon" />
       <form className="sweet-form" onSubmit={handleSubmit}>
-        <label htmlFor="pass">
-          Nueva Contraseña:
-          <input type="password" onChange={handlePass} value={pass} />
-        </label>
-        <label htmlFor="pass">
-          Repetir Contraseña:
-          <input
-            type="password"
-            onChange={handleRepeatPass}
-            value={repeatPass}
-          />
-        </label>
+        <h2 className="login-title">Cambio de contraseña</h2>
+
+        <Minput
+          type="password"
+          label="Contraseña nueva"
+          onChange={handlePass}
+          value={pass}
+        />
+        <Minput
+          type="password"
+          label="Repetir contraseña"
+          onChange={handleRepeatPass}
+          value={repeatPass}
+        />
+
         <button
           type="submit"
           className="button button-accept"

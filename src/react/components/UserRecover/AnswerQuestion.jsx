@@ -43,6 +43,7 @@ const AnswerQuestion = ({
 
   const verifyAnswerMula = () => {
     setTimeout(() => {
+      // eslint-disable-next-line no-console
       console.log('Mula answer verification, change this on production');
       if (answer !== 'jhoseph') {
         // If true will not block yet
