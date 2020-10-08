@@ -35,7 +35,9 @@ const AppRouter = () => {
       <UpperBar />
       <div className="main_panel">
         <Menu />
-        <div className={`content ${!logged ? 'full_screen' : ''}`}>
+        <div
+          className={`content ${!logged ? 'full_screen' : 'content_center'}`}
+        >
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/load" component={DataLoad} />
