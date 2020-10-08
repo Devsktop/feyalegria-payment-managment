@@ -11,6 +11,11 @@ import { useSelector } from 'react-redux';
 import Login from 'react/components/Login/Login';
 import DataLoad from 'react/components/Login/DataLoad';
 import DashBoard from 'react/components/dashboard/DashBoard';
+import Income from 'react/components/income/Income';
+import Register from 'react/components/register/Register';
+import Representatives from 'react/components/representatives/Representatives';
+import Students from 'react/components/students/Students';
+import Config from 'react/components/config/Config';
 import UserRecover from 'react/components/UserRecover/UserRecover';
 import Maintenance from 'react/components/Maintenance/Maintenance';
 
@@ -35,6 +40,11 @@ const AppRouter = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/load" component={DataLoad} />
             <Route exact path="/dashboard" component={DashBoard} />
+            <Route exact path="/income" component={Income} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/representatives" component={Representatives} />
+            <Route exact path="/students" component={Students} />
+            <Route exact path="/config" component={Config} />
             <Route exact path="/recover" component={UserRecover} />
             <Route exact path="/mantenimiento" component={Maintenance} />
           </Switch>

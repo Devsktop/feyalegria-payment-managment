@@ -1,15 +1,13 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
-import { resetAttempts, createDb } from 'react/redux/actions/loginActions';
-import Swal from 'sweetalert2';
+import { Redirect } from 'react-router-dom';
+import { createDb } from 'react/redux/actions/loginActions';
 import LoginForm from './LoginForm';
 
 const Login = () => {
   const logged = useSelector(state => state.login.logged);
   const isLogin = useSelector(state => state.login.isLogin);
-  const attempts = useSelector(state => state.login.attempts);
   const db = useSelector(state => state.login.db);
   const dispatch = useDispatch();
 
@@ -72,40 +70,6 @@ const Login = () => {
       />
     );
 
-  // redirect to block screen
-  if (attempts === 3) {
-    let timerInterval;
-    Swal.fire({
-      title: 'Sesión Bloqueada!',
-      icon: 'error',
-      html: 'Debe esperar <b></b> segundos.',
-      customClass: {
-        content: 'content-class',
-        title: 'title-class'
-      },
-      timer: 10000,
-      timerProgressBar: true,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-        timerInterval = setInterval(() => {
-          const content = Swal.getContent();
-          if (content) {
-            const b = content.querySelector('b');
-            if (b) {
-              b.textContent = parseInt(Swal.getTimerLeft() / 1000, 10);
-            }
-          }
-        }, 1000);
-      },
-      onClose: () => {
-        clearInterval(timerInterval);
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then(() => {
-      dispatch(resetAttempts());
-    });
-  }
-
   // If is log in load spinner
   if (isLogin)
     return (
@@ -115,28 +79,7 @@ const Login = () => {
       </div>
     );
 
-  return (
-    <div className="container login-container">
-      <LoginForm />
-      {attempts > 0 && (
-        <div className="login-error">
-          <p className="user-error">Usuario o contraseña incorrecta</p>
-          <p className="user-error">Intentos restantes: {3 - attempts}</p>
-          <Link
-            className="pass-recover"
-            to={{
-              pathname: '/recover',
-              state: {
-                fromLogin: true
-              }
-            }}
-          >
-            ¿Recuperar usuario?
-          </Link>
-        </div>
-      )}
-    </div>
-  );
+  return <LoginForm />;
 };
 
 export default Login;

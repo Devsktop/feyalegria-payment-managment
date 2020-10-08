@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 // Actions
 import { setDolar } from 'react/redux/actions/upperbarActions';
 
+// Components
+import Minput from './Minput';
+
 const DolarPortal = ({ onClose }) => {
   const dispatch = useDispatch();
   const initialDolar = useSelector(state => state.upperbar.dolar);
@@ -18,6 +21,7 @@ const DolarPortal = ({ onClose }) => {
 
   const validateInput = e => {
     if (e.endsWith(' ')) return false;
+    if (e.length === 15) return false;
     if (e.charAt(e.length - 1).match(/\D/)) return false;
     return true;
   };
@@ -63,16 +67,16 @@ const DolarPortal = ({ onClose }) => {
     <div className="portal">
       <div className="portal-box">
         <form className="sweet-form" onSubmit={handleSubmit}>
-          <label htmlFor="dolar">
-            <span>Ingrese Precio del dolar:</span>
-            <input
-              type="input"
-              onChange={handleDolar}
-              value={dolar}
-              className="center"
-              ref={inputRef}
-            />
-          </label>
+          <Minput
+            type="input"
+            onChange={handleDolar}
+            value={dolar !== '' ? parseInt(dolar, 10) : 0}
+            inputRef={inputRef}
+            label="Ingrese Precio del dolar:"
+            id="standardt-dolar"
+            className="center"
+          />
+
           <button
             type="submit"
             className={`button button-accept ${

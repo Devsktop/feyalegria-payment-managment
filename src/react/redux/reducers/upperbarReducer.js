@@ -18,6 +18,12 @@ export default function reducer(state = initialState, { type, payload }) {
         dolar: payload.dolar
       };
 
+    case 'CLOSE_MENU':
+      return {
+        ...state,
+        showMenu: false
+      };
+
     default:
       return state;
   }

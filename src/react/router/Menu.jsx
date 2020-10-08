@@ -52,7 +52,7 @@ const Menu = () => {
           <NavLink
             className="navbar-link"
             to={{
-              pathname: '/help',
+              pathname: '/register',
               state: {
                 linked: true
               }
@@ -66,7 +66,7 @@ const Menu = () => {
           <NavLink
             className="navbar-link"
             to={{
-              pathname: '/help',
+              pathname: '/representatives',
               state: {
                 linked: true
               }
@@ -80,7 +80,7 @@ const Menu = () => {
           <NavLink
             className="navbar-link"
             to={{
-              pathname: '/help',
+              pathname: '/students',
               state: {
                 linked: true
               }
@@ -94,7 +94,7 @@ const Menu = () => {
           <NavLink
             className="navbar-link"
             to={{
-              pathname: '/help',
+              pathname: '/config',
               state: {
                 linked: true
               }

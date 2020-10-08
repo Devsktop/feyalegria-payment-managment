@@ -4,6 +4,9 @@ import ValidateUser from './ValidateUser';
 import AnswerQuestion from './AnswerQuestion';
 import ChangePassword from './ChangePassword';
 
+// Assets
+import logo from '../logo.png';
+
 const UserRecover = () => {
   const [validUser, setValidUser] = useState(false);
   const [userQuestion, setUserQuestion] = useState(null);
@@ -43,7 +46,12 @@ const UserRecover = () => {
     return <ChangePassword goBack={goBack} id={userQuestion.id} />;
   };
 
-  return <div className="container recover">{render()}</div>;
+  return (
+    <div className="recover">
+      <img src={logo} alt="logo" className="logo" />
+      {render()}
+    </div>
+  )
 };
 
 export default UserRecover;

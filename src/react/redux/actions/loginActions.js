@@ -19,14 +19,17 @@ const badLog = () => ({
   type: BAD_LOG
 });
 
-export function login({ user, password }) {
+export function login({ user, pass }) {
   return dispatch => {
     // Simulte login, replace later
     dispatch(isLogin());
     setTimeout(() => {
       // eslint-disable-next-line no-console
       console.log('simulating login call, remember to delete this later');
-      dispatch(correctLog(0));
+
+      if (user === 'admin' && pass === '123') {
+        dispatch(correctLog(0));
+      } else dispatch(badLog());
     }, 2000);
   };
 
@@ -81,10 +84,7 @@ export const LOG_OUT = 'LOG_OUT';
 
 export function logOut() {
   return dispatch => {
-    dispatch({ type: 'CLEAN_FIELDS' });
-    dispatch({ type: 'LOGOUT_SALE_RECORDS' });
-    dispatch({ type: 'LOGOUT_STOCK' });
-    dispatch({ type: 'LOGOUT_USER' });
+    dispatch({ type: 'CLOSE_MENU' });
     dispatch({ type: 'LOG_OUT' });
   };
 }

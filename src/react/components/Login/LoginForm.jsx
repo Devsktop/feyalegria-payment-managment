@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { login } from 'react/redux/actions/loginActions';
+
+// components
+import Minput from 'react/components/Minput';
+import Attempts from './Attempts';
+
+// Assets
+import logo from '../logo.png';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -33,24 +38,29 @@ const LoginForm = () => {
   };
   return (
     <div className="login">
-      <h2 className="login-title">Iniciar Sesión</h2>
-      <FontAwesomeIcon icon={faUser} className="login-icon" />
+      <img src={logo} alt="logo" className="logo" />
       <form className="sweet-form" onSubmit={handleSubmit}>
-        <label htmlFor="user">
-          Usuario:
-          <input type="input" onChange={handleUser} value={user} />
-        </label>
-        <label htmlFor="pass">
-          Contraseña:
-          <input type="password" onChange={handlePass} value={pass} />
-        </label>
+        <h2 className="login-title">Iniciar Sesión</h2>
+        <Minput
+          type="text"
+          onChange={handleUser}
+          value={user}
+          label="Usuario:"
+        />
+        <Minput
+          type="password"
+          onChange={handlePass}
+          value={pass}
+          label="Contraseña:"
+        />
         <button
           type="submit"
           className="button button-large button-accept"
           disabled={validateInputs()}
         >
-          Aceptar
+          Ingresar
         </button>
+        <Attempts />
       </form>
     </div>
   );
