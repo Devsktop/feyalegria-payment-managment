@@ -147,7 +147,7 @@ interface sections {
   };
 } // READY
 
-// GET - api/representatives/[section] - ?pag=number
+// GET - api/representatives/[section] - ?pattern=string?pag=number
 interface representatives {
   [representatives: number]: {
     idRepresentative: {
@@ -159,7 +159,7 @@ interface representatives {
       idRepresentative: number;
     };
   };
-}
+} // READY
 
 // GET - api/representative/[idRepresentative]
 interface representative {
@@ -176,7 +176,7 @@ interface representative {
     relationship: string;
     grade: string;
   };
-}
+} // READY
 
 // GET - api/grades
 interface grades {

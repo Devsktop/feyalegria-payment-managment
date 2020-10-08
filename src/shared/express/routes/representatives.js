@@ -4,7 +4,28 @@ const router = express.Router();
 const mysqlConnection = require('../database');
 
 // Rutas o Endpoints
-// // 1.- Get representative http://localhost:3500/api/representatives/[idRepresentative]
+// // 1.- Get representatives http://localhost:3500/api/representatives/[section] - ?pag=number
+router.get('/representatives/:section', async (req, res) => {
+  const { section } = req.params;
+  const { pag, pattern } = req.query;
+
+  console.log(pag);
+  // Query to get representative
+  const { representatives, errRepresentatives } = await getRepresentatives(
+    section,
+    pag,
+    pattern
+  );
+  if (errRepresentatives) {
+    res.status(400).json({ errRepresentatives });
+    return null;
+  }
+
+  res.status(200).json(representatives);
+  return res;
+});
+
+// 2.- Get representative http://localhost:3500/api/representatives/[idRepresentative]
 router.get('/representatives/:idRepresentative', async (req, res) => {
   const { idRepresentative } = req.params;
   // Query to get representative
@@ -22,9 +43,52 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
 
 module.exports = router;
 
+// ----------------------------- FUNCTIONS ----------------------------- //
+// Query to get representatives from section
+const getRepresentatives = async (section, pag, pattern) => {
+  const pagIndex = pag * 10;
+  const representatives = {};
+  const patternQuery = `AND representatives.names LIKE "%${pattern}%" OR representatives.lastnames LIKE "%${pattern}%" OR representatives.dni LIKE "%${pattern}%" OR representatives.phone LIKE "%${pattern}%" OR representatives.email LIKE "%${pattern}%" OR representatives.balance LIKE "%${pattern}%" OR representatives.idRepresentative LIKE "%${pattern}%"`;
+  const query = `SELECT DISTINCT 
+  CONCAT(representatives.names, ' ', representatives.lastnames) AS name, 
+  representatives.dni, 
+  representatives.phone, 
+  representatives.email, 
+  representatives.balance, 
+  representatives.idRepresentative
+  FROM representatives, students 
+  WHERE ${section} = students.idSection 
+  AND students.idRepresentative = representatives.idRepresentative
+  ${pattern ? patternQuery : ''}
+  ORDER BY representatives.names
+  LIMIT ${pagIndex} , 10;`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async (errRepresentatives, rows) => {
+      if (!errRepresentatives) {
+        rows.forEach(row => {
+          representatives[row.idRepresentative] = { ...row };
+        });
+        console.log(representatives);
+        resolve({ representatives });
+      } else {
+        resolve({ errRepresentatives });
+      }
+    });
+  });
+};
+
 // Query to get representative
 const getRepresentative = async idRepresentative => {
-  const query = `SELECT CONCAT(names, ' ', lastnames) AS name, dni, phone, email, balance, monthsToPay AS paidMonths FROM representatives WHERE ${idRepresentative} = idRepresentative;`;
+  const query = `SELECT 
+  CONCAT(names, ' ', lastnames) AS name, 
+  dni, 
+  phone, 
+  email, 
+  balance, 
+  monthsToPay AS paidMonths 
+  FROM representatives 
+  WHERE ${idRepresentative} = idRepresentative;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errRepresentative, rows) => {
@@ -52,7 +116,14 @@ const getRepresentative = async idRepresentative => {
 // Query to get representative students
 const getStudents = async idRepresentative => {
   const students = {};
-  const query = `SELECT idStudent ,CONCAT(students.names, ' ', students.lastnames) AS name, students.dni, relationship FROM representatives, students WHERE ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative;`;
+  const query = `SELECT idStudent,
+  CONCAT(students.names, ' ', students.lastnames) AS name,
+  students.dni,
+  relationship,
+  scholarYear AS grade
+  FROM students
+  INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
+  INNER JOIN grades ON students.idGrade = grades.idGrade;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errStudent, rows) => {
