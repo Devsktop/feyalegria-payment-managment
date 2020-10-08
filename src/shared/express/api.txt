@@ -19,9 +19,9 @@ interface students {
     };
   };
   // Total currently joined
-  total: number;
-  solventTotal: number;
-  insolventTotal: number;
+  joinedStudents: number;
+  solventStudents: number;
+  insolventStudents: number;
 } // READY
 
 // GET - api/students/[section]
@@ -53,7 +53,7 @@ interface payments {
     total: number;
   };
   month: {
-    transference: number;
+    transfers: number;
     cash: number;
     // Regular Arr
     [dolar: number]: {
@@ -67,10 +67,10 @@ interface payments {
   };
 
   // Current Month
-  advancement: {
+  advancements: {
     [monthsInAdvance: number]: {
       month: number;
-      transference: number;
+      transfer: number;
       cash: number;
       // Regular Arr
       [dolar: number]: {
@@ -93,15 +93,14 @@ interface payments {
         amount: number;
         exchange: number;
         convertion: number;
-        total: number;
       };
       total: number;
     };
   };
-}
+} // READY
 
 // GET - api/advancement/[month] - (month: number)
-interface advancement {
+interface advancements {
   [monthsInAdvance: number]: {
     month: number;
     transference: number;
@@ -116,7 +115,8 @@ interface advancement {
     };
     total: number;
   };
-}
+} // READY
+
 // GET - api/arrear/[month] - (month: number)
 interface arrears {
   [monthsInArrear: number]: {
@@ -133,21 +133,21 @@ interface arrears {
     };
     total: number;
   };
-}
+} // READY
 
 // GET - api/sections - call to initial props
 interface sections {
   [idSection: number]: {
-    Grade: string;
-    Section: string;
+    grade: string;
+    section: string;
     representativeCant: number;
     studentsCant: number;
-    id: number;
+    idGrade: number;
     idSection: number;
   };
-}
+} // READY
 
-// GET - api/representatives/[section] - ?pag=number
+// GET - api/representatives/[section] - ?pattern=string?pag=number
 interface representatives {
   [representatives: number]: {
     idRepresentative: {
@@ -159,7 +159,7 @@ interface representatives {
       idRepresentative: number;
     };
   };
-}
+} // READY
 
 // GET - api/representative/[idRepresentative]
 interface representative {
@@ -167,7 +167,7 @@ interface representative {
   name: string;
   dni: string;
   phone: string;
-  mail: string;
+  email: string;
   balance: number;
   paidMonths: number;
   [students: number]: {
@@ -176,7 +176,7 @@ interface representative {
     relationship: string;
     grade: string;
   };
-}
+} // READY
 
 // GET - api/grades
 interface grades {
@@ -185,7 +185,7 @@ interface grades {
       grade: string;
       sections: number;
       students: number;
-      representative: number;
+      representatives: number;
     };
   };
 }

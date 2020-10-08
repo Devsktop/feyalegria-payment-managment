@@ -127,8 +127,8 @@ router.post('/updStudent', (req, res) => {
 router.get('/students', (req, res) => {
   const students = {};
   let totalStudents;
-  let insolventTotal;
-  let solventTotal;
+  let insolventStudents;
+  let solventStudents;
 
   // Query to select 10 Solvent Students
   let query =
@@ -172,12 +172,12 @@ router.get('/students', (req, res) => {
     }
   });
 
-  // Query to get Students solventTotal
+  // Query to get Students solventStudents
   query =
-    'SELECT COUNT(idStudent) AS solventTotal from students where inscription = true AND balance >= 0';
+    'SELECT COUNT(idStudent) AS solventStudents from students where inscription = true AND balance >= 0';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
-      solventTotal = rows[0].solventTotal;
+      solventStudents = rows[0].solventStudents;
     } else {
       res.status(404).json({
         err
@@ -185,17 +185,17 @@ router.get('/students', (req, res) => {
     }
   });
 
-  // Query to get Students insolventTotal
+  // Query to get Students insolventStudents
   query =
-    'SELECT COUNT(idStudent) AS insolventTotal from students where balance < 0';
+    'SELECT COUNT(idStudent) AS insolventStudents from students where balance < 0';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
-      insolventTotal = rows[0].insolventTotal;
+      insolventStudents = rows[0].insolventStudents;
       res.status(200).json({
         students,
         totalStudents,
-        solventTotal,
-        insolventTotal
+        solventStudents,
+        insolventStudents
       });
     } else {
       res.status(404).json({
