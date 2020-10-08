@@ -1,0 +1,50 @@
+.box
+    padding: 15px
+    border: none
+    border-radius: $bradius
+    border-bottom: 4px solid $primary
+    color: $primary
+    background-color: #fff
+    box-shadow: $shadow
+    cursor: pointer
+    transition: .3s ease-out
+
+    &:hover
+        transform: scale(.98)
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1)
+        border-bottom-color: lighten($primary, 10)
+        color: lighten($primary, 10)
+
+    span
+        font-size: 1.5rem
+        font-weight: bold
+        white-space: nowrap
+
+        .icon
+            font-size: 1.6rem
+            margin-right: 15px
+
+    p
+        margin-top: 5px
+        margin-left: 15px
+        font-size: 4.6rem
+        font-weight: bold
+
+    @media screen and ( min-width: 1240px  )
+        padding: 20px
+
+        p
+            font-size: 5rem
+
+    @media screen and ( min-width: 1500px  )
+        padding: 30px
+
+        p
+            font-size: 6rem
+
+        span
+            font-size: 1.8rem
+
+            .icon
+                font-size: 2rem
+                margin-right: 15px

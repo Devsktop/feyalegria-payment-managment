@@ -1,0 +1,24 @@
+.chart_container
+    display: flex
+    justify-content: space-between
+    grid-column: span 2
+    .circle_chart
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: space-between
+        height: 100%
+        .chart
+            margin: 10px 0
+        &_desc
+            font-size: 1.3rem
+            color: $primary
+        &_total
+            font-size: 1.3rem
+            color: $primary
+            font-weight: 900
+    .CircularProgressbar-path
+        stroke: $primary
+    .CircularProgressbar-text
+        fill: $dark
+        font-weight: bold

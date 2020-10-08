@@ -8,7 +8,7 @@ import {
   faAddressBook,
   faUserTie,
   faUserGraduate,
-  faCreditCard
+  faCog
 } from '@fortawesome/free-solid-svg-icons';
 import NavIconLink from './NavIconLink';
 
@@ -100,7 +100,7 @@ const Menu = () => {
               }
             }}
           >
-            <NavIconLink icon={faCreditCard} text="Precios" />
+            <NavIconLink icon={faCog} text="Precios" />
           </NavLink>
         </li>
       </ul>
