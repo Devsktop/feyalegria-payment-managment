@@ -13,12 +13,6 @@ router.get('/grades', async (req, res) => {
     return null;
   }
 
-  const { rows, errStudents } = await getStudents();
-  if (errStudents) {
-    res.status(400).json({ errStudents });
-    return null;
-  }
-
   res.status(200).json(grades);
   return res;
 });
@@ -30,11 +24,13 @@ const getGrades = async () => {
   const query = `SELECT grades.idGrade, grades.scholarYear AS grade, COUNT(sections.idGrade) AS sections FROM grades, sections WHERE sections.idGrade = grades.idGrade GROUP BY grades.idGrade`;
 
   return new Promise(resolve => {
-    mysqlConnection.query(query, async (errGrades, rows) => {
+    mysqlConnection.query(query, (errGrades, rows) => {
       if (!errGrades) {
         rows.forEach(row => {
-          grades[row.idGrade] = { ...row };
+          const sections = getStudents();
+          grades[row.idGrade] = { ...row, sections };
         });
+        console.log(grades);
         resolve({ grades });
       } else {
         resolve({ errGrades });
@@ -45,16 +41,16 @@ const getGrades = async () => {
 
 // Query to get grades's students
 const getStudents = async () => {
-  const query = `SELECT grades.idGrade, COUNT(students.idStudent) AS sectionStudents FROM grades LEFT JOIN students ON students.idGrade = grades.idGrade GROUP BY grades.idGrade;`;
+  const sections = {};
+  const query = `SELECT grades.idGrade, COUNT(students.idStudent) AS sectionStudents, COUNT(DISTINCT students.idRepresentative) AS representatives FROM grades LEFT JOIN students ON students.idGrade = grades.idGrade GROUP BY grades.idGrade`;
 
   return new Promise(resolve => {
-    mysqlConnection.query(query, async (errStudents, rows) => {
+    mysqlConnection.query(query, (errStudents, rows) => {
       if (!errStudents) {
         rows.forEach(row => {
-          const { idGrade, sectionStudents } = row;
-          let students = sectionStudents;
+          sections[row.idGrade] = { ...row };
         });
-        resolve({});
+        resolve({ sections });
       } else {
         resolve({ errStudents });
       }

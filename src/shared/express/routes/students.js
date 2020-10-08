@@ -126,7 +126,7 @@ router.post('/updStudent', (req, res) => {
 // 1.-Select 10 Solvent & 10 Insolvent Students http://localhost:3500/api/students
 router.get('/students', (req, res) => {
   const students = {};
-  let totalStudents;
+  let joinedStudents;
   let insolventStudents;
   let solventStudents;
 
@@ -161,10 +161,10 @@ router.get('/students', (req, res) => {
   });
 
   // Query to get students total
-  query = 'SELECT COUNT(idStudent) AS totalStudents from students';
+  query = 'SELECT COUNT(idStudent) AS joinedStudents from students';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
-      totalStudents = rows[0].totalStudents;
+      joinedStudents = rows[0].joinedStudents;
     } else {
       res.status(404).json({
         err
@@ -193,7 +193,7 @@ router.get('/students', (req, res) => {
       insolventStudents = rows[0].insolventStudents;
       res.status(200).json({
         students,
-        totalStudents,
+        joinedStudents,
         solventStudents,
         insolventStudents
       });
