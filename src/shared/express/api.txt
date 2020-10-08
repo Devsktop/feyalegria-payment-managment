@@ -67,7 +67,7 @@ interface payments {
   };
 
   // Current Month
-  advancement: {
+  advancements: {
     [monthsInAdvance: number]: {
       month: number;
       transfer: number;
@@ -100,7 +100,7 @@ interface payments {
 } // READY
 
 // GET - api/advancement/[month] - (month: number)
-interface advancement {
+interface advancements {
   [monthsInAdvance: number]: {
     month: number;
     transference: number;
@@ -115,7 +115,8 @@ interface advancement {
     };
     total: number;
   };
-}
+} // READY
+
 // GET - api/arrear/[month] - (month: number)
 interface arrears {
   [monthsInArrear: number]: {
@@ -132,19 +133,19 @@ interface arrears {
     };
     total: number;
   };
-}
+} // READY
 
 // GET - api/sections - call to initial props
 interface sections {
   [idSection: number]: {
-    Grade: string;
-    Section: string;
+    grade: string;
+    section: string;
     representativeCant: number;
     studentsCant: number;
-    id: number;
+    idGrade: number;
     idSection: number;
   };
-}
+} // READY
 
 // GET - api/representatives/[section] - ?pag=number
 interface representatives {
@@ -166,7 +167,7 @@ interface representative {
   name: string;
   dni: string;
   phone: string;
-  mail: string;
+  email: string;
   balance: number;
   paidMonths: number;
   [students: number]: {

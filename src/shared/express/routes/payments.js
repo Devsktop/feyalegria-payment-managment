@@ -318,9 +318,9 @@ router.get('/payments', async (req, res) => {
     return null;
   }
 
-  const advancement = { monthInAdvance, total };
+  const advancements = { monthInAdvance, total };
 
-  // Query to get Current Month Advancement
+  // Query to get Current Month Arrear
   const {
     monthInArrear,
     totalArrear,

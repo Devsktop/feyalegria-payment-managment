@@ -20,6 +20,10 @@
   app.use('/api', require('./routes/login'));
   app.use('/api', require('./routes/students'));
   app.use('/api', require('./routes/payments'));
+  app.use('/api', require('./routes/advancements'));
+  app.use('/api', require('./routes/arrears'));
+  app.use('/api', require('./routes/sections'));
+  app.use('/api', require('./routes/representatives'));
 
   app.listen(app.get('port'), () => {
     console.log('server on port 3500');
