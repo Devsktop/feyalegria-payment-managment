@@ -19,9 +19,9 @@ interface students {
     };
   };
   // Total currently joined
-  total: number;
-  solventTotal: number;
-  insolventTotal: number;
+  joinedStudents: number;
+  solventStudents: number;
+  insolventStudents: number;
 } // READY
 
 // GET - api/students/[section]
@@ -185,7 +185,7 @@ interface grades {
       grade: string;
       sections: number;
       students: number;
-      representative: number;
+      representatives: number;
     };
   };
 }

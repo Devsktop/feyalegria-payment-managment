@@ -24,6 +24,7 @@
   app.use('/api', require('./routes/arrears'));
   app.use('/api', require('./routes/sections'));
   app.use('/api', require('./routes/representatives'));
+  app.use('/api', require('./routes/grades'));
 
   app.listen(app.get('port'), () => {
     console.log('server on port 3500');

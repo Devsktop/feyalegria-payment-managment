@@ -13,7 +13,7 @@ CREATE TABLE dniType (
 CREATE TABLE representatives (
   idRepresentative INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
-  lastnames VARCHAR(45) NOT NULL,
+  lastNames VARCHAR(45) NOT NULL,
   dni VARCHAR(45) NOT NULL,
   balance FLOAT NOT NULL,
   phone VARCHAR(45) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE sections (
 CREATE TABLE students (
   idStudent INT NOT NULL AUTO_INCREMENT,
   names VARCHAR(45) NOT NULL,
-  lastnames VARCHAR(45) NOT NULL,
+  lastNames VARCHAR(45) NOT NULL,
   dni VARCHAR(45) NOT NULL,
   birthDate DATE NOT NULL,
   relationship VARCHAR(45) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE students (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_students_grades1
     FOREIGN KEY (idGrade)
-    REFERENCES sections (idGrade)
+    REFERENCES grades (idGrade)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -205,7 +205,7 @@ CREATE TABLE inscriptionsBalance (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_inscriptionsBalance_represantive1
     FOREIGN KEY (idRepresentative)
-    REFERENCES registers (idRepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -259,7 +259,7 @@ CREATE TABLE paymentsConceptsBalance (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_representatives1
     FOREIGN KEY (idRepresentative)
-    REFERENCES registers (idRepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_paymentsConcepts1
@@ -269,7 +269,7 @@ CREATE TABLE paymentsConceptsBalance (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_rates1
     FOREIGN KEY (idRate)
-    REFERENCES paymentsConcepts (idRate)
+    REFERENCES rates (idRate)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -297,7 +297,7 @@ CREATE TABLE productsBalance (
     ON UPDATE NO ACTION,
   CONSTRAINT fk_paymentsConceptsBalance_representatives10
     FOREIGN KEY (idRepresentative)
-    REFERENCES registers (idRepresentative)
+    REFERENCES representatives (idRepresentative)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_productsBalance_products1
