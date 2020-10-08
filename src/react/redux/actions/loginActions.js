@@ -1,4 +1,4 @@
-import { fetchSaleRecords } from 'react/redux/actions/saleRecordsActions';
+import { fetchStudents } from 'react/redux/actions/studentsActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -72,8 +72,10 @@ export function fetchData() {
   return dispatch => {
     // HACER FETCH A LA BDD
     return new Promise(resolve => setTimeout(resolve, 0)).then(async () => {
-      await dispatch(fetchSaleRecords(new Date(), new Date()));
-
+      // Getting dahsboard initial data
+      const students = await fetchStudents();
+      await dispatch(students);
+      console.log('despues del action');
       // Data loaded set to true
       await dispatch(dataLoadedAction());
     });
