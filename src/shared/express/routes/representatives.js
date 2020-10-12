@@ -93,7 +93,7 @@ const getRepresentative = async idRepresentative => {
       if (!errRepresentative) {
         const { name, dni, phone, email, balance, paidMonths } = rows[0];
         // Function to get represantive's students
-        const { students, errStudents } = await getStudents(idRepresentative);
+        const { students } = await getStudents(idRepresentative);
         const representative = {
           name,
           dni,
