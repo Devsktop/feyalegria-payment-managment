@@ -9,9 +9,9 @@ const isLogin = () => ({
 
 export const CORRECT_LOG = 'CORRECT_LOG';
 
-const correctLog = id => ({
+const correctLog = (idUser, username) => ({
   type: CORRECT_LOG,
-  payload: { id }
+  payload: { idUser, username }
 });
 
 export const BAD_LOG = 'BAD_LOG';
@@ -22,38 +22,25 @@ const badLog = () => ({
 
 export function login({ user, pass }) {
   return dispatch => {
-    // Simulte login, replace later
     dispatch(isLogin());
-    setTimeout(() => {
-      // eslint-disable-next-line no-console
-      console.log('simulating login call, remember to delete this later');
+    // HACER FETCH A LA BDD
+    const config = {
+      method: 'POST',
+      body: JSON.stringify({ user, password: pass }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
-      if (user === 'admin' && pass === '123') {
-        dispatch(correctLog(0));
-      } else dispatch(badLog());
-    }, 2000);
+    return fetch('http://localhost:3500/api/login', config)
+      .then(res => res.json())
+      .then(({ idUser, username }) => {
+        if (!idUser) dispatch(badLog());
+        else {
+          dispatch(correctLog(idUser, username));
+        }
+      });
   };
-
-  // return dispatch => {
-  //   dispatch(isLogin());
-  //   // HACER FETCH A LA BDD
-  //   const config = {
-  //     method: 'POST',
-  //     body: JSON.stringify({ userN: user, pass }),
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   };
-
-  //   return fetch('http://localhost:3500/api/tasks/Login', config)
-  //     .then(res => res.json())
-  //     .then(({ userdata }) => {
-  //       if (userdata.resp) dispatch(badLog());
-  //       else if (userdata.Admin) {
-  //         dispatch(correctLog(userdata.Id_Usuario));
-  //       }
-  //     });
-  // };
 }
 
 export const RESET_ATTEMPTS = 'RESET_ATTEMPTS';

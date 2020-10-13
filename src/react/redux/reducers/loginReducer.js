@@ -14,7 +14,8 @@ const initialState = {
   attempts: 0,
   dataLoaded: false,
   db: false,
-  id: ''
+  idUser: '',
+  username: ''
 };
 
 export default function reducer(state = initialState, { type, payload }) {
@@ -28,7 +29,8 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLogin: false,
-        id: payload.id,
+        idUser: payload.idUser,
+        username: payload.username,
         logged: true
       };
 
@@ -53,7 +55,8 @@ export default function reducer(state = initialState, { type, payload }) {
         logged: false,
         id: '',
         attempts: 0,
-        dataLoaded: false
+        dataLoaded: false,
+        username: ''
       };
 
     case DATA_LOADED:
