@@ -15,34 +15,33 @@ router.post('/paymentsConcepts', (req, res) => {
   const query = ` INSERT INTO paymentsconcepts (name, price) VALUES (?, ?);
      `;
 
-  mysqlConnection.query(
-    query,
-    [name, price],
-    (err, rows) => {
-      if (!err) {
-        res.json({
-          status: 'ok',
-          id: rows.insertId
-        });
-      } else {
-        res.json({
-          status: 'error',
-          err
-        });
-      }
+  mysqlConnection.query(query, [name, price], (err, rows) => {
+    if (!err) {
+      res.json({
+        status: 'ok',
+        id: rows.insertId
+      });
+    } else {
+      res.json({
+        status: 'error',
+        err
+      });
     }
-  );
+  });
 });
 
 // 2.-Select paymentsConcepts http://localhost:3500/api/paymentsConcepts
 router.get('/paymentsConcepts', (req, res) => {
-  mysqlConnection.query('SELECT * from paymentsconcepts', (err, rows, fields) => {
-    if (!err) {
-      res.json(rows);
-    } else {
-      console.log(err);
+  mysqlConnection.query(
+    'SELECT * from paymentsconcepts',
+    (err, rows, fields) => {
+      if (!err) {
+        res.json(rows);
+      } else {
+        console.log(err);
+      }
     }
-  });
+  );
 });
 
 // 3.-Delete paymentsConcepts ---> http://localhost:3500/api/paymentsConcepts
@@ -66,22 +65,18 @@ router.post('/updPaymentsConcepts', (req, res) => {
   const query = ` CALL updPaymentsConcepts(?, ?);
      `;
 
-  mysqlConnection.query(
-    query,
-    [name, price],
-    (err, rows, fields) => {
-      if (!err) {
-        res.json({
-          status: 'ok'
-        });
-      } else {
-        res.json({
-          status: 'error',
-          err
-        });
-      }
+  mysqlConnection.query(query, [name, price], (err, rows, fields) => {
+    if (!err) {
+      res.json({
+        status: 'ok'
+      });
+    } else {
+      res.json({
+        status: 'error',
+        err
+      });
     }
-  );
+  });
 });
 
 module.exports = router;

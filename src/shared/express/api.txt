@@ -188,7 +188,7 @@ interface grades {
       representatives: number;
     };
   };
-}
+} // READY
 
 // GET api/grade/[id]
 interface grade {
@@ -199,10 +199,10 @@ interface grade {
       capacity: number;
       idSection: number;
     };
-  };
+  }; // READY
 }
 
-// GET api/join
+// GET api/rates - ?type = string
 interface join {
   price: number;
   [paymentConcepts: number]: {
@@ -212,9 +212,9 @@ interface join {
       idConcept: number;
     };
   };
-}
+} // READY
 
-//GET api/monthlyPayment
+// GET api/rates - ?type = string
 interface monthlyPayment {
   price: number;
   [paymentConcepts: number]: {
@@ -224,18 +224,18 @@ interface monthlyPayment {
       idConcept: number;
     };
   };
-}
+} // READY
 
 // GET api/products
 interface products {
   [products: number]: {
-    productId: {
+    idProduct: {
       product: string;
       price: number;
       mandatory: boolean;
     };
   };
-}
+} // READY
 
 // GET api/yearRegisters
 interface yearRegisters {

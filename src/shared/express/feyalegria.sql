@@ -142,14 +142,15 @@ CREATE TABLE registers (
   date DATE NOT NULL,
   bank VARCHAR(45) NOT NULL,
   reference VARCHAR(45) NOT NULL,
-  transfers DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
-  dolarPrice DOUBLE NULL,
+  transfers DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
+  dolarPrice DOUBLE NOT NULL,
   observation VARCHAR(150) NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idRegister),
   UNIQUE INDEX idRegister_UNIQUE (idRegister),
+  UNIQUE INDEX reference_UNIQUE (reference),
   INDEX fk_registers_representatives1_idx (idRepresentative),
   CONSTRAINT fk_registers_representatives1
     FOREIGN KEY (idRepresentative)
@@ -187,9 +188,9 @@ CREATE TABLE users (
 
 CREATE TABLE inscriptionsBalance (
   idInscriptionsBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   date DATE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
@@ -212,9 +213,9 @@ CREATE TABLE inscriptionsBalance (
 
 CREATE TABLE monthlyPaymentsBalance (
   idMonthlyPaymentsBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   date DATE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
@@ -237,9 +238,9 @@ CREATE TABLE monthlyPaymentsBalance (
 
 CREATE TABLE paymentsConceptsBalance (
   idPaymentsConceptBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   date DATE NOT NULL,
   total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
@@ -276,9 +277,9 @@ CREATE TABLE paymentsConceptsBalance (
 
 CREATE TABLE productsBalance (
   idProductBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   date DATE NOT NULL,
   dolarPrice DOUBLE NOT NULL,
   total DOUBLE NOT NULL,
@@ -309,9 +310,9 @@ CREATE TABLE productsBalance (
     
 CREATE TABLE advancements (
   idAdvancement INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   payedMonth INT NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
@@ -333,9 +334,9 @@ CREATE TABLE advancements (
 
 CREATE TABLE arrears (
   idArrear INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NULL,
-  cash DOUBLE NULL,
-  dolars DOUBLE NULL,
+  transfer DOUBLE NOT NULL,
+  cash DOUBLE NOT NULL,
+  dolars DOUBLE NOT NULL,
   payedMonth INT NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
