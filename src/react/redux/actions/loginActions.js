@@ -1,4 +1,5 @@
 import { fetchStudents } from 'react/redux/actions/studentsActions';
+import { fetchPayments } from 'react/redux/actions/paymentsActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -75,6 +76,10 @@ export function fetchData() {
       // Getting dahsboard initial data
       const students = await fetchStudents();
       await dispatch(students);
+
+      const payments = await fetchPayments();
+      await dispatch(payments);
+
       // Data loaded set to true
       await dispatch(dataLoadedAction());
     });
