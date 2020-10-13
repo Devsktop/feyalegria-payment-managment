@@ -14,11 +14,9 @@ router.get('/products', async (req, res) => {
     return null;
   }
 
-  console.log(products);
-
   res.status(200).json(products);
 
-  return res;
+  return null;
 });
 
 // ----------------------------- FUNCTIONS ----------------------------- //
