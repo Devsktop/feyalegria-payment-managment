@@ -108,17 +108,10 @@ const mulaData = {
 };
 
 export const fetchStudents = async () => {
-  const data = await new Promise(resolve => {
-    setTimeout(() => {
-      console.log(
-        'Dahsboard initial fetch, change this on producitons for original fetch to db'
-      );
-
-      resolve({
-        type: FETCH_STUDENTS,
-        payload: mulaData
-      });
-    }, 3000);
-  });
-  return data;
+  const response = await fetch('http://localhost:3500/api/students');
+  const students = await response.json();
+  return {
+    type: FETCH_STUDENTS,
+    payload: students
+  };
 };

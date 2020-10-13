@@ -75,7 +75,6 @@ export function fetchData() {
       // Getting dahsboard initial data
       const students = await fetchStudents();
       await dispatch(students);
-      console.log('despues del action');
       // Data loaded set to true
       await dispatch(dataLoadedAction());
     });

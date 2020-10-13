@@ -10,9 +10,9 @@ const initialState = {
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
     case FETCH_STUDENTS:
-      console.log('STUDENTS reducer');
       return {
-        ...state
+        ...state,
+        ...payload
       };
     default:
       return state;

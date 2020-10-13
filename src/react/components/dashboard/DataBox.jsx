@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
 const DataBox = ({ desc, icon, data, link }) => {
+  console.log('renderizé ', desc);
   return (
     <Link to={link}>
       <div className="box">
@@ -23,7 +24,7 @@ DataBox.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   icon: PropTypes.object.isRequired,
   desc: PropTypes.string.isRequired,
-  data: PropTypes.string.isRequired,
+  data: PropTypes.number.isRequired,
   link: PropTypes.string.isRequired
 };
-export default DataBox;
+export default React.memo(DataBox);
