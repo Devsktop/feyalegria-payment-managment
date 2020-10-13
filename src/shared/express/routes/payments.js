@@ -61,7 +61,7 @@ const getTodayDolarArray = async (todayParam, todayDolar) => {
 
 // Query to get Month payments
 const getMonthPayments = async () => {
-  const query = `SELECT IFNULL(SUM(transfers), 0) AS transfers, IFNULL(SUM(cash), 0) AS cash, IFNULL(SUM((transfers+cash)/dolarPrice), 0) AS total FROM registers WHERE MONTH(DATE) = MONTH(DATE(now()));`;
+  const query = `SELECT IFNULL(SUM(transfers), 0) AS transfers, IFNULL(SUM(cash), 0) AS cash, IFNULL(ROUND(SUM((transfers+cash)/dolarPrice)), 2, 0) AS total FROM registers WHERE MONTH(DATE) = MONTH(DATE(now()));`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errMonthPayments, rows) => {
