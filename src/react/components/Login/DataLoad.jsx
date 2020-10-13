@@ -12,7 +12,7 @@ const DataLoad = () => {
   // then data loaded is set to true
   useEffect(() => {
     if (!dataLoaded) dispatch(fetchData());
-  }, []);
+  }, [dataLoaded, dispatch]);
 
   // If data has already been loaded redirect to first user Screens
   if (dataLoaded)

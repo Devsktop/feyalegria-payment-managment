@@ -12,7 +12,7 @@ const paymentSelector = state => {
     today: { total: today },
     month: { total: month },
     advancements: { total: advancements },
-    arrears: { total: arrears }
+    arrears: { totalArrear: arrears }
   } = state.payments;
 
   return { today, month, arrears, advancements };

@@ -47,7 +47,7 @@ const Login = () => {
       );
       dispatch(createDb());
     }, 2000);
-  }, []);
+  }, [dispatch]);
 
   if (!db)
     return (
