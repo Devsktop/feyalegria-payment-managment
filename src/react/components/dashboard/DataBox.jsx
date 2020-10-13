@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
+// Helpers
+import { shortNumber } from 'helper';
+
 const DataBox = ({ desc, icon, data, link }) => {
   console.log('renderizé ', desc);
   return (
     <Link to={link}>
-      <div className="box">
+      <div className="box" title={data}>
         <span>
           <FontAwesomeIcon icon={icon} className="icon" />
           {desc}
         </span>
-        <p>{data}</p>
+        <p>{shortNumber(data)}</p>
       </div>
     </Link>
   );

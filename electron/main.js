@@ -8,21 +8,21 @@ const { channels } = require('../src/shared/constants');
 
 // const express = require('../src/shared/express/index');
 
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS
-} = require('electron-devtools-installer');
+// const {
+//   default: installExtension,
+//   REACT_DEVELOPER_TOOLS,
+//   REDUX_DEVTOOLS
+// } = require('electron-devtools-installer');
 
-app.whenReady().then(() => {
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then(name => console.log(`Added Extension:  ${name}`))
-    .catch(err => console.log('An error occurred: ', err));
+// app.whenReady().then(() => {
+//   installExtension(REACT_DEVELOPER_TOOLS)
+//     .then(name => console.log(`Added Extension:  ${name}`))
+//     .catch(err => console.log('An error occurred: ', err));
 
-  installExtension(REDUX_DEVTOOLS)
-    .then(name => console.log(`Added Extension:  ${name}`))
-    .catch(err => console.log('An error occurred: ', err));
-});
+//   installExtension(REDUX_DEVTOOLS)
+//     .then(name => console.log(`Added Extension:  ${name}`))
+//     .catch(err => console.log('An error occurred: ', err));
+// });
 
 let mainWindow;
 function createWindow() {
