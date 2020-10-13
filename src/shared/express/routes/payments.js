@@ -19,7 +19,7 @@ const splitRange = rango => {
 
 // Query to get Today payments
 const getTodayPayments = async () => {
-  const query = `SELECT SUM(transfers) AS transfers, SUM(cash) AS cash, SUM((transfers+cash)/dolarPrice) AS total FROM registers WHERE DAY(DATE) = DAY(DATE(now()));`;
+  const query = `SELECT IFNULL(SUM(transfers), 0) AS transfers, IFNULL(SUM(cash), 0) AS cash, IFNULL(SUM((transfers+cash)/dolarPrice), 0) AS total FROM registers WHERE DAY(DATE) = DAY(DATE(now()));`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errTodayPayments, rows) => {
@@ -61,7 +61,7 @@ const getTodayDolarArray = async (todayParam, todayDolar) => {
 
 // Query to get Month payments
 const getMonthPayments = async () => {
-  const query = `SELECT SUM(transfers) AS transfers, SUM(cash) AS cash, SUM((transfers+cash)/dolarPrice) AS total FROM registers WHERE MONTH(DATE) = MONTH(DATE(now()));`;
+  const query = `SELECT IFNULL(SUM(transfers), 0) AS transfers, IFNULL(SUM(cash), 0) AS cash, IFNULL(SUM((transfers+cash)/dolarPrice), 0) AS total FROM registers WHERE MONTH(DATE) = MONTH(DATE(now()));`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errMonthPayments, rows) => {
@@ -104,7 +104,7 @@ const getMonthDolarArray = async (monthParam, monthDolar) => {
 
 // Query to get Month receivable
 const getMonthReceivable = async () => {
-  const query = `SELECT sum(total) AS receivable FROM monthlypaymentsbalance WHERE MONTH(date) = MONTH(DATE(now()))`;
+  const query = `SELECT IFNULL(sum(total), 0) AS receivable FROM monthlypaymentsbalance WHERE MONTH(date) = MONTH(DATE(now()))`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errMonthReceivable, rows) => {
@@ -156,7 +156,7 @@ const getCurrentMonthAdvancement = async () => {
   let total = 0;
   let counter = 0;
 
-  const query = `SELECT payedMonth AS month, advancements.transfer, advancements.cash, SUM((advancements.transfer+advancements.cash)/registers.dolarPrice) AS totalBs FROM advancements, registers WHERE payedMonth > MONTH(NOW())`;
+  const query = `SELECT IFNULL(payedMonth, 0) AS month, IFNULL(advancements.transfer, 0) AS transfer, IFNULL(advancements.cash, 0) AS cash, IFNULL(SUM((advancements.transfer+advancements.cash)/registers.dolarPrice), 0) AS totalBs FROM advancements, registers WHERE payedMonth > MONTH(NOW())`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errCurrentMonthAdvancement, rows) => {
@@ -224,7 +224,7 @@ const getCurrentMonthArrear = async () => {
   let total = 0;
   let counter = 0;
 
-  const query = `SELECT payedMonth AS month, arrears.transfer, arrears.cash, SUM((arrears.transfer+arrears.cash)/registers.dolarPrice) AS totalBs FROM arrears, registers WHERE payedMonth < MONTH(NOW())`;
+  const query = `SELECT IFNULL(payedMonth, 0) AS month, IFNULL(arrears.transfer, 0) AS transfer, IFNULL(arrears.cash, 0) AS cash, IFNULL(SUM((arrears.transfer+arrears.cash)/registers.dolarPrice), 0) AS totalBs FROM arrears, registers WHERE payedMonth < MONTH(NOW())`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errCurrentMonthArrear, rows) => {
@@ -307,6 +307,8 @@ router.get('/payments', async (req, res) => {
     return null;
   }
 
+  const finalMonth = { ...month, receivable };
+
   // Query to get Current Month Advancement
   const {
     monthInAdvance,
@@ -331,9 +333,14 @@ router.get('/payments', async (req, res) => {
     return null;
   }
 
-  const arrear = { monthInArrear, totalArrear };
+  const arrears = { monthInArrear, totalArrear };
 
-  res.status(200).json();
+  const payments = { today, month: finalMonth, advancements, arrears };
+
+  console.log(payments);
+
+  res.status(200).json(payments);
+  return null;
 });
 
 module.exports = router;
