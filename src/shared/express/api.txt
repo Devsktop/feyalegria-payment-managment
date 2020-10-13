@@ -246,7 +246,7 @@ interface yearRegisters {
   };
   [concepts: number]: {
     concept: string;
-    amount: number;
+    price: number;
     details: {
       transference: number;
       cash: number;
@@ -257,7 +257,7 @@ interface yearRegisters {
   estimatedFund: number;
   paidFund: number;
   finalFund: number;
-}
+} // READY
 
 // GET api/monthRegisters/[month]
 interface monthRegisters {
