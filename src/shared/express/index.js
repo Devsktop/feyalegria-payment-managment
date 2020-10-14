@@ -29,6 +29,8 @@
   app.use('/api', require('./routes/products'));
   app.use('/api', require('./routes/yearRegisters'));
   app.use('/api', require('./routes/monthRegisters'));
+  app.use('/api', require('./routes/registers'));
+  app.use('/api', require('./routes/prices'));
 
   app.listen(app.get('port'), () => {
     console.log('server on port 3500');

@@ -203,13 +203,18 @@ interface grade {
 }
 
 // GET api/rates - ?type = string
-interface join {
-  price: number;
-  [paymentConcepts: number]: {
-    idConcept: {
-      concept: string;
-      price: number;
-      idConcept: number;
+interface rates {
+  [idRate: number]: {
+    price: number;
+    type: string;
+    idRate: number;
+    [paymentConcepts: number]: {
+      idConcept: {
+        concept: string;
+        price: number;
+        idConcept: number;
+        idRate: number;
+      };
     };
   };
 } // READY
@@ -323,18 +328,26 @@ interface monthRegisters {
   estimatedFund: number;
   paidFund: number;
   finalFund: number;
-}
+} // READY
 
 // GET api/register/month ?pag=number
 interface registers {
   [registers: number]: {
     idRegister: {
       date: Date;
-      method: string;
       amount: number;
-      referencce: string;
+      reference: string;
       representative: string;
-      detail: string;
+      observation: string;
     };
   };
 }
+
+// GET api/prices
+interface prices {
+  [prices: number]: {
+    idRate: number;
+    price: number;
+    type: string;
+  };
+} // READY
