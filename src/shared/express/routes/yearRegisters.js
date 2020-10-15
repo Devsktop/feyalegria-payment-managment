@@ -89,9 +89,9 @@ const getyearRegistersConcepts = async () => {
   });
 };
 
-// Query to get yearsRegisters Estimated Funds
+// Query to get Month Registers Estimated Funds
 const getyearRegistersEstimatedFunds = async () => {
-  const query = `SELECT IFNULL(ROUND(COUNT(idStudent) * price, 2), 0) AS estimatedFund FROM students, rates WHERE inscription = 1 AND type = "monthlyPayments";`;
+  const query = `SELECT IFNULL(ROUND((COUNT(idStudent) * price) * 12, 2), 0) AS estimatedFund FROM students, rates WHERE inscription = 1 AND type = "monthlyPayments";`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetyearsEstimatedFunds, rows) => {
@@ -105,7 +105,7 @@ const getyearRegistersEstimatedFunds = async () => {
   });
 };
 
-// Query to get yearsRegisters Funds
+// Query to get Month Registers Paid Funds
 const getyearRegistersPaidFunds = async () => {
   const query = `SELECT IFNULL(ROUND(SUM(total), 2), 0) AS paidFund FROM monthlypaymentsbalance WHERE YEAR(date) = YEAR(NOW());`;
 
