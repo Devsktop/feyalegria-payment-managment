@@ -7,7 +7,7 @@ interface res_login {
 // GET - api/students - call to initial props
 interface students {
   // 10 solvent and 10 insolvent
-  [students]: {
+  [students: number]: {
     idStudent: {
       name: string;
       dni: string;
@@ -202,7 +202,7 @@ interface grade {
   }; // READY
 }
 
-// GET api/rates - ?type = string
+// GET api/rates
 interface rates {
   [idRate: number]: {
     price: number;
@@ -341,7 +341,7 @@ interface registers {
       observation: string;
     };
   };
-}
+} // READY
 
 // GET api/prices
 interface prices {

@@ -23,8 +23,18 @@ router.get('/products', async (req, res) => {
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get registers
 const getRegisters = async pag => {
+  const pagIndex = pag * 10;
   const registers = {};
-  const query = `SELECT idRegister, date, IFNULL((SUM(transfers) + SUM(cash))* dolarPrice) AS amount, observation, reference FROM registers;`;
+  const query = `SELECT 
+  idRegister, 
+  date, 
+  IFNULL(ROUND(((transfers + cash)/ dolarPrice) + dolars, 2), 0) AS amount,
+  observation, 
+  reference, 
+  CONCAT(representatives.names, ' ', representatives.lastnames) AS representative 
+  FROM registers, representatives 
+  WHERE registers.idRepresentative = representatives.idRepresentative 
+  LIMIT ${pagIndex} , 10;;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetRegisters, rows) => {
