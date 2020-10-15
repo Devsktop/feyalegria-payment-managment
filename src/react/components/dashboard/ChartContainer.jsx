@@ -7,7 +7,7 @@ import CircleChart from './CircleChart';
 // Selectors
 const studentSelector = state => {
   const { solventStudents, joinedStudents } = state.students;
-  const percent = parseInt((solventStudents / joinedStudents) * 100, 10);
+  const percent = parseInt((solventStudents / joinedStudents) * 100, 10) || 0;
   return { solventStudents, joinedStudents, percent };
 };
 
