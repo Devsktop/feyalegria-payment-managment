@@ -1,15 +1,12 @@
-import { FETCH_STUDENTS } from '../actions/studentsActions';
+import { FETCH_RATES } from '../actions/ratesActions';
 
 const initialState = {
-  students: {},
-  joinedStudents: 0,
-  insolventStudents: 0,
-  solventStudents: 0
+  rates: {}
 };
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
-    case FETCH_STUDENTS:
+    case FETCH_RATES:
       return {
         ...state,
         ...payload
