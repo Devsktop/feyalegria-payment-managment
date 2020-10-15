@@ -47,10 +47,30 @@ const monthPaymentsSelector = createSelector(
 );
 
 // DOLAR SELECTORS
+const dolarCashSelector = state => {
+  const { dolar } = state.payments.month;
+  let dolarAmount = 0;
+  console.log(state.payments.month);
+  dolar.forEach(({ amount }) => {
+    dolarAmount += amount;
+  });
+
+  return dolarAmount;
+};
+
+const dolarSelector = createSelector(
+  dolarCashSelector,
+  monthIncomeSelector,
+  (cash, monthIncome) => {
+    const percent = parseInt((cash / monthIncome) * 100, 10) || 0;
+    return { percent, cash, monthIncome };
+  }
+);
 
 const ChartContainer = () => {
   const students = useSelector(studentSelector);
   const monthPayment = useSelector(monthPaymentsSelector);
+  const dolar = useSelector(dolarSelector);
 
   return (
     <div className="chart_container">
@@ -68,9 +88,9 @@ const ChartContainer = () => {
       />
       <CircleChart
         desc="Dólares en efectivo"
-        percent="45"
-        text={`${45}%`}
-        total="25/60"
+        percent={dolar.percent}
+        text={`${dolar.percent}%`}
+        total={`${dolar.cash}/${dolar.monthIncome}`}
       />
     </div>
   );
