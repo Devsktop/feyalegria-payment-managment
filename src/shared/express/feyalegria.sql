@@ -4,7 +4,7 @@ USE feyalegria ;
 
 CREATE TABLE dniType (
   idDniType INT NOT NULL AUTO_INCREMENT,
-  letter VARCHAR(45) NOT NULL,
+  letter VARCHAR(1) NOT NULL,
   PRIMARY KEY (idDniType),
   UNIQUE INDEX idDniType_UNIQUE (idDniType),
   UNIQUE INDEX letter_UNIQUE (letter));
@@ -15,7 +15,7 @@ CREATE TABLE representatives (
   names VARCHAR(45) NOT NULL,
   lastNames VARCHAR(45) NOT NULL,
   dni VARCHAR(45) NOT NULL,
-  balance FLOAT NOT NULL,
+  balance DECIMAL(8,2) NOT NULL,
   phone VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   monthsToPay INT NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE students (
   email VARCHAR(45) NULL,
   phone VARCHAR(45) NULL,
   socialMedia VARCHAR(45) NULL,
-  balance DOUBLE NOT NULL,
+  balance DECIMAL(8,2) NOT NULL,
   inscription BOOLEAN NOT NULL,
   monthsToPay INT NOT NULL,
   idRepresentative INT NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE students (
 CREATE TABLE products (
   idProduct INT NOT NULL AUTO_INCREMENT,
   product VARCHAR(45) NOT NULL,
-  price DOUBLE NOT NULL,
+  price DECIMAL(8,2) NOT NULL,
   mandatory BOOLEAN NOT NULL,
   PRIMARY KEY (idProduct),
   UNIQUE INDEX idProduct_UNIQUE (idProduct));
@@ -116,8 +116,8 @@ CREATE TABLE products (
 
 CREATE TABLE rates (
   idRate INT NOT NULL AUTO_INCREMENT,
-  price DOUBLE NOT NULL,
-  type VARCHAR(45) NOT NULL,
+  price DECIMAL(8,2) NOT NULL,
+  type VARCHAR(20) NOT NULL,
   PRIMARY KEY (idRate),
   UNIQUE INDEX idRate_UNIQUE (idRate));
 
@@ -125,7 +125,7 @@ CREATE TABLE rates (
 CREATE TABLE paymentsConcepts (
   idPaymentsConcept INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(45) NOT NULL,
-  price DOUBLE NOT NULL,
+  price DECIMAL(8,2) NOT NULL,
   idRate INT NOT NULL,
   PRIMARY KEY (idPaymentsConcept),
   UNIQUE INDEX idPaymentsConcept_UNIQUE (idPaymentsConcept),
@@ -142,10 +142,10 @@ CREATE TABLE registers (
   date DATE NOT NULL,
   bank VARCHAR(45) NOT NULL,
   reference VARCHAR(45) NOT NULL,
-  transfers DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
-  dolarPrice DOUBLE NOT NULL,
+  transfers DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
+  dolarPrice DECIMAL(8,2) NOT NULL,
   observation VARCHAR(150) NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idRegister),
@@ -179,7 +179,7 @@ CREATE TABLE users (
   idUser INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
-  question VARCHAR(45) NOT NULL,
+  question VARCHAR(100) NOT NULL,
   answer VARCHAR(45) NOT NULL,
   PRIMARY KEY (idUser),
   UNIQUE INDEX idUser_UNIQUE (idUser),
@@ -188,11 +188,11 @@ CREATE TABLE users (
 
 CREATE TABLE inscriptionsBalance (
   idInscriptionsBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
   date DATE NOT NULL,
-  total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idInscriptionsBalance),
@@ -213,11 +213,11 @@ CREATE TABLE inscriptionsBalance (
 
 CREATE TABLE monthlyPaymentsBalance (
   idMonthlyPaymentsBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
   date DATE NOT NULL,
-  total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   PRIMARY KEY (idMonthlyPaymentsBalance),
@@ -238,11 +238,11 @@ CREATE TABLE monthlyPaymentsBalance (
 
 CREATE TABLE paymentsConceptsBalance (
   idPaymentsConceptBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
   date DATE NOT NULL,
-  total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   idPaymentsConcept INT NOT NULL,
@@ -277,12 +277,12 @@ CREATE TABLE paymentsConceptsBalance (
 
 CREATE TABLE productsBalance (
   idProductBalance INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
+  dolarPrice DECIMAL(8,2) NOT NULL,
   date DATE NOT NULL,
-  dolarPrice DOUBLE NOT NULL,
-  total DOUBLE NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
   idProduct INT NOT NULL,
@@ -310,9 +310,9 @@ CREATE TABLE productsBalance (
     
 CREATE TABLE advancements (
   idAdvancement INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
   payedMonth INT NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,
@@ -334,9 +334,9 @@ CREATE TABLE advancements (
 
 CREATE TABLE arrears (
   idArrear INT NOT NULL AUTO_INCREMENT,
-  transfer DOUBLE NOT NULL,
-  cash DOUBLE NOT NULL,
-  dolars DOUBLE NOT NULL,
+  transfer DECIMAL(20,2) NOT NULL,
+  cash DECIMAL(20,2) NOT NULL,
+  dolars DECIMAL(8,2) NOT NULL,
   payedMonth INT NOT NULL,
   idRegister INT NOT NULL,
   idRepresentative INT NOT NULL,

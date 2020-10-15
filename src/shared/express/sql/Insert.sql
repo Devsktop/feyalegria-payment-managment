@@ -1,3 +1,6 @@
+// users
+INSERT INTO users (username, password, question, answer) VALUES ('admin', '1234', 'hola', 'chao');
+
 // grades
 
 INSERT INTO grades (scholarYear) VALUES ('1er Grado'), ('2do Grado'), ('3er Grado'), ('4to Grado'), ('5to Grado');

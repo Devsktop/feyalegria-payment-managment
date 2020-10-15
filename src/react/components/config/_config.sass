@@ -1,0 +1,16 @@
+.config
+    display: grid
+    grid-template-columns: repeat(3, minmax(auto, 300px))
+    grid-auto-rows: minmax(auto, 160px)
+    grid-gap: 25px
+    margin: 0 auto
+
+
+    @media screen and ( min-width: 1240px )
+        grid-gap: 40px
+        grid-auto-rows: minmax(auto, 180px)
+
+    @media screen and ( min-width: 1500px )
+        grid-gap: 60px
+        grid-template-columns: repeat(3, minmax(auto, 360px))
+        grid-auto-rows: minmax(auto, 200px)
