@@ -26,9 +26,9 @@ const Join = () => {
   };
 
   return (
-    <div className="grades content-screen">
-      <h1>Administre Inscripcrión</h1>
+    <div className="join content-screen">
       <form className="sweet-form" onSubmit={handleSubmit}>
+        <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
           type="number"
           onChange={handlePrice}
