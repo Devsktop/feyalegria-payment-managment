@@ -19,6 +19,9 @@ import Config from 'react/components/config/Config';
 import UserRecover from 'react/components/UserRecover/UserRecover';
 import Maintenance from 'react/components/Maintenance/Maintenance';
 
+// Config Screens
+import Grades from 'react/components/grades/Grades';
+
 // Navigations
 import UpperBar from './Upperbar';
 import Menu from './Menu';
@@ -49,6 +52,9 @@ const AppRouter = () => {
             <Route exact path="/config" component={Config} />
             <Route exact path="/recover" component={UserRecover} />
             <Route exact path="/mantenimiento" component={Maintenance} />
+
+            {/* // Config Screens */}
+            <Route exact path="/grades" component={Grades} />
           </Switch>
         </div>
       </div>

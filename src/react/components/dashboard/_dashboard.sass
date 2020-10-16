@@ -1,4 +1,4 @@
-@import ./_databox
+
 
 .dashboard
     display: grid
@@ -7,11 +7,13 @@
     grid-gap: 25px
     margin: 0 auto
 
+    @import ./_databox
+
     @import ./_chart_container
 
     @media screen and ( min-width: 1240px )
         grid-gap: 40px
-        grid-auto-rows: minmax(auto, 180px)
+        grid-auto-rows: minmax(auto, 160px)
 
     @media screen and ( min-width: 1500px )
         grid-gap: 60px
