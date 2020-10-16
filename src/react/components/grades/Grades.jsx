@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import { fetchGrades } from 'react/redux/actions/gradesActions';
 
 // Components
-import GradesTable from './GradesTable';
+import { DataTable } from 'react-pulpo';
 
 // Selectors
-const gradesSelector = state => state.grades;
+const gradesSelector = state => state.grades.grades;
 
 const Grades = () => {
   const dispatch = useDispatch();
@@ -34,14 +34,35 @@ const Grades = () => {
   if (Object.keys(grades).length === 0) {
     isEmpty = true;
   }
+
+  const gradesData = [];
+  Object.keys(grades).forEach(gradeKey => {
+    gradesData.push({ ...grades[gradeKey], id: grades[gradeKey].idGrade });
+  });
+
+  const deleteRow = id => {
+    dispatch(fetchGrades());
+  };
+
   return (
     <div className="content-screen">
-      <div className="box">
+      <div className="gradesBox">
         <h1>Grados y Secciones</h1>
         {isEmpty ? (
-          <GradesTable className="table" />
-        ) : (
           <h2>Agregue un grado</h2>
+        ) : (
+          <DataTable
+            className="table"
+            data={gradesData}
+            properties={[
+              'Año Escolar',
+              'Secciones',
+              'NO. Estudiantes',
+              'NO. Representantes'
+            ]}
+            order={['grade', 'sections', 'sectionStudents', 'representatives']}
+            deleteRow={deleteRow}
+          />
         )}
         <Link className="" to="/addGrade">
           AGREGAR GRADO
