@@ -10,7 +10,7 @@ const DataBox = ({ desc, icon, data, link }) => {
   console.log('renderizé ', desc);
   return (
     <Link to={link}>
-      <div className="box" title={data}>
+      <div className="databox" title={data}>
         <span>
           <FontAwesomeIcon icon={icon} className="icon" />
           {desc}

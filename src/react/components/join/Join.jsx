@@ -35,17 +35,20 @@ const Join = () => {
           value={price}
           label="Ingrese precio de la matrícula:"
         />
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          ACEPTAR
-        </button>
+
+        <div className="button_container">
+          <button
+            type="submit"
+            className="button button-accept"
+            disabled={validateInputs()}
+          >
+            Aceptar
+          </button>
+          <Link className="button button-cancel" to="/Config">
+            Volver
+          </Link>
+        </div>
       </form>
-      <Link className="button" to="/Config">
-        VOLVER
-      </Link>
     </div>
   );
 };

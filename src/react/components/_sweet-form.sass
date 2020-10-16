@@ -21,10 +21,11 @@
         padding: .625em 2em
         font-size: 1rem
         cursor: pointer
+        text-align: center
 
         &.button-large
             margin: 0
-            width: 100%
+            width: 100%!important
 
 
         &-cancel
@@ -34,7 +35,6 @@
                 background-color: $primary-dark
 
         &-accept
-            margin-right: 10px
             background-color: $primary
             border: 1px solid $primary
 
@@ -48,3 +48,13 @@
 
             &:focus
                 background-color: $primary-dark
+
+    .button_container
+        display: flex
+        justify-content: space-between
+        flex-wrap: wrap
+        width: 100%
+
+        .button
+            width: 48%
+
