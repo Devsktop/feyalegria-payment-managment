@@ -7,7 +7,7 @@ const StyledInput = withStyles({
   root: {
     display: 'block',
     width: '100%',
-    margin: '20px 0',
+    margin: '35px 0',
     '& .MuiInputBase-root': {
       width: '100%'
     },

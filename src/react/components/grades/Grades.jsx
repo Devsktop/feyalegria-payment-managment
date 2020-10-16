@@ -43,7 +43,7 @@ const Grades = () => {
         ) : (
           <h2>Agregue un grado</h2>
         )}
-        <Link className="button" to="/addGrade">
+        <Link className="" to="/addGrade">
           AGREGAR GRADO
         </Link>
       </div>

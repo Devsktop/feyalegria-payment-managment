@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 // Components
 import Minput from 'react/components/Minput';
 
+// Import imgs
+import plus from './plus.svg';
+
 const AddGrade = () => {
   const [grade, setGrade] = useState('');
 
@@ -25,16 +28,30 @@ const AddGrade = () => {
   };
 
   return (
-    <form className="sweet-form" onSubmit={handleSubmit}>
-      <Minput type="text" onChange={handleGrade} value={grade} label="Grado:" />
-      <button
-        type="submit"
-        className="button button-large button-accept"
-        disabled={validateInputs()}
-      >
-        CREAR GRADO
-      </button>
-    </form>
+    <div className="addGradesBox">
+      <form className="sweet-form" onSubmit={handleSubmit}>
+        <h1>Grados y Secciones</h1>
+        <Minput
+          type="text"
+          onChange={handleGrade}
+          value={grade}
+          label="Grado:"
+        />
+        <div className="form_group">
+          <label>Añadir Sección</label>
+          <button className="btn_plus" type="button">
+            <img src={plus} alt="+" />
+          </button>
+        </div>
+        <button
+          type="submit"
+          className="button button-large button-accept"
+          disabled={validateInputs()}
+        >
+          CREAR GRADO
+        </button>
+      </form>
+    </div>
   );
 };
 
