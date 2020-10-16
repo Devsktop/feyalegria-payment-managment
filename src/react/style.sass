@@ -6,6 +6,7 @@
 @import ./components/Login/_login
 @import ./components/dashboard/_dashboard
 @import ./components/config/_config
+@import ./components/grades/_grades
 
 *
   margin: 0
@@ -71,6 +72,18 @@ body
   transform: translateZ(0)
   -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease
   animation: load6 1.7s infinite ease, round 1.7s infinite ease
+
+.button
+  padding: 8px 25px
+  text-transform: uppercase
+  color: white
+  background: linear-gradient(113.55deg, #D64045 0%, #820101 120.72%),linear-gradient(0deg, #FFFFFF, #FFFFFF)
+  border-radius: 5px
+  font-weight: bold
+  cursor: pointer
+
+  &:hover
+    color: lighten($primary, 10)
 
 @-webkit-keyframes load6
   0% 
