@@ -6,6 +6,7 @@ export const fetchGrades = () => {
     // HACER FETCH A LA BDD
     const response = await fetch('http://localhost:3500/api/grades');
     const grades = await response.json();
+    console.log(grades);
     dispatch(fetchGradesActions(grades));
     dispatch(isFetched());
     dispatch(isFetching(false));

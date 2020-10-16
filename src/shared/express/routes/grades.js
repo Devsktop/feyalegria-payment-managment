@@ -13,7 +13,7 @@ router.get('/grades', async (req, res) => {
     return null;
   }
 
-  res.status(200).json({ grades });
+  res.status(200).json(grades);
   return null;
 });
 
@@ -44,7 +44,7 @@ const getGrades = () => {
         rows.forEach(row => {
           grades[row.idGrade] = { ...row, ...peopleByGrade[row.idGrade] };
         });
-        resolve(grades);
+        resolve({ grades });
       } else {
         resolve({ errGrades });
       }
