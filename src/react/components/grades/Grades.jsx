@@ -35,12 +35,18 @@ const Grades = () => {
     isEmpty = true;
   }
   return (
-    <div className="grades content-screen">
-      <h1>Grados y Secciones</h1>
-      {isEmpty ? <h2>Agregue un grado</h2> : <GradesTable />}
-      <Link className="" to="/AddGrade">
-        AGREGAR GRADO
-      </Link>
+    <div className="content-screen">
+      <div className="box">
+        <h1>Grados y Secciones</h1>
+        {isEmpty ? (
+          <GradesTable className="table" />
+        ) : (
+          <h2>Agregue un grado</h2>
+        )}
+        <Link className="button" to="/addGrade">
+          AGREGAR GRADO
+        </Link>
+      </div>
     </div>
   );
 };
