@@ -13,8 +13,8 @@ router.get('/grades', async (req, res) => {
     return null;
   }
 
-  res.status(200).json(grades);
-  return res;
+  res.status(200).json({ grades });
+  return null;
 });
 
 // // 2.- Get grade by id http://localhost:3500/api/grade/[id]
@@ -28,7 +28,7 @@ router.get('/grade/:idGrade', async (req, res) => {
   }
 
   res.status(200).json(grade);
-  return res;
+  return null;
 });
 
 // ----------------------------- FUNCTIONS ----------------------------- //
