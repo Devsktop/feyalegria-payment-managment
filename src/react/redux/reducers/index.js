@@ -5,4 +5,13 @@ import students from './studentsReducer';
 import payments from './paymentsReducer';
 import grades from './gradesReducer';
 
-export default combineReducers({ login, upperbar, students, payments, grades });
+import rates from './ratesReducer';
+
+export default combineReducers({
+  login,
+  upperbar,
+  students,
+  payments,
+  rates,
+  grades
+});
