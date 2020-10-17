@@ -100,7 +100,7 @@ const Menu = () => {
               }
             }}
           >
-            <NavIconLink icon={faCog} text="Precios" />
+            <NavIconLink icon={faCog} text="Configuración" />
           </NavLink>
         </li>
       </ul>

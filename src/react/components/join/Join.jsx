@@ -3,23 +3,18 @@ import { Link } from 'react-router-dom';
 
 // Components
 import Minput from 'react/components/Minput';
+import PaymentConcepts from './PaymentConcepts';
+
+// Helper
+import { decimalValidator } from 'helper';
 
 const Join = () => {
   const [price, setPrice] = useState('');
 
-  const avoidSpaces = value => {
-    if (value.endsWith(' ')) return false;
-    return true;
+  const handleKeyDown = e => {
+    setPrice(decimalValidator(e, price));
   };
-
-  const handlePrice = e => {
-    if (avoidSpaces(e.target.value)) setPrice(e.target.value);
-  };
-
-  const validateInputs = () => {
-    if (price.length === 0) return true;
-    return false;
-  };
+  const mulaOnChange = e => {};
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -30,17 +25,18 @@ const Join = () => {
       <form className="sweet-form" onSubmit={handleSubmit}>
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
-          type="number"
-          onChange={handlePrice}
+          type="text"
+          onChange={mulaOnChange}
+          onKeyDown={handleKeyDown}
           value={price}
           label="Ingrese precio de la matrícula:"
         />
-
+        <PaymentConcepts />
         <div className="button_container">
           <button
             type="submit"
             className="button button-accept"
-            disabled={validateInputs()}
+            disabled={price === '' || !(parseFloat(price) > 0)}
           >
             Aceptar
           </button>
