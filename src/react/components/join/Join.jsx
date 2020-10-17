@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// Components
-import Minput from 'react/components/Minput';
-import PaymentConcepts from './PaymentConcepts';
-
 // Helper
 import { decimalValidator } from 'helper';
+
+// Components
+import Minput from 'react/components/Minput';
+import AddPaymentConcepts from './AddPaymentConcepts';
 
 const Join = () => {
   const [price, setPrice] = useState('');
@@ -31,7 +31,7 @@ const Join = () => {
           value={price}
           label="Ingrese precio de la matrícula:"
         />
-        <PaymentConcepts />
+        <AddPaymentConcepts />
         <div className="button_container">
           <button
             type="submit"
