@@ -14,7 +14,6 @@ const Join = () => {
   const handleKeyDown = e => {
     setPrice(decimalValidator(e, price));
   };
-  const mulaOnChange = e => {};
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -26,12 +25,13 @@ const Join = () => {
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
           type="text"
-          onChange={mulaOnChange}
+          onChange={() => {}}
           onKeyDown={handleKeyDown}
           value={price}
           label="Ingrese precio de la matrícula:"
         />
         <AddPaymentConcepts />
+        
         <div className="button_container">
           <button
             type="submit"

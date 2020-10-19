@@ -4,6 +4,7 @@ import upperbar from './upperbarReducer';
 import students from './studentsReducer';
 import payments from './paymentsReducer';
 import grades from './gradesReducer';
+import concepts from './conceptsReducer';
 
 import rates from './ratesReducer';
 
@@ -13,5 +14,6 @@ export default combineReducers({
   students,
   payments,
   rates,
-  grades
+  grades,
+  concepts
 });
