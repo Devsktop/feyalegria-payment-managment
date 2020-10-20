@@ -1,24 +1,27 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Components
 import PaymentsConcept from './PaymentsConcept';
 
 const PaymentsConceptsBox = ({
-  concepts,
-  handleRemove,
-  handleConceptChange
+  action,
+  boxSelector,
+  conceptSelector,
+  removeAction
 }) => {
+  const concepts = useSelector(boxSelector);
+  console.log(concepts);
   return (
     <div className="payment_concepts_box">
-      {concepts.map(({ id, concept, price }) => (
+      {Object.keys(concepts).map(key => (
         <PaymentsConcept
-          key={id}
-          id={id}
-          concept={concept}
-          price={price}
-          handleConceptChange={handleConceptChange}
-          handleRemove={handleRemove}
+          key={key}
+          action={action}
+          removeAction={removeAction}
+          conceptSelector={conceptSelector}
+          id={key}
         />
       ))}
     </div>
@@ -26,15 +29,10 @@ const PaymentsConceptsBox = ({
 };
 
 PaymentsConceptsBox.propTypes = {
-  concepts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      concept: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  handleRemove: PropTypes.func.isRequired,
-  handleConceptChange: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  boxSelector: PropTypes.func.isRequired,
+  removeAction: PropTypes.func.isRequired,
+  conceptSelector: PropTypes.func.isRequired
 };
 
 export default PaymentsConceptsBox;

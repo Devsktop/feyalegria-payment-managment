@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
 
 // Components
 import PaymentsConceptsBox from './PaymentsConceptsBox';
 
-const AddPaymentConcepts = () => {
-  const [concepts, setConcepts] = useState([]);
-  const [lastId, setLastId] = useState(0);
+const AddPaymentConcepts = ({
+  action,
+  boxSelector,
+  conceptSelector,
+  addAction,
+  removeAction
+}) => {
+  const dispatch = useDispatch();
+  const [lastId, setLastId] = useState(-1);
 
   const handleController = () => {
     const newConcept = {
-      id: lastId,
+      idConcept: lastId,
       concept: '',
       price: 0
     };
-    setLastId(id => id + 1);
-    setConcepts([...concepts, newConcept]);
-  };
-
-  const handleRemove = id => {
-    const newConcepts = concepts.filter(concept => concept.id !== id);
-    setConcepts(newConcepts);
-  };
-
-  const handleConceptChange = changedConcept => {
-    const newConcepts = concepts.map(concept => {
-      if (changedConcept.id === concept.id) return changedConcept;
-      return concept;
-    });
-    setConcepts(newConcepts);
+    setLastId(id => id - 1);
+    dispatch(addAction(newConcept));
   };
 
   return (
@@ -39,12 +34,21 @@ const AddPaymentConcepts = () => {
         <FontAwesomeIcon icon={faPlus} onClick={handleController} />
       </div>
       <PaymentsConceptsBox
-        concepts={concepts}
-        handleRemove={handleRemove}
-        handleConceptChange={handleConceptChange}
+        boxSelector={boxSelector}
+        conceptSelector={conceptSelector}
+        action={action}
+        removeAction={removeAction}
       />
     </div>
   );
+};
+
+AddPaymentConcepts.propTypes = {
+  action: PropTypes.func.isRequired,
+  addAction: PropTypes.func.isRequired,
+  boxSelector: PropTypes.func.isRequired,
+  removeAction: PropTypes.func.isRequired,
+  conceptSelector: PropTypes.func.isRequired
 };
 
 export default AddPaymentConcepts;

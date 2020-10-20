@@ -1,4 +1,9 @@
-import { FETCH_CONCEPTS } from '../actions/conceptsActions';
+import {
+  FETCH_CONCEPTS,
+  ADD_CONCEPTS_INSCRPTION,
+  UPDATE_CONCEPTS_INSCRPTION,
+  DELETE_CONCEPTS_INSCRPTION
+} from '../actions/conceptsActions';
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
 // and edit concepts before saving
@@ -11,6 +16,66 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         ...payload
       };
+    case ADD_CONCEPTS_INSCRPTION: {
+      let idIncription;
+
+      Object.keys(state).forEach(concept => {
+        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+      });
+
+      const paymentConcepts = {
+        ...state[idIncription].paymentConcepts,
+        [payload.concept.idConcept]: payload.concept
+      };
+
+      const concept = { ...state[idIncription], paymentConcepts };
+
+      return {
+        ...state,
+        [idIncription]: concept
+      };
+    }
+
+    case UPDATE_CONCEPTS_INSCRPTION: {
+      let idIncription;
+
+      Object.keys(state).forEach(concept => {
+        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+      });
+
+      const paymentConcepts = {
+        ...state[idIncription].paymentConcepts,
+        [payload.concept.idConcept]: payload.concept
+      };
+
+      const concept = { ...state[idIncription], paymentConcepts };
+
+      return {
+        ...state,
+        [idIncription]: concept
+      };
+    }
+
+    case DELETE_CONCEPTS_INSCRPTION: {
+      let idIncription;
+
+      Object.keys(state).forEach(concept => {
+        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+      });
+
+      const paymentConcepts = {
+        ...state[idIncription].paymentConcepts
+      };
+
+      delete paymentConcepts[payload.idConcept];
+
+      const concept = { ...state[idIncription], paymentConcepts };
+
+      return {
+        ...state,
+        [idIncription]: concept
+      };
+    }
     default:
       return state;
   }

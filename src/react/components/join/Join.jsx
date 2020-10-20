@@ -1,12 +1,52 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { shallowEqual } from 'react-redux';
+import { createSelectorCreator, defaultMemoize } from 'reselect';
 
 // Helper
 import { decimalValidator } from 'helper';
 
+// Actions
+import {
+  addConceptsInscription,
+  updateConceptInscription,
+  deleteConceptInscription
+} from 'react/redux/actions/conceptsActions';
+
 // Components
 import Minput from 'react/components/Minput';
 import AddPaymentConcepts from './AddPaymentConcepts';
+
+// Selectors
+const boxSelector = state => {
+  const { concepts } = state;
+  let paymentConcepts = {};
+
+  Object.keys(concepts).forEach(concept => {
+    if (concepts[concept].type === 'INSCRIPTION')
+      paymentConcepts = { ...concepts[concept].paymentConcepts };
+  });
+
+  return paymentConcepts;
+};
+
+const shallowSelector = createSelectorCreator(defaultMemoize, shallowEqual);
+
+const joinConceptsSelector = shallowSelector(
+  state => {
+    const { concepts } = state;
+    let paymentConcepts = {};
+
+    Object.keys(concepts).forEach(concept => {
+      if (concepts[concept].type === 'INSCRIPTION')
+        paymentConcepts = { ...concepts[concept].paymentConcepts };
+    });
+
+    return paymentConcepts;
+  },
+  (_, id) => id,
+  (paymentConcepts, id) => paymentConcepts[id]
+);
 
 const Join = () => {
   const [price, setPrice] = useState('');
@@ -30,8 +70,14 @@ const Join = () => {
           value={price}
           label="Ingrese precio de la matrícula:"
         />
-        <AddPaymentConcepts />
-        
+        <AddPaymentConcepts
+          boxSelector={boxSelector}
+          addAction={addConceptsInscription}
+          action={updateConceptInscription}
+          conceptSelector={joinConceptsSelector}
+          removeAction={deleteConceptInscription}
+        />
+
         <div className="button_container">
           <button
             type="submit"
