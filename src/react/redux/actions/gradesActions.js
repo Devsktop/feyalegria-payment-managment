@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import Swal from 'sweetalert2';
 
-=======
->>>>>>> 98a7d80b5879c406b0cd48993fec467b82c395ce
 export const FETCH_GRADES = 'FETCH_GRADES';
 
 export const fetchGrades = () => {
@@ -11,10 +8,6 @@ export const fetchGrades = () => {
     // HACER FETCH A LA BDD
     const response = await fetch('http://localhost:3500/api/grades');
     const grades = await response.json();
-<<<<<<< HEAD
-=======
-    console.log(grades);
->>>>>>> 98a7d80b5879c406b0cd48993fec467b82c395ce
     dispatch(fetchGradesActions(grades));
     dispatch(isFetched());
     dispatch(isFetching(false));
@@ -40,7 +33,6 @@ export const IS_FECTHED = 'IS_FECTHED';
 const isFetched = () => ({
   type: IS_FECTHED
 });
-<<<<<<< HEAD
 
 // Action To Delete Grade
 export const DELETE_GRADE = 'DELETE_GRADE';
@@ -262,5 +254,3 @@ export const editGrade = grade => {
     });
   };
 };
-=======
->>>>>>> 98a7d80b5879c406b0cd48993fec467b82c395ce
