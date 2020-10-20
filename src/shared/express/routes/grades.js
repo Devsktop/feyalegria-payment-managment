@@ -123,7 +123,11 @@ const getSections = () => {
         rows.forEach(row => {
           sections[row.idSection] = { ...row };
         });
+<<<<<<< HEAD
         resolve({ sections });
+=======
+        resolve({ grades });
+>>>>>>> 98a7d80b5879c406b0cd48993fec467b82c395ce
       } else {
         resolve({ errGrades });
       }
