@@ -19,6 +19,15 @@ import Config from 'react/components/config/Config';
 import UserRecover from 'react/components/UserRecover/UserRecover';
 import Maintenance from 'react/components/Maintenance/Maintenance';
 
+// Config Screens
+import Grades from 'react/components/grades/Grades';
+import AddGrade from 'react/components/grades/AddGrade';
+import EditGrade from 'react/components/grades/EditGrade';
+import Join from 'react/components/join/Join';
+import Products from 'react/components/products/Products';
+import AddProduct from 'react/components/products/AddProduct';
+import EditProduct from 'react/components/products/EditProduct';
+
 // Navigations
 import UpperBar from './Upperbar';
 import Menu from './Menu';
@@ -49,6 +58,15 @@ const AppRouter = () => {
             <Route exact path="/config" component={Config} />
             <Route exact path="/recover" component={UserRecover} />
             <Route exact path="/mantenimiento" component={Maintenance} />
+
+            {/* // Config Screens */}
+            <Route exact path="/grades" component={Grades} />
+            <Route exact path="/addGrade" component={AddGrade} />
+            <Route exact path="/editGrade/:id" component={EditGrade} />
+            <Route exact path="/join" component={Join} />
+            <Route exact path="/products" component={Products} />
+            <Route exact path="/addProduct" component={AddProduct} />
+            <Route exact path="/editProduct/:id" component={EditProduct} />
           </Switch>
         </div>
       </div>

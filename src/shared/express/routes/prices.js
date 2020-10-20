@@ -4,7 +4,7 @@ const mysqlConnection = require('../database');
 const router = express.Router();
 
 // Rutas o Endpoints
-// 1.-Select monthRegisters http://localhost:3500/api/prices
+// 1.-Select prices http://localhost:3500/api/prices
 router.get('/prices', async (req, res) => {
   // Query to get prices
   const { prices, errGetPrices } = await getPrices();
@@ -23,7 +23,7 @@ router.get('/prices', async (req, res) => {
 
 // ----------------------------- FUNCTIONS ----------------------------- //
 
-// Query to get monthRegisters
+// Query to get prices
 const getPrices = async () => {
   const prices = {};
   const query = `SELECT idRate, price, type FROM rates;`;

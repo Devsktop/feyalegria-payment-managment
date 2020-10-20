@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 const ConfigBox = ({ ilustration, title, link }) => {
   return (
-    <div className="box" title={title}>
-      <p className="box_title">{title}</p>
+    <div className="config_box" title={title}>
       <img src={ilustration} alt="Ilustración" />
-      <Link className="" to={link}>
+      <p className="box_title">{title}</p>
+      <Link className="link" to={link}>
         Seleccionar
       </Link>
     </div>
@@ -18,6 +18,8 @@ ConfigBox.displayName = 'ConfigBox';
 
 ConfigBox.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
+  ilustration: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired
 };
-export default React.memo(ConfigBox);
+export default ConfigBox;

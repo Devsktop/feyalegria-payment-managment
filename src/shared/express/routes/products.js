@@ -15,15 +15,60 @@ router.get('/products', async (req, res) => {
   }
 
   res.status(200).json(products);
+  return null;
+});
 
+// 2.-Delete Product ---> http://localhost:3500/api/product
+router.delete('/product', async (req, res) => {
+  const { id } = req.body;
+  // Query to delete product
+  const { status, errDeleteProduct } = await deleteProduct(id);
+  if (errDeleteProduct) {
+    res.status(400).json({ errDeleteProduct });
+    return null;
+  }
+
+  res.status(200).json(status);
+  return null;
+});
+
+// 3.- Add Product http://localhost:3500/api/product
+router.post('/product', async (req, res) => {
+  const { productName, price } = req.body;
+  // Query to add product
+  const { product, errAddProduct } = await addProduct(productName, price);
+  if (errAddProduct) {
+    res.status(400).json({ errAddProduct });
+    return null;
+  }
+
+  res.status(200).json({ product, status: 200 });
+  return null;
+});
+
+// 4.- Update Product http://localhost:3500/api/updProduct
+router.post('/updProduct', async (req, res) => {
+  const { idProduct, productName, price } = req.body;
+  // Query to add grade
+  const { product, errUpdProduct } = await updGrade(
+    idProduct,
+    productName,
+    price
+  );
+  if (errUpdProduct) {
+    res.status(400).json({ errUpdProduct });
+    return null;
+  }
+
+  res.status(200).json({ product, status: 200 });
   return null;
 });
 
 // ----------------------------- FUNCTIONS ----------------------------- //
-// Query to get Join
+// Query to get Products
 const getProducts = async () => {
   const products = {};
-  const query = `SELECT idProduct, product, price, mandatory FROM products;`;
+  const query = `SELECT idProduct, productName, price, mandatory FROM products;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetProducts, rows) => {
@@ -34,6 +79,57 @@ const getProducts = async () => {
         resolve({ products });
       } else {
         resolve({ errGetProducts });
+      }
+    });
+  });
+};
+
+// Query to delete product
+const deleteProduct = id => {
+  const query = `DELETE FROM products WHERE products.idProduct = ${id};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errDeleteProduct => {
+      if (!errDeleteProduct) {
+        resolve({ status: 200 });
+      } else {
+        resolve({ errDeleteProduct });
+      }
+    });
+  });
+};
+
+// Query to add product
+const addProduct = (newProductName, newPrice) => {
+  const query = `INSERT INTO products (productName, price) VALUES ("${newProductName}", ${newPrice});`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errAddProduct, rows) => {
+      if (!errAddProduct) {
+        const product = {
+          idProduct: rows.insertId,
+          productName: newProductName,
+          price: newPrice
+        };
+        resolve({ product });
+      } else {
+        resolve({ errAddProduct });
+      }
+    });
+  });
+};
+
+// Query to update product
+const updGrade = async (idProduct, productName, price) => {
+  const query = `UPDATE products SET productName = "${productName}", price = ${price} where idProduct = ${idProduct};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdProduct => {
+      if (!errUpdProduct) {
+        const product = { idProduct, productName, price };
+        resolve({ product });
+      } else {
+        resolve({ errUpdProduct });
       }
     });
   });
