@@ -4,9 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
-const PaymentConcept = ({ action, conceptSelector, id, removeAction }) => {
+const ValuePair = ({
+  changePairAction,
+  pairSelector,
+  id,
+  removePairAction
+}) => {
   const dispatch = useDispatch();
-  const concept = useSelector(state => conceptSelector(state, id));
+  const concept = useSelector(state => pairSelector(state, id));
   console.log(concept);
 
   const handleName = e => {
@@ -15,7 +20,7 @@ const PaymentConcept = ({ action, conceptSelector, id, removeAction }) => {
       concept: e.target.value,
       price: concept.price
     };
-    dispatch(action(newConcept));
+    dispatch(changePairAction(newConcept));
   };
   const handleprice = e => {
     const newConcept = {
@@ -23,11 +28,11 @@ const PaymentConcept = ({ action, conceptSelector, id, removeAction }) => {
       concept: concept.concept,
       price: e.target.value
     };
-    dispatch(action(newConcept));
+    dispatch(changePairAction(newConcept));
   };
 
   const handleRemove = () => {
-    dispatch(removeAction(id));
+    dispatch(removePairAction(id));
   };
 
   return (
@@ -39,11 +44,11 @@ const PaymentConcept = ({ action, conceptSelector, id, removeAction }) => {
   );
 };
 
-PaymentConcept.propTypes = {
-  action: PropTypes.func.isRequired,
-  conceptSelector: PropTypes.func.isRequired,
-  removeAction: PropTypes.func.isRequired,
+ValuePair.propTypes = {
+  changePairAction: PropTypes.func.isRequired,
+  pairSelector: PropTypes.func.isRequired,
+  removePairAction: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired
 };
 
-export default React.memo(PaymentConcept);
+export default React.memo(ValuePair);

@@ -15,7 +15,7 @@ import {
 
 // Components
 import Minput from 'react/components/Minput';
-import AddPaymentConcepts from './AddPaymentConcepts';
+import AddValuePair from './AddValuePair';
 
 // Selectors
 const boxSelector = state => {
@@ -70,12 +70,12 @@ const Join = () => {
           value={price}
           label="Ingrese precio de la matrícula:"
         />
-        <AddPaymentConcepts
+        <AddValuePair
           boxSelector={boxSelector}
-          addAction={addConceptsInscription}
-          action={updateConceptInscription}
-          conceptSelector={joinConceptsSelector}
-          removeAction={deleteConceptInscription}
+          addPairAction={addConceptsInscription}
+          changePairAction={updateConceptInscription}
+          pairSelector={joinConceptsSelector}
+          removePairAction={deleteConceptInscription}
         />
 
         <div className="button_container">

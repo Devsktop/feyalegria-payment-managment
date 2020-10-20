@@ -5,14 +5,14 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 // Components
-import PaymentsConceptsBox from './PaymentsConceptsBox';
+import ValuePairBox from './ValuePairBox';
 
-const AddPaymentConcepts = ({
-  action,
+const AddValuePair = ({
+  changePairAction,
   boxSelector,
-  conceptSelector,
-  addAction,
-  removeAction
+  pairSelector,
+  addPairAction,
+  removePairAction
 }) => {
   const dispatch = useDispatch();
   const [lastId, setLastId] = useState(-1);
@@ -24,31 +24,31 @@ const AddPaymentConcepts = ({
       price: 0
     };
     setLastId(id => id - 1);
-    dispatch(addAction(newConcept));
+    dispatch(addPairAction(newConcept));
   };
 
   return (
-    <div className="payment_concepts">
-      <div className="payment_concepts_controller">
+    <div className="valuepair">
+      <div className="valuepair_controller">
         <p>Añadir concepto de pago</p>
         <FontAwesomeIcon icon={faPlus} onClick={handleController} />
       </div>
-      <PaymentsConceptsBox
+      <ValuePairBox
         boxSelector={boxSelector}
-        conceptSelector={conceptSelector}
-        action={action}
-        removeAction={removeAction}
+        pairSelector={pairSelector}
+        changePairAction={changePairAction}
+        removePairAction={removePairAction}
       />
     </div>
   );
 };
 
-AddPaymentConcepts.propTypes = {
-  action: PropTypes.func.isRequired,
-  addAction: PropTypes.func.isRequired,
+AddValuePair.propTypes = {
+  changePairAction: PropTypes.func.isRequired,
+  addPairAction: PropTypes.func.isRequired,
   boxSelector: PropTypes.func.isRequired,
-  removeAction: PropTypes.func.isRequired,
-  conceptSelector: PropTypes.func.isRequired
+  removePairAction: PropTypes.func.isRequired,
+  pairSelector: PropTypes.func.isRequired
 };
 
-export default AddPaymentConcepts;
+export default AddValuePair;
