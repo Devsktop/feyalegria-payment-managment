@@ -76,6 +76,8 @@ const Join = () => {
           changePairAction={updateConceptInscription}
           pairSelector={joinConceptsSelector}
           removePairAction={deleteConceptInscription}
+          pairKeys={['concept', 'price']}
+          valueDecimal
         />
 
         <div className="button_container">

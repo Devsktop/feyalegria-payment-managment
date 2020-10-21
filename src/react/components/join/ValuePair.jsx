@@ -4,29 +4,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
+// Helper validators
+import { decimalValidator, intValidator } from 'helper';
+
 const ValuePair = ({
   changePairAction,
   pairSelector,
+  pairKeys,
   id,
-  removePairAction
+  removePairAction,
+  valueDecimal
 }) => {
   const dispatch = useDispatch();
-  const concept = useSelector(state => pairSelector(state, id));
-  console.log(concept);
+  const valuePair = useSelector(state => pairSelector(state, id));
+  const [name, value] = pairKeys;
+  console.log(valuePair);
 
+  // OnChange
   const handleName = e => {
     const newConcept = {
-      idConcept: id,
-      concept: e.target.value,
-      price: concept.price
+      id,
+      [name]: e.target.value,
+      [value]: valuePair[value]
     };
     dispatch(changePairAction(newConcept));
   };
-  const handleprice = e => {
+
+  const handleValue = e => {
     const newConcept = {
-      idConcept: id,
-      concept: concept.concept,
-      price: e.target.value
+      id,
+      [name]: valuePair[name],
+      [value]: numberConvertion(e)
     };
     dispatch(changePairAction(newConcept));
   };
@@ -35,10 +43,25 @@ const ValuePair = ({
     dispatch(removePairAction(id));
   };
 
+  const numberConvertion = e => {
+    if (valueDecimal) {
+      // If number ends with 0 or '.' does not parse it
+      const decimal = decimalValidator(e, valuePair[value]);
+      if (decimal.endsWith('.') || decimal.endsWith('0')) return decimal;
+      return parseFloat(decimal) || 0;
+    }
+    return parseInt(intValidator(e, valuePair[value]), 10) || 0;
+  };
+
   return (
     <div>
-      <input type="text" onChange={handleName} defaultValue={concept.concept} />
-      <input type="text" onChange={handleprice} defaultValue={concept.price} />
+      <input type="text" onChange={handleName} value={valuePair[name]} />
+      <input
+        type="text"
+        onKeyDown={handleValue}
+        value={valuePair[value]}
+        onChange={() => {}}
+      />
       <FontAwesomeIcon icon={faMinus} onClick={handleRemove} />
     </div>
   );
@@ -48,7 +71,13 @@ ValuePair.propTypes = {
   changePairAction: PropTypes.func.isRequired,
   pairSelector: PropTypes.func.isRequired,
   removePairAction: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.number.isRequired,
+  pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  valueDecimal: PropTypes.bool
+};
+
+ValuePair.defaultProps = {
+  valueDecimal: false
 };
 
 export default React.memo(ValuePair);

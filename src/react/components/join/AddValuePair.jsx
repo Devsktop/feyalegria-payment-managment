@@ -12,16 +12,21 @@ const AddValuePair = ({
   boxSelector,
   pairSelector,
   addPairAction,
-  removePairAction
+  removePairAction,
+  pairKeys,
+  valueDecimal
 }) => {
   const dispatch = useDispatch();
   const [lastId, setLastId] = useState(-1);
+  const [name, value] = pairKeys;
+
+  console.log(valueDecimal);
 
   const handleController = () => {
     const newConcept = {
-      idConcept: lastId,
-      concept: '',
-      price: 0
+      id: lastId,
+      [name]: '',
+      [value]: 0
     };
     setLastId(id => id - 1);
     dispatch(addPairAction(newConcept));
@@ -38,6 +43,8 @@ const AddValuePair = ({
         pairSelector={pairSelector}
         changePairAction={changePairAction}
         removePairAction={removePairAction}
+        pairKeys={pairKeys}
+        valueDecimal={valueDecimal}
       />
     </div>
   );
@@ -48,7 +55,13 @@ AddValuePair.propTypes = {
   addPairAction: PropTypes.func.isRequired,
   boxSelector: PropTypes.func.isRequired,
   removePairAction: PropTypes.func.isRequired,
-  pairSelector: PropTypes.func.isRequired
+  pairSelector: PropTypes.func.isRequired,
+  pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  valueDecimal: PropTypes.bool
+};
+
+AddValuePair.defaultProps = {
+  valueDecimal: false
 };
 
 export default AddValuePair;

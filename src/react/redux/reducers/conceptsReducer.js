@@ -23,9 +23,12 @@ export default function reducer(state = initialState, { type, payload }) {
         if (state[concept].type === 'INSCRIPTION') idIncription = concept;
       });
 
+      const newConcept = { ...payload.concept, idConcept: payload.concept.id };
+      delete newConcept.id;
+
       const paymentConcepts = {
         ...state[idIncription].paymentConcepts,
-        [payload.concept.idConcept]: payload.concept
+        [newConcept.idConcept]: newConcept
       };
 
       const concept = { ...state[idIncription], paymentConcepts };
@@ -43,9 +46,12 @@ export default function reducer(state = initialState, { type, payload }) {
         if (state[concept].type === 'INSCRIPTION') idIncription = concept;
       });
 
+      const newConcept = { ...payload.concept, idConcept: payload.concept.id };
+      delete newConcept.id;
+
       const paymentConcepts = {
         ...state[idIncription].paymentConcepts,
-        [payload.concept.idConcept]: payload.concept
+        [newConcept.idConcept]: newConcept
       };
 
       const concept = { ...state[idIncription], paymentConcepts };

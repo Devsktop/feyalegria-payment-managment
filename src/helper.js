@@ -27,6 +27,7 @@ export const decimalValidator = (
   maxNumber = 999999999999999999,
   minNumber = 0
 ) => {
+  const parsedValue = value.toString();
   if (e.target.value.length > 18 && e.keyCode !== 8) return e.target.value;
   const reg = /\d/;
   if (reg.test(e.key)) {
@@ -40,10 +41,34 @@ export const decimalValidator = (
     if (e.target.value.endsWith('.')) return e.target.value + e.key;
   } else if (e.keyCode === 8) {
     // KeyCode 8 = Delete button
-    return value.substr(0, value.length - 1);
+
+    return parsedValue.substr(0, parsedValue.length - 1);
   } else if (e.keyCode === 190) {
     if (e.target.value.length === 0) return '0' + e.key;
     if (!e.target.value.includes('.')) return e.target.value + e.key;
   }
+  return e.target.value;
+};
+
+export const intValidator = (
+  e,
+  value,
+  maxNumber = 999999999999999999,
+  minNumber = 0
+) => {
+  if (e.target.value.length > 18 && e.keyCode !== 8) return e.target.value;
+  const reg = /\d/;
+  if (reg.test(e.key)) {
+    if (
+      // 10 is second paramater for radix rule
+      parseInt(e.target.value + e.key, 10) <= maxNumber &&
+      parseInt(e.target.value + e.key, 10) >= minNumber
+    )
+      return e.target.value + e.key;
+  } else if (e.keyCode === 8) {
+    // KeyCode 8 = Delete button
+    return value.substr(0, value.length - 1);
+  }
+
   return e.target.value;
 };
