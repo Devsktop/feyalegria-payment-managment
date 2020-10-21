@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
@@ -16,7 +16,7 @@ const ValuePair = ({
   valueDecimal
 }) => {
   const dispatch = useDispatch();
-  const valuePair = useSelector(state => pairSelector(state, id));
+  const valuePair = useSelector(state => pairSelector(state, id), shallowEqual);
   const [name, value] = pairKeys;
   console.log(valuePair);
 

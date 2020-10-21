@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { shallowEqual } from 'react-redux';
-import { createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelector } from 'reselect';
 
 // Helper
 import { decimalValidator } from 'helper';
@@ -27,12 +26,16 @@ const boxSelector = state => {
       paymentConcepts = { ...concepts[concept].paymentConcepts };
   });
 
-  return paymentConcepts;
+  const paymentConceptsKeys = {};
+
+  Object.keys(paymentConcepts).forEach(concept => {
+    paymentConceptsKeys[concept] = concept;
+  });
+
+  return paymentConceptsKeys;
 };
 
-const shallowSelector = createSelectorCreator(defaultMemoize, shallowEqual);
-
-const joinConceptsSelector = shallowSelector(
+const joinConceptsSelector = createSelector(
   state => {
     const { concepts } = state;
     let paymentConcepts = {};

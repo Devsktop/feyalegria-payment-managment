@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // Components
@@ -13,7 +13,7 @@ const ValuePairBox = ({
   pairKeys,
   valueDecimal
 }) => {
-  const valuePair = useSelector(boxSelector);
+  const valuePair = useSelector(boxSelector, shallowEqual);
   console.log(valuePair);
   return (
     <div className="valuepair_box">
