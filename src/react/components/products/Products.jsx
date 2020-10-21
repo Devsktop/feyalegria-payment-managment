@@ -54,8 +54,8 @@ const Products = () => {
 
   return (
     <div className="content-screen">
-      <div className="gradesBox">
-        <h1>Productos</h1>
+      <div className="box productsBox">
+        <h1 className="box_title">Productos</h1>
         {isEmpty ? (
           <h2>Agregue un producto</h2>
         ) : (
@@ -68,7 +68,7 @@ const Products = () => {
             onClickRow={handleClick}
           />
         )}
-        <Link className="" to="/addProduct">
+        <Link className="button" to="/addProduct">
           agregar producto
         </Link>
       </div>

@@ -6,8 +6,8 @@ const ConfigBox = ({ ilustration, title, link }) => {
   return (
     <div className="config_box" title={title}>
       <img src={ilustration} alt="Ilustración" />
-      <p className="box_title">{title}</p>
-      <Link className="link" to={link}>
+      <h1 className="box_title">{title}</h1>
+      <Link className="button" to={link}>
         Seleccionar
       </Link>
     </div>

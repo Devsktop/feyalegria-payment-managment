@@ -2,6 +2,7 @@
     overflow: auto
     box-shadow: $shadow
     max-height: 300px
+    width: 100%
     border-radius: $bradius
     
     .data-table
@@ -10,21 +11,24 @@
         text-align: left
        
         th,td 
-            padding: 10px 20px
+            padding: 10px 25px
+
+            &:last-child
+                text-align: right
 
         thead tr
             color: #C02F33
             font-size: 14px
             background-color: #FBF7F7
-            border-bottom: 0.5px solid #C02F33
 
         tbody tr
+            cursor: pointer
             &:nth-child(odd)
-                background-color: #fcdddd
+                background-color: #ffeeee
             &:nth-child(even)
                 background-color: #FCFCFC
             &:hover 
-                background-color: #f8bdbd
+                background-color: #fccfcf
             &.current-row
                 background-color: #C02F33 !important
                 color: #fff
@@ -33,18 +37,18 @@
             
 
     .delete-icon
-        color: red
+        color: $primary
         font-size: 1.2rem
         cursor: pointer
 
         &:hover
-            color: black
+            color: red
 
     .update-icon
         font-size: 1.2rem
         cursor: pointer
         &:hover
-            color: #fff
+            color: red
 
 .records .div-data-table
     margin-bottom: 30px
