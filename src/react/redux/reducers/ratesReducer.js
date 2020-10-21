@@ -1,8 +1,6 @@
 import { FETCH_RATES } from '../actions/ratesActions';
 
-const initialState = {
-  rates: {}
-};
+const initialState = {};
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {

@@ -1,6 +1,7 @@
 import { fetchStudents } from 'react/redux/actions/studentsActions';
 import { fetchPayments } from 'react/redux/actions/paymentsActions';
 import { fetchRates } from 'react/redux/actions/ratesActions';
+import { setConcepts } from 'react/redux/actions/conceptsActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -70,6 +71,8 @@ export function fetchData() {
 
       const rates = await fetchRates();
       await dispatch(rates);
+
+      dispatch(setConcepts(rates.payload));
 
       // Data loaded set to true
       await dispatch(dataLoadedAction());

@@ -1,24 +1,61 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { createSelector } from 'reselect';
+
+// Helper
+import { decimalValidator } from 'helper';
+
+// Actions
+import {
+  addConceptsInscription,
+  updateConceptInscription,
+  deleteConceptInscription
+} from 'react/redux/actions/conceptsActions';
 
 // Components
 import Minput from 'react/components/Minput';
+import AddValuePair from './AddValuePair';
+
+// Selectors
+const boxSelector = state => {
+  const { concepts } = state;
+  let paymentConcepts = {};
+
+  Object.keys(concepts).forEach(concept => {
+    if (concepts[concept].type === 'INSCRIPTION')
+      paymentConcepts = { ...concepts[concept].paymentConcepts };
+  });
+
+  const paymentConceptsKeys = {};
+
+  Object.keys(paymentConcepts).forEach(concept => {
+    paymentConceptsKeys[concept] = concept;
+  });
+
+  return paymentConceptsKeys;
+};
+
+const joinConceptsSelector = createSelector(
+  state => {
+    const { concepts } = state;
+    let paymentConcepts = {};
+
+    Object.keys(concepts).forEach(concept => {
+      if (concepts[concept].type === 'INSCRIPTION')
+        paymentConcepts = { ...concepts[concept].paymentConcepts };
+    });
+
+    return paymentConcepts;
+  },
+  (_, id) => id,
+  (paymentConcepts, id) => paymentConcepts[id]
+);
 
 const Join = () => {
   const [price, setPrice] = useState('');
 
-  const avoidSpaces = value => {
-    if (value.endsWith(' ')) return false;
-    return true;
-  };
-
-  const handlePrice = e => {
-    if (avoidSpaces(e.target.value)) setPrice(e.target.value);
-  };
-
-  const validateInputs = () => {
-    if (price.length === 0) return true;
-    return false;
+  const handleKeyDown = e => {
+    setPrice(decimalValidator(e, price));
   };
 
   const handleSubmit = e => {
@@ -30,17 +67,27 @@ const Join = () => {
       <form className="sweet-form" onSubmit={handleSubmit}>
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
-          type="number"
-          onChange={handlePrice}
+          type="text"
+          onChange={() => {}}
+          onKeyDown={handleKeyDown}
           value={price}
           label="Ingrese precio de la matrícula:"
+        />
+        <AddValuePair
+          boxSelector={boxSelector}
+          addPairAction={addConceptsInscription}
+          changePairAction={updateConceptInscription}
+          pairSelector={joinConceptsSelector}
+          removePairAction={deleteConceptInscription}
+          pairKeys={['concept', 'price']}
+          valueDecimal
         />
 
         <div className="button_container">
           <button
             type="submit"
             className="button button-accept"
-            disabled={validateInputs()}
+            disabled={price === '' || !(parseFloat(price) > 0)}
           >
             Aceptar
           </button>
