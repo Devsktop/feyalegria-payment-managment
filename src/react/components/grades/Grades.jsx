@@ -47,8 +47,8 @@ const Grades = () => {
 
   return (
     <div className="content-screen">
-      <div className="gradesBox">
-        <h1>Grados y Secciones</h1>
+      <div className="box gradesBox">
+        <h1 className="box_title">Grados y Secciones</h1>
         {isEmpty ? (
           <h2>Agregue un grado</h2>
         ) : (
@@ -71,8 +71,8 @@ const Grades = () => {
             onClickRow={handleClick}
           />
         )}
-        <Link className="" to="/addGrade">
-          AGREGAR GRADO
+        <Link className="button" to="/addGrade">
+          agregar grado
         </Link>
       </div>
     </div>

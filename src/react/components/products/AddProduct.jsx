@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 
 // Actions
 import { createProduct } from 'react/redux/actions/productsActions';
@@ -13,7 +14,8 @@ const productsSelector = state => state.products.products;
 const AddProduct = () => {
   const dispatch = useDispatch();
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
+  const history = useHistory();
 
   const handleProductName = e => {
     setProductName(e.target.value);
@@ -39,9 +41,9 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="addGradesBox">
-      <form className="sweet-form" onSubmit={handleSubmit}>
-        <h1>Productos</h1>
+    <div className="box">
+      <form className="sweet-form product-form" onSubmit={handleSubmit}>
+        <h1 className="box_title">Productos</h1>
         <Minput
           type="text"
           onChange={handleProductName}
@@ -54,14 +56,18 @@ const AddProduct = () => {
           value={price}
           label="Precio:"
         />
-
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          crear producto
-        </button>
+        <div className="button_container">
+          <button
+            type="button"
+            className="button"
+            onClick={() => history.goBack()}
+          >
+            volver
+          </button>
+          <button type="submit" className="button" disabled={validateInputs()}>
+            crear producto
+          </button>
+        </div>
       </form>
     </div>
   );
