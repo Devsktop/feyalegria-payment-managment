@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Actions
-import { createGrade } from 'react/redux/actions/gradesActions';
+import { editGrade } from 'react/redux/actions/gradesActions';
 
 // Components
 import Minput from 'react/components/Minput';
@@ -10,12 +10,12 @@ import Minput from 'react/components/Minput';
 // Import imgs
 import plus from './plus.svg';
 
-// Selectors
-const gradesSelector = state => state.grades.grades;
-
-const AddGrade = () => {
+const EditGrade = props => {
+  const { id } = props.match.params;
   const dispatch = useDispatch();
-  const [grade, setGrade] = useState('');
+  // Selector
+  const currentGrade = useSelector(state => state.grades.grades[id]);
+  const [grade, setGrade] = useState(currentGrade.scholarYear);
 
   const handleGrade = e => {
     setGrade(e.target.value);
@@ -31,20 +31,23 @@ const AddGrade = () => {
 
     const gradesSections = {
       1: {
+        idSection: 1,
         section: 'A',
         capacity: 30
       },
       2: {
+        idSection: 2,
         section: 'B',
         capacity: 25
       }
     };
 
     const newGrade = {
+      idGrade: id,
       scholarYear: grade,
       gradesSections
     };
-    dispatch(createGrade(newGrade));
+    dispatch(editGrade(newGrade));
   };
 
   return (
@@ -68,11 +71,11 @@ const AddGrade = () => {
           className="button button-large button-accept"
           disabled={validateInputs()}
         >
-          CREAR GRADO
+          editar grado
         </button>
       </form>
     </div>
   );
 };
 
-export default AddGrade;
+export default EditGrade;

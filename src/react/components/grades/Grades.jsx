@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 // Actions
-import { fetchGrades } from 'react/redux/actions/gradesActions';
+import { fetchGrades, deleteGrade } from 'react/redux/actions/gradesActions';
 
 // Components
 import { DataTable } from 'react-pulpo';
@@ -16,6 +16,7 @@ const Grades = () => {
   const grades = useSelector(gradesSelector);
   const isFetched = useSelector(state => state.grades.isFetched);
   const isFetching = useSelector(state => state.grades.isFetching);
+  const history = useHistory();
 
   if (isFetching) {
     return (
@@ -40,9 +41,9 @@ const Grades = () => {
     gradesData.push({ ...grades[gradeKey], id: grades[gradeKey].idGrade });
   });
 
-  const deleteRow = id => {
-    dispatch(fetchGrades());
-  };
+  const handleDelete = id => dispatch(deleteGrade(id));
+
+  const handleClick = id => history.push(`/editGrade/${id}`);
 
   return (
     <div className="content-screen">
@@ -60,8 +61,14 @@ const Grades = () => {
               'NO. Estudiantes',
               'NO. Representantes'
             ]}
-            order={['grade', 'sections', 'sectionStudents', 'representatives']}
-            deleteRow={deleteRow}
+            order={[
+              'scholarYear',
+              'sectionsNumber',
+              'sectionStudents',
+              'representatives'
+            ]}
+            deleteRow={handleDelete}
+            onClickRow={handleClick}
           />
         )}
         <Link className="" to="/addGrade">

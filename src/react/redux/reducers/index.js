@@ -5,7 +5,7 @@ import students from './studentsReducer';
 import payments from './paymentsReducer';
 import grades from './gradesReducer';
 import concepts from './conceptsReducer';
-
+import products from './productsReducer';
 import rates from './ratesReducer';
 
 export default combineReducers({
@@ -15,5 +15,6 @@ export default combineReducers({
   payments,
   rates,
   grades,
-  concepts
+  concepts,
+  products
 });

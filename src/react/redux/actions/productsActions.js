@@ -1,53 +1,46 @@
 import Swal from 'sweetalert2';
 
-export const FETCH_GRADES = 'FETCH_GRADES';
+export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 
-export const fetchGrades = () => {
+export const fetchProducts = () => {
   return async dispatch => {
     dispatch(isFetching(true));
     // HACER FETCH A LA BDD
-    const response = await fetch('http://localhost:3500/api/grades');
-    const grades = await response.json();
-    dispatch(fetchGradesActions(grades));
+    const response = await fetch('http://localhost:3500/api/products');
+    const products = await response.json();
+    dispatch(fetchProductsActions(products));
     dispatch(isFetched());
     dispatch(isFetching(false));
   };
 };
 
-const fetchGradesActions = grades => ({
-  type: FETCH_GRADES,
-  payload: { grades }
+const fetchProductsActions = products => ({
+  type: FETCH_PRODUCTS,
+  payload: { products }
 });
 
-export const IS_FECTHING = 'IS_FECTHING';
+export const IS_FETCHING = 'IS_FETCHING';
 
 // fetching: boolean
 const isFetching = fetching => ({
-  type: IS_FECTHING,
+  type: IS_FETCHING,
   payload: fetching
 });
 
-export const IS_FECTHED = 'IS_FECTHED';
+export const IS_FETCHED = 'IS_FETCHED';
 
 // fetched: boolean
 const isFetched = () => ({
-  type: IS_FECTHED
+  type: IS_FETCHED
 });
 
-// Action To Delete Grade
-export const DELETE_GRADE = 'DELETE_GRADE';
+// Action To Delete Product
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
-const deleteGradeAction = id => ({
-  type: DELETE_GRADE,
-  payload: { id }
-});
-
-export function deleteGrade(id) {
+export function deleteProduct(id) {
   return dispatch => {
-    // HACER FETCH A LA BDD
-
     Swal.fire({
-      title: '¿Seguro que desea eliminar este grado?',
+      title: '¿Seguro que desea eliminar este Producto?',
       text: '¡No podrás revertir esta acción!',
       icon: 'warning',
       customClass: {
@@ -63,12 +56,10 @@ export function deleteGrade(id) {
       showLoaderOnConfirm: true,
       preConfirm: () => {
         Swal.getCancelButton().style.display = 'none';
-        const url = 'http://localhost:3500/api/grade';
+        const url = 'http://localhost:3500/api/product';
         const config = {
           method: 'DELETE',
-          body: JSON.stringify({
-            id
-          }),
+          body: JSON.stringify({ id }),
           headers: {
             'Content-Type': 'application/json'
           }
@@ -77,23 +68,11 @@ export function deleteGrade(id) {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then(result => {
-      if (result.value === 1451) {
-        Swal.fire({
-          title: '¡Error',
-          text: 'El grado no se puede eliminar',
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          customClass: {
-            icon: 'icon-class',
-            title: 'title-class',
-            content: 'content-class'
-          }
-        });
-      } else {
-        dispatch(deleteGradeAction(id));
+      if (result.value) {
+        dispatch(deleteProductAction(id));
         Swal.fire({
           title: '¡Eliminado!',
-          text: 'El grado ha sido eliminado satisfactoriamente',
+          text: 'El producto ha sido eliminado satisfactoriamente',
           icon: 'success',
           confirmButtonText: 'Aceptar',
           customClass: {
@@ -107,17 +86,22 @@ export function deleteGrade(id) {
   };
 }
 
-export const CREATE_GRADE = 'CREATE_GRADE';
-
-const createGradeAction = grade => ({
-  type: CREATE_GRADE,
-  payload: { grade }
+const deleteProductAction = id => ({
+  type: DELETE_PRODUCT,
+  payload: { id }
 });
 
-export const createGrade = grade => {
+export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+
+const createProductAction = product => ({
+  type: CREATE_PRODUCT,
+  payload: { product }
+});
+
+export const createProduct = product => {
   return (dispatch, getState) => {
     Swal.fire({
-      title: 'Creando grado',
+      title: 'Creando producto',
       showCancelButton: false,
       showConfirmButton: false,
       customClass: {
@@ -127,13 +111,13 @@ export const createGrade = grade => {
       onOpen: () => {
         Swal.showLoading();
 
-        const { scholarYear, gradesSections } = grade;
-        const url = 'http://localhost:3500/api/grade';
+        const { productName, price } = product;
+        const url = 'http://localhost:3500/api/product';
         const config = {
           method: 'POST',
           body: JSON.stringify({
-            scholarYear,
-            gradesSections
+            productName,
+            price
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -143,10 +127,10 @@ export const createGrade = grade => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
-              dispatch(createGradeAction(res.grade));
+              dispatch(createProductAction(res.product));
               Swal.hideLoading();
               Swal.fire({
-                title: 'El grado se ha registrado con éxito',
+                title: 'El producto se ha registrado con éxito',
                 text: '',
                 icon: 'success',
                 confirmButtonText: 'Aceptar',
@@ -155,11 +139,11 @@ export const createGrade = grade => {
                   title: 'title-class'
                 }
               });
-            } else if (res.errAddGrade === 1062) {
+            } else if (res.errAddProduct === 1062) {
               // if product's  name is already used
               Swal.hideLoading();
               Swal.fire({
-                title: 'Ya existe un grado con ese nombre',
+                title: 'Ya existe un producto con ese nombre',
                 text: '',
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
@@ -171,6 +155,7 @@ export const createGrade = grade => {
             }
           })
           .catch(err => {
+            console.log(err);
             Swal.showValidationMessage('Ha ocurrido un error');
           });
       },
@@ -180,17 +165,17 @@ export const createGrade = grade => {
   };
 };
 
-export const EDIT_GRADE = 'EDIT_GRADE';
+export const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
-const editGradeAction = grade => ({
-  type: EDIT_GRADE,
-  payload: { grade }
+const editProductAction = product => ({
+  type: EDIT_PRODUCT,
+  payload: { product }
 });
 
-export const editGrade = grade => {
+export const editProduct = product => {
   return dispatch => {
     Swal.fire({
-      title: 'Modificando grado',
+      title: 'Modificando producto',
       showCancelButton: false,
       showConfirmButton: false,
       customClass: {
@@ -199,15 +184,14 @@ export const editGrade = grade => {
       },
       onOpen: () => {
         Swal.showLoading();
-        const { idGrade, scholarYear, gradesSections } = grade;
-        console.log(grade);
-        const url = 'http://localhost:3500/api/updGrade';
+        const { idProduct, productName, price } = product;
+        const url = 'http://localhost:3500/api/updProduct';
         const config = {
           method: 'POST',
           body: JSON.stringify({
-            idGrade,
-            scholarYear,
-            gradesSections
+            idProduct,
+            productName,
+            price
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -218,10 +202,10 @@ export const editGrade = grade => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
-              dispatch(editGradeAction(grade));
+              dispatch(editProductAction(product));
               Swal.hideLoading();
               Swal.fire({
-                title: 'El grado se ha modificado con éxito',
+                title: 'El producto se ha modificado con éxito',
                 text: '',
                 icon: 'success',
                 confirmButtonText: 'Aceptar',
@@ -231,10 +215,10 @@ export const editGrade = grade => {
                 }
               });
             } else if (res.err.errno === 1062) {
-              // if grade's  name is already used
+              // if product's  name is already used
               Swal.hideLoading();
               Swal.fire({
-                title: 'Ya existe un grado con ese nombre',
+                title: 'Ya existe un producto con ese nombre',
                 text: '',
                 icon: 'error',
                 confirmButtonText: 'Aceptar',

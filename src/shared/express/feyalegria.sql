@@ -107,7 +107,7 @@ CREATE TABLE students (
 
 CREATE TABLE products (
   idProduct INT NOT NULL AUTO_INCREMENT,
-  product VARCHAR(45) NOT NULL,
+  productName VARCHAR(45) NOT NULL,
   price DECIMAL(8,2) NOT NULL,
   mandatory BOOLEAN NOT NULL,
   PRIMARY KEY (idProduct),

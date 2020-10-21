@@ -1,7 +1,10 @@
 import {
   FETCH_GRADES,
   IS_FECTHING,
-  IS_FECTHED
+  IS_FECTHED,
+  DELETE_GRADE,
+  CREATE_GRADE,
+  EDIT_GRADE
 } from '../actions/gradesActions';
 
 const initialState = {
@@ -29,6 +32,36 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         isFetched: true
       };
+
+    case DELETE_GRADE: {
+      const grades = { ...state.grades };
+      delete grades[payload.id];
+      return {
+        ...state,
+        grades
+      };
+    }
+
+    case CREATE_GRADE: {
+      const { idGrade } = payload.grade;
+      const grade = { ...payload.grade, idGrade };
+      const grades = { ...state.grades, [idGrade]: grade };
+      return {
+        ...state,
+        grades
+      };
+    }
+
+    case EDIT_GRADE: {
+      const { grade } = payload;
+      const grades = { ...state.grades, [grade.idGrade]: grade };
+
+      return {
+        ...state,
+        grades
+      };
+    }
+
     default:
       return state;
   }

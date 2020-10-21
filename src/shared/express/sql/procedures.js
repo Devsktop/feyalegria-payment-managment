@@ -41,11 +41,11 @@ END
 
 const p4 = `
 
-CREATE PROCEDURE updGrades (IN idgrades INT ,IN scholarYear VARCHAR(45))
-  
+CREATE PROCEDURE updGrade (IN idGrade INT ,IN scholarYear VARCHAR(45))
+
 BEGIN
 
-UPDATE grades SET scholarYear = scholarYear where idgrades = idgrades;
+UPDATE grades SET scholarYear = scholarYear where idGrade = idGrade;
 
 END
 `;
