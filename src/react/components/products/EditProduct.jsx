@@ -40,7 +40,7 @@ const EditProduct = props => {
   };
 
   return (
-    <div className="addGradesBox">
+    <div className="box">
       <form className="sweet-form" onSubmit={handleSubmit}>
         <h1>Productos</h1>
         <Minput

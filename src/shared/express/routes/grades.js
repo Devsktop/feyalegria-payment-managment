@@ -123,7 +123,7 @@ const getSections = () => {
         rows.forEach(row => {
           sections[row.idSection] = { ...row };
         });
-        resolve({ grades });
+        resolve({ sections });
       } else {
         resolve({ errGrades });
       }

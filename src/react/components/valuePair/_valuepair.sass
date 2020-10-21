@@ -1,2 +1,66 @@
 .valuepair
-    border: 1px solid red
+    margin-bottom: 35px
+    height: 350px
+    width: 100%
+
+    &_controller
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        padding-bottom: 25px
+        height: 30%
+
+        p 
+            margin-right: 30px
+            color: $primary
+            font-size: 1rem
+
+        svg 
+            padding: 5px
+            box-shadow: $shadow
+            font-size: 1.8rem
+            color: $title-color
+            border-radius: 5px
+            cursor: pointer
+            transition: .3s ease-out
+
+            &:hover
+                box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3)
+
+    &_box
+        padding: 10px 5px
+        overflow: auto
+        height: 70%
+
+
+        &_pair
+            display: flex
+            padding: 5px 15px 20px
+            align-items: center
+            background-color: $background-box
+            align-items: center
+            box-shadow: $shadow
+            border-radius: $bradius
+            text-align: center
+            margin: 30px 0
+
+            &:first-child
+                margin-top: 0
+
+            .MuiTextField-root
+                margin: 0!important
+                margin-right: 10px!important
+
+            svg 
+                padding: 5px
+                box-shadow: $shadow
+                font-size: 1.8rem
+                color: $title-color
+                border-radius: 5px
+                cursor: pointer
+                transition: .3s ease-out
+                align-self: flex-end
+
+                &:hover
+                    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3)
+        

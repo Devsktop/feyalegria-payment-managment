@@ -64,7 +64,7 @@ const Join = () => {
 
   return (
     <div className="join content-screen">
-      <form className="sweet-form" onSubmit={handleSubmit}>
+      <form className="sweet-form box" onSubmit={handleSubmit}>
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
           type="text"
@@ -81,9 +81,13 @@ const Join = () => {
           removePairAction={deleteConceptInscription}
           pairKeys={['concept', 'price']}
           valueDecimal
+          pairLabels={['Concepto', 'Precio']}
         />
 
         <div className="button_container">
+          <Link className="button button-cancel" to="/Config">
+            Volver
+          </Link>
           <button
             type="submit"
             className="button button-accept"
@@ -91,9 +95,6 @@ const Join = () => {
           >
             Aceptar
           </button>
-          <Link className="button button-cancel" to="/Config">
-            Volver
-          </Link>
         </div>
       </form>
     </div>
