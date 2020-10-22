@@ -8,7 +8,9 @@ import {
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
 // and edit concepts before saving
-const initialState = {};
+const initialState = {
+  deleted: []
+};
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
@@ -76,10 +78,14 @@ export default function reducer(state = initialState, { type, payload }) {
 
       delete paymentConcepts[payload.idConcept];
 
+      const deleted = [...state.deleted];
+      if (payload.idConcept > 0) deleted.push(payload.idConcept);
+
       const concept = { ...state[idIncription], paymentConcepts };
 
       return {
         ...state,
+        deleted,
         [idIncription]: concept
       };
     }
