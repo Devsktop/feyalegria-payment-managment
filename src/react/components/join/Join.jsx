@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 // Helper
 import { decimalValidator } from 'helper';
@@ -8,8 +9,22 @@ import { decimalValidator } from 'helper';
 import Minput from 'react/components/Minput';
 import JoinValuePair from './JoinValuePair';
 
+// Selector
+
+const initialPriceSelector = state => {
+  const { rates } = state;
+  let initialPrice = {};
+
+  Object.keys(rates).forEach(rate => {
+    if (rates[rate].type === 'INSCRIPTION') initialPrice = rates[rate].price;
+  });
+
+  return initialPrice;
+};
+
 const Join = () => {
-  const [price, setPrice] = useState('');
+  const initialPrice = useSelector(initialPriceSelector);
+  const [price, setPrice] = useState(initialPrice);
 
   const handleKeyDown = e => {
     setPrice(decimalValidator(e, price));
@@ -18,6 +33,8 @@ const Join = () => {
   const handleSubmit = e => {
     e.preventDefault();
   };
+
+  const handleGoBack = () => {};
 
   return (
     <div className="join content-screen">
@@ -32,10 +49,15 @@ const Join = () => {
         />
 
         <JoinValuePair />
+
         <div className="button_container">
-          <Link className="button button-cancel" to="/Config">
+          <button
+            type="button"
+            className="button button-cancel"
+            onClick={handleGoBack}
+          >
             Volver
-          </Link>
+          </button>
           <button
             type="submit"
             className="button button-accept"

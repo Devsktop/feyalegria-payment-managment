@@ -53,7 +53,7 @@ const JoinValuePair = () => {
       changePairAction={updateConceptInscription}
       pairSelector={joinConceptsSelector}
       removePairAction={deleteConceptInscription}
-      pairKeys={['concept', 'price']}
+      pairKeys={['concept', 'conceptPrice']}
       valueDecimal
       pairLabels={['Concepto', 'Precio']}
     />
