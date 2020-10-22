@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -56,6 +56,12 @@ const Join = () => {
   const isConceptValid = useSelector(conceptValidator);
   const [price, setPrice] = useState(initialPrice);
 
+  useEffect(() => {
+    return () => {
+      dispatch(restoreConceptInscription());
+    };
+  }, []);
+
   const handleKeyDown = e => {
     setPrice(decimalValidator(e, price));
   };
@@ -65,7 +71,6 @@ const Join = () => {
   };
 
   const handleGoBack = () => {
-    dispatch(restoreConceptInscription());
     history.goBack();
   };
 
