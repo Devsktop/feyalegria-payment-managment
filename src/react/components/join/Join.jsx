@@ -25,10 +25,35 @@ const initialPriceSelector = state => {
   return initialPrice;
 };
 
+const conceptValidator = state => {
+  const { concepts } = state;
+  let paymentConcepts = {};
+
+  Object.keys(concepts).forEach(concept => {
+    if (concepts[concept].type === 'INSCRIPTION')
+      paymentConcepts = { ...concepts[concept].paymentConcepts };
+  });
+
+  let isValid = true;
+
+  Object.keys(paymentConcepts).forEach(concept => {
+    // To get input to work when its value ends at 0 or it is empty
+    // it is set to string, so parse it to float (cause it can be float or integuer)
+    // and if it is empy will result in -1 that is not valid
+    const conceptPrice =
+      parseFloat(paymentConcepts[concept].conceptPrice) || -1;
+    if (paymentConcepts[concept].concept === '' || conceptPrice < 0)
+      isValid = false;
+  });
+
+  return isValid;
+};
+
 const Join = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const initialPrice = useSelector(initialPriceSelector);
+  const isConceptValid = useSelector(conceptValidator);
   const [price, setPrice] = useState(initialPrice);
 
   const handleKeyDown = e => {
@@ -69,7 +94,9 @@ const Join = () => {
           <button
             type="submit"
             className="button button-accept"
-            disabled={price === '' || !(parseFloat(price) > 0)}
+            disabled={
+              price === '' || !(parseFloat(price) > 0) || !isConceptValid
+            }
           >
             Aceptar
           </button>
