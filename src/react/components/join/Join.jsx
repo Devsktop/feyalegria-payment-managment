@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+// Actions
+import { restoreConceptInscription } from 'react/redux/actions/conceptsActions';
 
 // Helper
 import { decimalValidator } from 'helper';
@@ -23,6 +26,8 @@ const initialPriceSelector = state => {
 };
 
 const Join = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const initialPrice = useSelector(initialPriceSelector);
   const [price, setPrice] = useState(initialPrice);
 
@@ -34,7 +39,10 @@ const Join = () => {
     e.preventDefault();
   };
 
-  const handleGoBack = () => {};
+  const handleGoBack = () => {
+    dispatch(restoreConceptInscription());
+    history.goBack();
+  };
 
   return (
     <div className="join content-screen">

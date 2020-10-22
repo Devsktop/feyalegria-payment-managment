@@ -2,7 +2,8 @@ import {
   FETCH_CONCEPTS,
   ADD_CONCEPTS_INSCRPTION,
   UPDATE_CONCEPTS_INSCRPTION,
-  DELETE_CONCEPTS_INSCRPTION
+  DELETE_CONCEPTS_INSCRPTION,
+  RESTORE_CONCEPTS_INSCRPTION
 } from '../actions/conceptsActions';
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
@@ -14,7 +15,7 @@ export default function reducer(state = initialState, { type, payload }) {
     case FETCH_CONCEPTS:
       return {
         ...state,
-        ...payload
+        ...payload.rates
       };
     case ADD_CONCEPTS_INSCRPTION: {
       let idIncription;
@@ -82,6 +83,10 @@ export default function reducer(state = initialState, { type, payload }) {
         [idIncription]: concept
       };
     }
+    case RESTORE_CONCEPTS_INSCRPTION:
+      return {
+        ...payload.rates
+      };
     default:
       return state;
   }
