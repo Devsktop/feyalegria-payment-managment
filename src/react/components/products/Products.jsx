@@ -9,6 +9,7 @@ import {
 } from 'react/redux/actions/productsActions';
 
 // Components
+import Button from 'react/components/Button';
 import { DataTable } from 'react-pulpo';
 
 // Selectors
@@ -44,7 +45,8 @@ const Products = () => {
     productsData.push({
       ...products[productKey],
       id: products[productKey].idProduct,
-      price: parseFloat(products[productKey].price)
+      price: parseFloat(products[productKey].price),
+      mandatory: products[productKey].mandatory ? 'Si' : 'No'
     });
   });
 
@@ -57,20 +59,23 @@ const Products = () => {
       <div className="box productsBox">
         <h1 className="box_title">Productos</h1>
         {isEmpty ? (
-          <h2>Agregue un producto</h2>
+          <h2 className="box_subtitle">
+            No hay productos registrados
+            <br />
+            Presiona
+            <span> Agregar producto</span>
+          </h2>
         ) : (
           <DataTable
             className="table"
             data={productsData}
-            properties={['Producto', 'Precio']}
-            order={['productName', 'price']}
+            properties={['Producto', 'Precio $', 'Obligatorio']}
+            order={['productName', 'price', 'mandatory']}
             deleteRow={handleDelete}
             onClickRow={handleClick}
           />
         )}
-        <Link className="button" to="/addProduct">
-          agregar producto
-        </Link>
+        <Button link="/addProduct" text="agregar producto" />
       </div>
     </div>
   );

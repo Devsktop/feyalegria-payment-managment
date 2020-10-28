@@ -76,25 +76,26 @@ const DolarPortal = ({ onClose }) => {
             id="standardt-dolar"
             className="center"
           />
-
-          <button
-            type="submit"
-            className={`button button-accept ${
-              onClose ? null : 'button-large'
-            }`}
-            disabled={disableAccept()}
-          >
-            Aceptar
-          </button>
-          {onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="button button-cancel"
-            >
-              Cancelar
-            </button>
-          )}
+          <div className="button_container">
+            <div className={`btn ${onClose ? null : 'button-large'}`}>
+              <div className="inner"></div>
+              <button
+                type="submit"
+                className="button"
+                disabled={disableAccept()}
+              >
+                Aceptar
+              </button>
+            </div>
+            {onClose && (
+              <div className="btn">
+                <div className="inner"></div>
+                <button type="button" onClick={onClose} className="button">
+                  Cancelar
+                </button>
+              </div>
+            )}
+          </div>
         </form>
       </div>
     </div>,

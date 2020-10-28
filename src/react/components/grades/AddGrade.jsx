@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createGrade } from 'react/redux/actions/gradesActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
-// Import imgs
-import plus from './plus.svg';
-
-// Selectors
-const gradesSelector = state => state.grades.grades;
 
 const AddGrade = () => {
   const dispatch = useDispatch();
   const [grade, setGrade] = useState('');
+  const history = useHistory();
 
   const handleGrade = e => {
     setGrade(e.target.value);
@@ -44,32 +41,31 @@ const AddGrade = () => {
       scholarYear: grade,
       gradesSections
     };
-    dispatch(createGrade(newGrade));
+    dispatch(createGrade(newGrade, history));
   };
 
   return (
-    <div className="addGradesBox">
-      <form className="sweet-form" onSubmit={handleSubmit}>
-        <h1>Grados y Secciones</h1>
+    <div className="box">
+      <form className="sweet-form grade-form" onSubmit={handleSubmit}>
+        <h1 className="box_title">Grados y Secciones</h1>
         <Minput
           type="text"
           onChange={handleGrade}
           value={grade}
           label="Grado:"
         />
-        <div className="form_group">
-          <label>Añadir Sección</label>
-          <button className="btn_plus" type="button">
-            <img src={plus} alt="+" />
-          </button>
+        <div className="button_container">
+          <Button
+            type="button"
+            onClick={() => history.goBack()}
+            text="volver"
+          />
+          <Button
+            type="submit"
+            disabled={validateInputs()}
+            text="crear grado"
+          />
         </div>
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          CREAR GRADO
-        </button>
       </form>
     </div>
   );

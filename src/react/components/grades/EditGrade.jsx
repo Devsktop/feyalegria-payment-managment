@@ -1,14 +1,15 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // Actions
 import { editGrade } from 'react/redux/actions/gradesActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
-// Import imgs
-import plus from './plus.svg';
 
 const EditGrade = props => {
   const { id } = props.match.params;
@@ -16,6 +17,7 @@ const EditGrade = props => {
   // Selector
   const currentGrade = useSelector(state => state.grades.grades[id]);
   const [grade, setGrade] = useState(currentGrade.scholarYear);
+  const history = useHistory();
 
   const handleGrade = e => {
     setGrade(e.target.value);
@@ -47,35 +49,39 @@ const EditGrade = props => {
       scholarYear: grade,
       gradesSections
     };
-    dispatch(editGrade(newGrade));
+    dispatch(editGrade(newGrade, history));
   };
 
   return (
-    <div className="addGradesBox">
-      <form className="sweet-form" onSubmit={handleSubmit}>
-        <h1>Grados y Secciones</h1>
+    <div className="box">
+      <form className="sweet-form grade-form" onSubmit={handleSubmit}>
+        <h1 className="box_title">Grados y Secciones</h1>
         <Minput
           type="text"
           onChange={handleGrade}
           value={grade}
           label="Grado:"
         />
-        <div className="form_group">
-          <label>Añadir Sección</label>
-          <button className="btn_plus" type="button">
-            <img src={plus} alt="+" />
-          </button>
+        <div className="button_container">
+          <Button
+            type="button"
+            text="volver"
+            onClick={() => history.goBack()}
+          />
+          <Button
+            type="submit"
+            text="editar producto"
+            disabled={validateInputs()}
+          />
         </div>
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          editar grado
-        </button>
       </form>
     </div>
   );
+};
+
+EditGrade.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  id: PropTypes.number.isRequired
 };
 
 export default EditGrade;

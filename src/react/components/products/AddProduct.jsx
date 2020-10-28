@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 
 // Actions
 import { createProduct } from 'react/redux/actions/productsActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
 // Selectors
@@ -13,7 +15,9 @@ const productsSelector = state => state.products.products;
 const AddProduct = () => {
   const dispatch = useDispatch();
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
+  const [mandatory, setMandatory] = useState(false);
+  const history = useHistory();
 
   const handleProductName = e => {
     setProductName(e.target.value);
@@ -21,6 +25,10 @@ const AddProduct = () => {
 
   const handlePrice = e => {
     setPrice(e.target.value);
+  };
+
+  const handleMandatory = e => {
+    setMandatory(e.target.checked);
   };
 
   const validateInputs = () => {
@@ -33,15 +41,16 @@ const AddProduct = () => {
 
     const newProduct = {
       productName,
-      price
+      price,
+      mandatory
     };
-    dispatch(createProduct(newProduct));
+    dispatch(createProduct(newProduct, history));
   };
 
   return (
-    <div className="addGradesBox">
-      <form className="sweet-form" onSubmit={handleSubmit}>
-        <h1>Productos</h1>
+    <div className="box">
+      <form className="sweet-form product-form" onSubmit={handleSubmit}>
+        <h1 className="box_title">Productos</h1>
         <Minput
           type="text"
           onChange={handleProductName}
@@ -52,16 +61,31 @@ const AddProduct = () => {
           type="number"
           onChange={handlePrice}
           value={price}
-          label="Precio:"
+          label="Precio $:"
         />
-
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          crear producto
-        </button>
+        <div className="checkbox">
+          <label className="container">
+            Obligatorio
+            <input
+              type="checkbox"
+              checked={mandatory}
+              onChange={handleMandatory}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
+        <div className="button_container">
+          <Button
+            type="button"
+            onClick={() => history.goBack()}
+            text="volver"
+          />
+          <Button
+            type="submit"
+            disabled={validateInputs()}
+            text="añadir producto"
+          />
+        </div>
       </form>
     </div>
   );
