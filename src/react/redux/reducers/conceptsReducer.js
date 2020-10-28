@@ -4,7 +4,8 @@ import {
   UPDATE_CONCEPTS_INSCRPTION,
   DELETE_CONCEPTS_INSCRPTION,
   RESTORE_CONCEPTS_INSCRPTION,
-  CLEAN_DELETED
+  CLEAN_DELETED,
+  UPDATE_CONCEPTS
 } from '../actions/conceptsActions';
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
@@ -100,6 +101,17 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         deleted: []
       };
+
+    case UPDATE_CONCEPTS: {
+      const { rate } = payload;
+      console.log(rate);
+      const rates = { ...state, [rate.idRate]: { ...rate } };
+
+      return {
+        ...state,
+        ...rates
+      };
+    }
     default:
       return state;
   }

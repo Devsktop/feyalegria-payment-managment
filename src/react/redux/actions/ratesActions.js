@@ -1,4 +1,7 @@
-import { cleanDeleted } from 'react/redux/actions/conceptsActions';
+import {
+  cleanDeleted,
+  updateConcepts
+} from 'react/redux/actions/conceptsActions';
 import Swal from 'sweetalert2';
 
 export const FETCH_RATES = 'FETCH_RATES';
@@ -15,7 +18,7 @@ export const fetchRates = async () => {
 // Save concepts in db and change original concepts.
 export const UPDATE_RATES = 'UPDATE_RATES';
 
-const updateRatesAction = () => ({
+const updateRatesAction = rates => ({
   type: UPDATE_RATES
 });
 
@@ -54,15 +57,37 @@ export const updateRate = type => {
 
         const res = await new Promise(resolve => {
           setTimeout(() => {
-            resolve({ status: 'ok' });
-            console.log('promise');
+            resolve({
+              rate: {
+                idRate: 1,
+                type: 'INSCRIPTION',
+                price: 2,
+                paymentConcepts: {
+                  1: {
+                    idConcept: 1,
+                    concept: 'Proyecto',
+                    conceptPrice: 0.5,
+                    idRate: 1
+                  },
+                  2: {
+                    idConcept: 2,
+                    concept: 'prueba',
+                    conceptPrice: 1,
+                    idRate: 1
+                  }
+                }
+              },
+              status: 200
+            });
           }, 3000);
         });
 
         console.log('afuera');
 
-        if (res.status === 'ok') {
-          dispatch(updateRatesAction());
+        if (res.status === 200) {
+          console.log(res);
+          dispatch(updateRatesAction(res.rate));
+          dispatch(updateConcepts(res.rate));
           dispatch(cleanDeleted());
           Swal.hideLoading();
           Swal.fire({

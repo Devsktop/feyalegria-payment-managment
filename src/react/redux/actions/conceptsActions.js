@@ -4,6 +4,12 @@ export const fetchConcepts = rates => ({
   type: FETCH_CONCEPTS,
   payload: { rates }
 });
+export const UPDATE_CONCEPTS = 'UPDATE_CONCEPTS';
+
+export const updateConcepts = rate => ({
+  type: UPDATE_CONCEPTS,
+  payload: { rate }
+});
 
 export const ADD_CONCEPTS_INSCRPTION = 'ADD_CONCEPTS_INSCRPTION';
 
