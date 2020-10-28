@@ -21,8 +21,6 @@ const AddValuePair = ({
   const [lastId, setLastId] = useState(-1);
   const [name, value] = pairKeys;
 
-  console.log(valueDecimal);
-
   const handleController = () => {
     const newConcept = {
       id: lastId,

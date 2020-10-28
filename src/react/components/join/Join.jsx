@@ -14,6 +14,7 @@ import { decimalValidator } from 'helper';
 
 // Components
 import Minput from 'react/components/Minput';
+import Button from 'react/components/Button';
 import JoinValuePair from './JoinValuePair';
 
 // Selector
@@ -80,7 +81,7 @@ const Join = () => {
 
   return (
     <div className="join content-screen">
-      <form className="sweet-form box" onSubmit={handleSubmit}>
+      <form className="sweet-form box inscriptionBox" onSubmit={handleSubmit}>
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
           type="text"
@@ -93,22 +94,14 @@ const Join = () => {
         <JoinValuePair />
 
         <div className="button_container">
-          <button
-            type="button"
-            className="button button-cancel"
-            onClick={handleGoBack}
-          >
-            Volver
-          </button>
-          <button
+          <Button type="button" onClick={handleGoBack} text="Volver" />
+          <Button
             type="submit"
-            className="button button-accept"
             disabled={
               price === '' || !(parseFloat(price) > 0) || !isConceptValid
             }
-          >
-            Aceptar
-          </button>
+            text="Aceptar"
+          />
         </div>
       </form>
     </div>

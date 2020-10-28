@@ -60,4 +60,4 @@ const JoinValuePair = () => {
   );
 };
 
-export default JoinValuePair;
+export default React.memo(JoinValuePair);

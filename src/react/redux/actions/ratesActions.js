@@ -26,14 +26,14 @@ const updateRateAction = rate => ({
 export const updateRate = type => {
   return (dispatch, getState) => {
     const { concepts } = getState();
-    let rate = {};
+    let rawRate = {};
 
     Object.keys(concepts).forEach(concept => {
       if (concepts[concept].type === type)
-        rate = { ...concepts[concept], deleted: concepts.deleted };
+        rawRate = { ...concepts[concept], deleted: concepts.deleted };
     });
 
-    console.log(rate);
+    const rate = parseRate(rawRate);
 
     Swal.fire({
       title: 'Estableciendo conceptos de pago',
@@ -122,4 +122,22 @@ export const updateRate = type => {
       allowEscapeKey: () => !Swal.isLoading()
     });
   };
+};
+
+const parseRate = rate => {
+  const parsedPrice = parseFloat(rate.price);
+
+  const concepts = { ...rate.paymentConcepts };
+
+  Object.keys(concepts).forEach(concept => {
+    concepts[concept].conceptPrice = parseFloat(concepts[concept].conceptPrice);
+  });
+
+  const parsedRate = {
+    ...rate,
+    price: parsedPrice,
+    paymentConcepts: { ...concepts }
+  };
+
+  return parsedRate;
 };
