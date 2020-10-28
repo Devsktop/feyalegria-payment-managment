@@ -80,7 +80,7 @@ export default function reducer(state = initialState, { type, payload }) {
 
       delete paymentConcepts[payload.idConcept];
 
-      const deleted = [...state.deleted];
+      const deleted = state.deleted ? [...state.deleted] : [];
       if (payload.idConcept > 0) deleted.push(payload.idConcept);
 
       const concept = { ...state[idIncription], paymentConcepts };
@@ -93,7 +93,8 @@ export default function reducer(state = initialState, { type, payload }) {
     }
     case RESTORE_CONCEPTS_INSCRPTION:
       return {
-        ...payload.rates
+        ...payload.rates,
+        deleted: []
       };
 
     case CLEAN_DELETED:
