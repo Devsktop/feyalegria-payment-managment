@@ -5,7 +5,8 @@ import {
   DELETE_CONCEPTS_INSCRPTION,
   RESTORE_CONCEPTS_INSCRPTION,
   CLEAN_DELETED,
-  UPDATE_CONCEPTS
+  UPDATE_CONCEPTS,
+  UPDATE_PRICE_INSCRIPTION
 } from '../actions/conceptsActions';
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
@@ -22,60 +23,77 @@ export default function reducer(state = initialState, { type, payload }) {
         ...payload.rates
       };
     case ADD_CONCEPTS_INSCRPTION: {
-      let idIncription;
+      let idInscription;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
       });
 
       const newConcept = { ...payload.concept, idConcept: payload.concept.id };
       delete newConcept.id;
 
       const paymentConcepts = {
-        ...state[idIncription].paymentConcepts,
+        ...state[idInscription].paymentConcepts,
         [newConcept.idConcept]: newConcept
       };
 
-      const concept = { ...state[idIncription], paymentConcepts };
+      const concept = { ...state[idInscription], paymentConcepts };
 
       return {
         ...state,
-        [idIncription]: concept
+        [idInscription]: concept
       };
     }
 
     case UPDATE_CONCEPTS_INSCRPTION: {
-      let idIncription;
+      let idInscription;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
       });
 
       const newConcept = { ...payload.concept, idConcept: payload.concept.id };
       delete newConcept.id;
 
       const paymentConcepts = {
-        ...state[idIncription].paymentConcepts,
+        ...state[idInscription].paymentConcepts,
         [newConcept.idConcept]: newConcept
       };
 
-      const concept = { ...state[idIncription], paymentConcepts };
+      const concept = { ...state[idInscription], paymentConcepts };
 
       return {
         ...state,
-        [idIncription]: concept
+        [idInscription]: concept
+      };
+    }
+    case UPDATE_PRICE_INSCRIPTION: {
+      let idInscription;
+
+      Object.keys(state).forEach(concept => {
+        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
+      });
+
+      const newInscription = {
+        ...state,
+        [idInscription]: { ...state[idInscription], price: payload.price }
+      };
+
+      return {
+        ...state,
+        ...newInscription
       };
     }
 
     case DELETE_CONCEPTS_INSCRPTION: {
-      let idIncription;
+      let idInscription;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idIncription = concept;
+        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
       });
 
       const paymentConcepts = {
-        ...state[idIncription].paymentConcepts
+        ...state[idInscription].paymentConcepts
       };
 
       delete paymentConcepts[payload.idConcept];
@@ -83,12 +101,12 @@ export default function reducer(state = initialState, { type, payload }) {
       const deleted = state.deleted ? [...state.deleted] : [];
       if (payload.idConcept > 0) deleted.push(payload.idConcept);
 
-      const concept = { ...state[idIncription], paymentConcepts };
+      const concept = { ...state[idInscription], paymentConcepts };
 
       return {
         ...state,
         deleted,
-        [idIncription]: concept
+        [idInscription]: concept
       };
     }
     case RESTORE_CONCEPTS_INSCRPTION:

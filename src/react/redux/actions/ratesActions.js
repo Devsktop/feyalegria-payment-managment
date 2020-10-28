@@ -18,8 +18,9 @@ export const fetchRates = async () => {
 // Save concepts in db and change original concepts.
 export const UPDATE_RATES = 'UPDATE_RATES';
 
-const updateRatesAction = rates => ({
-  type: UPDATE_RATES
+const updateRateAction = rate => ({
+  type: UPDATE_RATES,
+  payload: { rate }
 });
 
 export const updateRate = type => {
@@ -29,8 +30,10 @@ export const updateRate = type => {
 
     Object.keys(concepts).forEach(concept => {
       if (concepts[concept].type === type)
-        rate = { ...concept, deleted: concepts.deleted };
+        rate = { ...concepts[concept], deleted: concepts.deleted };
     });
+
+    console.log(rate);
 
     Swal.fire({
       title: 'Estableciendo conceptos de pago',
@@ -43,14 +46,14 @@ export const updateRate = type => {
       onOpen: async () => {
         Swal.showLoading();
 
-        const url = 'http://localhost:3500/api/updateRate';
-        const config = {
-          method: 'POST',
-          body: JSON.stringify({ rate }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
+        // const url = 'http://localhost:3500/api/updateRate';
+        // const config = {
+        //   method: 'POST',
+        //   body: JSON.stringify({ rate }),
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   }
+        // };
 
         // const fetch = await fetch(url, config);
         // const res = await fetch.json();
@@ -86,7 +89,7 @@ export const updateRate = type => {
 
         if (res.status === 200) {
           console.log(res);
-          dispatch(updateRatesAction(res.rate));
+          dispatch(updateRateAction(res.rate));
           dispatch(updateConcepts(res.rate));
           dispatch(cleanDeleted());
           Swal.hideLoading();

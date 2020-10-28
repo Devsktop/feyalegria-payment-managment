@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
-import { restoreConceptInscription } from 'react/redux/actions/conceptsActions';
+import {
+  restoreConceptInscription,
+  updatePriceInscription
+} from 'react/redux/actions/conceptsActions';
 import { updateRate } from 'react/redux/actions/ratesActions';
 
 // Helper
@@ -15,15 +18,15 @@ import JoinValuePair from './JoinValuePair';
 
 // Selector
 
-const initialPriceSelector = state => {
-  const { rates } = state;
-  let initialPrice = {};
+const priceSelector = state => {
+  const { concepts } = state;
+  let price = {};
 
-  Object.keys(rates).forEach(rate => {
-    if (rates[rate].type === 'INSCRIPTION') initialPrice = rates[rate].price;
+  Object.keys(concepts).forEach(concept => {
+    if (concepts[concept].type === 'INSCRIPTION')
+      price = concepts[concept].price;
   });
-
-  return initialPrice;
+  return price;
 };
 
 const conceptValidator = state => {
@@ -53,9 +56,8 @@ const conceptValidator = state => {
 const Join = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const initialPrice = useSelector(initialPriceSelector);
+  const price = useSelector(priceSelector);
   const isConceptValid = useSelector(conceptValidator);
-  const [price, setPrice] = useState(initialPrice);
 
   useEffect(() => {
     return () => {
@@ -64,7 +66,7 @@ const Join = () => {
   }, []);
 
   const handleKeyDown = e => {
-    setPrice(decimalValidator(e, price));
+    dispatch(updatePriceInscription(decimalValidator(e, price)));
   };
 
   const handleSubmit = e => {
