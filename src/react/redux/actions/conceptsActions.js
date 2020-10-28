@@ -1,6 +1,6 @@
 export const FETCH_CONCEPTS = 'FETCH_CONCEPTS';
 
-export const setConcepts = rates => ({
+export const fetchConcepts = rates => ({
   type: FETCH_CONCEPTS,
   payload: { rates }
 });
@@ -37,3 +37,9 @@ export const restoreConceptInscription = () => {
     });
   };
 };
+
+export const CLEAN_DELETED = 'CLEAN_DELETED';
+
+export const cleanDeleted = () => ({
+  type: CLEAN_DELETED
+});

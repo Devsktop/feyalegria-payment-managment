@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 // Actions
 import { restoreConceptInscription } from 'react/redux/actions/conceptsActions';
+import { updateRate } from 'react/redux/actions/ratesActions';
 
 // Helper
 import { decimalValidator } from 'helper';
@@ -68,6 +69,7 @@ const Join = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    dispatch(updateRate('INSCRIPTION'));
   };
 
   const handleGoBack = () => {
