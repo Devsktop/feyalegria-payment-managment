@@ -22,5 +22,6 @@
   "open terminal": "ctrl + ñ",
   "fold block": "ctrl + shift + ' ",
   "unfold block": "ctrl + shift + ¡",
-  "comment/uncomment": "ctrl + }"
+  "comment/uncomment": "ctrl + }",
+  "go to bracket": "ctrl + shift + {"
 }
