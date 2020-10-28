@@ -4,22 +4,25 @@ import React from 'react';
 import IncomeBox from './IncomeBox';
 
 // Import imgs
+import JoinIlustration from './JoinIlustration.svg';
+import MonthlyPaymentsIlustration from './MonthlyPaymentsIlustration.svg';
+import ProductsIlustration from './ProductsIlustration.svg';
 
 const Income = () => {
   return (
     <div className="config content-screen">
       <IncomeBox
-        ilustration={'JoinIlustration'}
+        ilustration={JoinIlustration}
         title="Incribir Alumnos"
         link="/grades"
       />
       <IncomeBox
-        ilustration={'MonthlyPaymentsIlustration'}
+        ilustration={MonthlyPaymentsIlustration}
         title="Pagar Mensualidades"
         link="/join"
       />
       <IncomeBox
-        ilustration={'ProductsIlustration'}
+        ilustration={ProductsIlustration}
         title="Pagar Productos"
         link="/monthlyPayments"
       />
