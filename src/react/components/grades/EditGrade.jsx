@@ -1,14 +1,15 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // Actions
 import { editGrade } from 'react/redux/actions/gradesActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
-// Import imgs
-import plus from './plus.svg';
 
 const EditGrade = props => {
   const { id } = props.match.params;
@@ -48,7 +49,7 @@ const EditGrade = props => {
       scholarYear: grade,
       gradesSections
     };
-    dispatch(editGrade(newGrade));
+    dispatch(editGrade(newGrade, history));
   };
 
   return (
@@ -62,20 +63,25 @@ const EditGrade = props => {
           label="Grado:"
         />
         <div className="button_container">
-          <button
+          <Button
             type="button"
-            className="button"
+            text="volver"
             onClick={() => history.goBack()}
-          >
-            volver
-          </button>
-          <button type="submit" className="button" disabled={validateInputs()}>
-            editar producto
-          </button>
+          />
+          <Button
+            type="submit"
+            text="editar producto"
+            disabled={validateInputs()}
+          />
         </div>
       </form>
     </div>
   );
+};
+
+EditGrade.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  id: PropTypes.number.isRequired
 };
 
 export default EditGrade;

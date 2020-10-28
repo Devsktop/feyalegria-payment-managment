@@ -53,13 +53,12 @@ const LoginForm = () => {
           value={pass}
           label="Contraseña:"
         />
-        <button
-          type="submit"
-          className="button button-large button-accept"
-          disabled={validateInputs()}
-        >
-          Ingresar
-        </button>
+        <div className="btn button-large">
+          <div className="inner"></div>
+          <button type="submit" className="button" disabled={validateInputs()}>
+            Ingresar
+          </button>
+        </div>
         <Attempts />
       </form>
     </div>

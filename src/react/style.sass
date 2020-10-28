@@ -11,6 +11,7 @@
 @import ./components/products/_products
 @import ./components/_data-table
 @import ./components/join/_join
+@import ./components/income/_income
 
 *
   margin: 0
@@ -51,20 +52,68 @@ body
   font: $title
   color: $title-color
 
+.box_subtitle
+  font-size: 16px
+  color: $title-color
+
+  & span
+    color: $primary-light
+
+.btn
+  position: relative
+  display: inline-flex
+  border-radius: 5px
+  overflow: hidden
+  transition: all .4s
+  width: 48%
+  text-align: center
+
+  &:hover
+    transform: scale(1.02)
+    
+    & .inner
+      left: 0;
+
+  & .inner
+    position: absolute
+    width: 300%
+    height: 100%
+    left: -100%
+    z-index: 1
+    transition: all .4s
+    background: -webkit-linear-gradient(right, $primary-dark,$primary-light,$primary-dark,$primary-light)
+
+    &:hover
+      left: 0
+
 .button
-  padding: 10px 25px
+  height: 100%
+  width: 100%
+  padding: 10px 10px
   text-transform: uppercase
   color: white
-  background: linear-gradient(113.55deg, #D64045 0%, #820101 120.72%),linear-gradient(0deg, #FFFFFF, #FFFFFF)
+  background: none
   border-radius: 5px
   font-weight: bold
   font-size: 16px
   font-family: Roboto
   cursor: pointer
   border: none
+  z-index: 1
+  transition: all .4s
 
-  &:hover
-    color: lighten($primary, 10)
+  &:disabled
+    background: none
+    background-color: rgb(255, 195, 195)
+    cursor: auto
+
+    &:hover
+      color: #fff
+
+.button-large
+    margin: 0
+    width: 100%!important
+
 
 // SweetAlert classes
 

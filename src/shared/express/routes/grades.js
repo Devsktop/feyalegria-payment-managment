@@ -14,6 +14,7 @@ router.get('/grades', async (req, res) => {
   }
 
   res.status(200).json(grades);
+  console.log(grades);
   return null;
 });
 
@@ -72,7 +73,7 @@ router.post('/updGrade', async (req, res) => {
     res.status(400).json({ errUpdGrade });
     return null;
   }
-
+  console.log(grade);
   res.status(200).json({ grade, status: 200 });
   return null;
 });
@@ -132,9 +133,9 @@ const getSections = () => {
 };
 
 // Query to get grades's students
-const getPeopleGrade = async () => {
+const getPeopleGrade = () => {
   const peopleByGrade = {};
-  const query = `SELECT grades.idGrade, COUNT(students.idStudent) AS sectionStudents, COUNT(DISTINCT students.idRepresentative) AS representatives FROM grades LEFT JOIN students ON students.idGrade = grades.idGrade GROUP BY grades.idGrade`;
+  const query = `SELECT grades.idGrade, COUNT(students.idStudent) AS gradeStudents, COUNT(DISTINCT students.idRepresentative) AS gradeRepresentatives FROM grades LEFT JOIN students ON students.idGrade = grades.idGrade GROUP BY grades.idGrade`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errStudents, rows) => {
@@ -142,6 +143,7 @@ const getPeopleGrade = async () => {
         rows.forEach(row => {
           peopleByGrade[row.idGrade] = { ...row };
         });
+        console.log(peopleByGrade);
         resolve(peopleByGrade);
       } else {
         resolve({ errStudents });
@@ -151,7 +153,7 @@ const getPeopleGrade = async () => {
 };
 
 // Query to get grade by id
-const getGrade = async idGrade => {
+const getGrade = idGrade => {
   const query = `SELECT 
    scholarYear,
    section,
@@ -161,7 +163,7 @@ const getGrade = async idGrade => {
   WHERE ${idGrade} = sections.idGrade;`;
 
   return new Promise(resolve => {
-    mysqlConnection.query(query, async (errGrade, rows) => {
+    mysqlConnection.query(query, (errGrade, rows) => {
       if (!errGrade) {
         const { scholarYear, section, capacity, idSection } = rows[0];
         const grade = {
@@ -179,7 +181,7 @@ const getGrade = async idGrade => {
 };
 
 // Query to delete grade
-const deleteGrade = async id => {
+const deleteGrade = id => {
   const query = `DELETE FROM grades WHERE grades.idGrade = ${id};`;
 
   return new Promise(resolve => {
@@ -216,7 +218,9 @@ const addGrade = (scholarYear, gradesSections) => {
               idGrade: rows.insertId,
               scholarYear,
               gradesSections: gradeSections,
-              sectionsNumber: Object.keys(gradesSections).length
+              sectionsNumber: Object.keys(gradesSections).length,
+              gradeStudents: 0,
+              gradeRepresentatives: 0
             };
             resolve({ grade });
           }
@@ -229,7 +233,7 @@ const addGrade = (scholarYear, gradesSections) => {
 };
 
 // Query to add section
-const addSection = async (id, Gradesection) => {
+const addSection = (id, Gradesection) => {
   const { section, capacity } = Gradesection;
   const query = `INSERT INTO sections (section, capacity, idGrade) VALUES ("${section}", ${capacity}, ${id});`;
 
@@ -251,7 +255,7 @@ const addSection = async (id, Gradesection) => {
 };
 
 // Query to update grade
-const updGrade = async (idGrade, scholarYear, gradesSections) => {
+const updGrade = (idGrade, scholarYear, gradesSections) => {
   let counter = 0;
   const gradeSections = {};
   const query = `UPDATE grades SET scholarYear = "${scholarYear}" where grades.idGrade = ${idGrade};`;
@@ -261,6 +265,8 @@ const updGrade = async (idGrade, scholarYear, gradesSections) => {
       if (!errUpdGrade) {
         Object.keys(gradesSections).forEach(async sectionKey => {
           const { seccion } = await updSection(gradesSections[sectionKey]);
+          const peopleByGrade = await getPeopleGrade();
+          console.log(peopleByGrade);
           gradeSections[seccion.idSection] = { ...seccion };
           counter += 1;
           if (counter === Object.keys(gradesSections).length) {
@@ -269,8 +275,8 @@ const updGrade = async (idGrade, scholarYear, gradesSections) => {
               scholarYear,
               gradesSections: gradeSections,
               sectionsNumber: Object.keys(gradesSections).length,
-              sectionStudents: 0,
-              representatives: 0
+              gradeStudents: peopleByGrade[idGrade].gradeStudents,
+              gradeRepresentatives: peopleByGrade[idGrade].gradeRepresentatives
             };
             resolve({ grade });
           }
@@ -283,7 +289,7 @@ const updGrade = async (idGrade, scholarYear, gradesSections) => {
 };
 
 // Query to update sections
-const updSection = async Gradesection => {
+const updSection = Gradesection => {
   const { idSection, section, capacity } = Gradesection;
   const query = `UPDATE sections SET section = "${section}", capacity = ${capacity} where sections.idSection = ${idSection};`;
 
@@ -302,51 +308,5 @@ const updSection = async Gradesection => {
     });
   });
 };
-
-// // 2.-Select Grades http://localhost:3500/api/grades
-// router.get('/grades', (req, res) => {
-//   mysqlConnection.query('SELECT * from grades', (err, rows, fields) => {
-//     if (!err) {
-//       res.json(rows);
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
-// // 3.-Delete Grades ---> http://localhost:3500/api/grades
-// router.delete('/grades', (req, res) => {
-//   const { id } = req.body;
-//   const query = `  DELETE FROM grades WHERE grades.idgrades  =(?);
-//      `;
-
-//   mysqlConnection.query(query, [id], (err, rows, fields) => {
-//     if (!err) {
-//       res.json({ status: 'ok' });
-//     } else {
-//       res.json({ status: 'error' });
-//     }
-//   });
-// });
-
-// //4.- Update Grades ---->http://localhost:3500/api/updGrades
-// router.post('/updGrades', (req, res) => {
-//   const { scholarYear } = req.body;
-//   const query = ` CALL updGrades(?);
-//      `;
-
-//   mysqlConnection.query(query, [scholarYear], (err, rows, fields) => {
-//     if (!err) {
-//       res.json({
-//         status: 'ok'
-//       });
-//     } else {
-//       res.json({
-//         status: 'error',
-//         err
-//       });
-//     }
-//   });
-// });
 
 module.exports = router;

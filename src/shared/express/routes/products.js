@@ -34,9 +34,13 @@ router.delete('/product', async (req, res) => {
 
 // 3.- Add Product http://localhost:3500/api/product
 router.post('/product', async (req, res) => {
-  const { productName, price } = req.body;
+  const { productName, price, mandatory } = req.body;
   // Query to add product
-  const { product, errAddProduct } = await addProduct(productName, price);
+  const { product, errAddProduct } = await addProduct(
+    productName,
+    price,
+    mandatory
+  );
   if (errAddProduct) {
     res.status(400).json({ errAddProduct });
     return null;
@@ -48,12 +52,13 @@ router.post('/product', async (req, res) => {
 
 // 4.- Update Product http://localhost:3500/api/updProduct
 router.post('/updProduct', async (req, res) => {
-  const { idProduct, productName, price } = req.body;
+  const { idProduct, productName, price, mandatory } = req.body;
   // Query to add grade
   const { product, errUpdProduct } = await updGrade(
     idProduct,
     productName,
-    price
+    price,
+    mandatory
   );
   if (errUpdProduct) {
     res.status(400).json({ errUpdProduct });
@@ -100,8 +105,8 @@ const deleteProduct = id => {
 };
 
 // Query to add product
-const addProduct = (newProductName, newPrice) => {
-  const query = `INSERT INTO products (productName, price) VALUES ("${newProductName}", ${newPrice});`;
+const addProduct = (newProductName, newPrice, newMandatory) => {
+  const query = `INSERT INTO products (productName, price, mandatory) VALUES ("${newProductName}", ${newPrice}, ${newMandatory});`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errAddProduct, rows) => {
@@ -109,7 +114,8 @@ const addProduct = (newProductName, newPrice) => {
         const product = {
           idProduct: rows.insertId,
           productName: newProductName,
-          price: newPrice
+          price: newPrice,
+          mandatory: newMandatory
         };
         resolve({ product });
       } else {
@@ -120,13 +126,13 @@ const addProduct = (newProductName, newPrice) => {
 };
 
 // Query to update product
-const updGrade = async (idProduct, productName, price) => {
-  const query = `UPDATE products SET productName = "${productName}", price = ${price} where idProduct = ${idProduct};`;
+const updGrade = async (idProduct, productName, price, mandatory) => {
+  const query = `UPDATE products SET productName = "${productName}", price = ${price}, mandatory = ${mandatory} where idProduct = ${idProduct};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errUpdProduct => {
       if (!errUpdProduct) {
-        const product = { idProduct, productName, price };
+        const product = { idProduct, productName, price, mandatory };
         resolve({ product });
       } else {
         resolve({ errUpdProduct });

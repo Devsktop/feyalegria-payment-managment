@@ -6,15 +6,17 @@ import { Link, useHistory } from 'react-router-dom';
 import { editProduct } from 'react/redux/actions/productsActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
 const EditProduct = props => {
   const { id } = props.match.params;
   const dispatch = useDispatch();
   // Selector
-  const currentGrade = useSelector(state => state.products.products[id]);
-  const [productName, setProductName] = useState(currentGrade.productName);
-  const [price, setPrice] = useState(currentGrade.price);
+  const currentProduct = useSelector(state => state.products.products[id]);
+  const [productName, setProductName] = useState(currentProduct.productName);
+  const [price, setPrice] = useState(currentProduct.price);
+  const [mandatory, setMandatory] = useState(currentProduct.mandatory);
   const history = useHistory();
 
   const handleProduct = e => {
@@ -23,6 +25,10 @@ const EditProduct = props => {
 
   const handlePrice = e => {
     setPrice(e.target.value);
+  };
+
+  const handleMandatory = e => {
+    setMandatory(e.target.checked);
   };
 
   const validateInputs = () => {
@@ -36,9 +42,10 @@ const EditProduct = props => {
     const newProduct = {
       idProduct: id,
       productName,
-      price
+      price,
+      mandatory
     };
-    dispatch(editProduct(newProduct));
+    dispatch(editProduct(newProduct, history));
   };
 
   return (
@@ -55,19 +62,31 @@ const EditProduct = props => {
           type="number"
           onChange={handlePrice}
           value={parseFloat(price)}
-          label="Precio:"
+          label="Precio $:"
         />
+        <div className="checkbox">
+          <label className="container">
+            Obligatorio
+            <input
+              type="checkbox"
+              checked={mandatory}
+              onChange={handleMandatory}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
         <div className="button_container">
-          <button
+          <Button
             type="button"
-            className="button"
             onClick={() => history.goBack()}
-          >
-            volver
-          </button>
-          <button type="submit" className="button" disabled={validateInputs()}>
-            editar producto
-          </button>
+            text="volver"
+          />
+          <Button
+            type="submit"
+            className="button"
+            disabled={validateInputs()}
+            text="editar product"
+          />
         </div>
       </form>
     </div>

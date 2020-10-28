@@ -37,17 +37,10 @@ const isFetched = () => ({
 // Action To Delete Grade
 export const DELETE_GRADE = 'DELETE_GRADE';
 
-const deleteGradeAction = id => ({
-  type: DELETE_GRADE,
-  payload: { id }
-});
-
 export function deleteGrade(id) {
   return dispatch => {
-    // HACER FETCH A LA BDD
-
     Swal.fire({
-      title: '¿Seguro que desea eliminar este grado?',
+      title: '¿Seguro que desea eliminar este Grado?',
       text: '¡No podrás revertir esta acción!',
       icon: 'warning',
       customClass: {
@@ -66,9 +59,7 @@ export function deleteGrade(id) {
         const url = 'http://localhost:3500/api/grade';
         const config = {
           method: 'DELETE',
-          body: JSON.stringify({
-            id
-          }),
+          body: JSON.stringify({ id }),
           headers: {
             'Content-Type': 'application/json'
           }
@@ -77,23 +68,12 @@ export function deleteGrade(id) {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then(result => {
-      if (result.value === 1451) {
-        Swal.fire({
-          title: '¡Error',
-          text: 'El grado no se puede eliminar',
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          customClass: {
-            icon: 'icon-class',
-            title: 'title-class',
-            content: 'content-class'
-          }
-        });
-      } else {
+      console.log(result);
+      if (result.value === 200) {
         dispatch(deleteGradeAction(id));
         Swal.fire({
           title: '¡Eliminado!',
-          text: 'El grado ha sido eliminado satisfactoriamente',
+          text: 'El Grado ha sido eliminado satisfactoriamente',
           icon: 'success',
           confirmButtonText: 'Aceptar',
           customClass: {
@@ -102,10 +82,28 @@ export function deleteGrade(id) {
             content: 'content-class'
           }
         });
+      } else if (result.value === 1451) {
+        // if a grade has sections
+        Swal.hideLoading();
+        Swal.fire({
+          title: 'Este grado no puede ser eliminado',
+          text: '',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          customClass: {
+            icon: 'icon-class',
+            title: 'title-class'
+          }
+        });
       }
     });
   };
 }
+
+const deleteGradeAction = id => ({
+  type: DELETE_GRADE,
+  payload: { id }
+});
 
 export const CREATE_GRADE = 'CREATE_GRADE';
 
@@ -114,7 +112,7 @@ const createGradeAction = grade => ({
   payload: { grade }
 });
 
-export const createGrade = grade => {
+export const createGrade = (grade, history) => {
   return (dispatch, getState) => {
     Swal.fire({
       title: 'Creando grado',
@@ -143,6 +141,7 @@ export const createGrade = grade => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
+              console.log(res);
               dispatch(createGradeAction(res.grade));
               Swal.hideLoading();
               Swal.fire({
@@ -153,6 +152,9 @@ export const createGrade = grade => {
                 customClass: {
                   icon: 'icon-class',
                   title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
                 }
               });
             } else if (res.errAddGrade === 1062) {
@@ -187,7 +189,7 @@ const editGradeAction = grade => ({
   payload: { grade }
 });
 
-export const editGrade = grade => {
+export const editGrade = (grade, history) => {
   return dispatch => {
     Swal.fire({
       title: 'Modificando grado',
@@ -200,7 +202,7 @@ export const editGrade = grade => {
       onOpen: () => {
         Swal.showLoading();
         const { idGrade, scholarYear, gradesSections } = grade;
-        console.log(grade);
+
         const url = 'http://localhost:3500/api/updGrade';
         const config = {
           method: 'POST',
@@ -218,7 +220,7 @@ export const editGrade = grade => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
-              dispatch(editGradeAction(grade));
+              dispatch(editGradeAction(res.grade));
               Swal.hideLoading();
               Swal.fire({
                 title: 'El grado se ha modificado con éxito',
@@ -228,6 +230,9 @@ export const editGrade = grade => {
                 customClass: {
                   icon: 'icon-class',
                   title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
                 }
               });
             } else if (res.err.errno === 1062) {

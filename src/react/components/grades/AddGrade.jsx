@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createGrade } from 'react/redux/actions/gradesActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
-// Import imgs
-import plus from './plus.svg';
-
-// Selectors
-const gradesSelector = state => state.grades.grades;
 
 const AddGrade = () => {
   const dispatch = useDispatch();
@@ -46,7 +41,7 @@ const AddGrade = () => {
       scholarYear: grade,
       gradesSections
     };
-    dispatch(createGrade(newGrade));
+    dispatch(createGrade(newGrade, history));
   };
 
   return (
@@ -60,16 +55,16 @@ const AddGrade = () => {
           label="Grado:"
         />
         <div className="button_container">
-          <button
+          <Button
             type="button"
-            className="button"
             onClick={() => history.goBack()}
-          >
-            volver
-          </button>
-          <button type="submit" className="button" disabled={validateInputs()}>
-            crear producto
-          </button>
+            text="volver"
+          />
+          <Button
+            type="submit"
+            disabled={validateInputs()}
+            text="crear grado"
+          />
         </div>
       </form>
     </div>

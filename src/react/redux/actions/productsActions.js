@@ -98,8 +98,8 @@ const createProductAction = product => ({
   payload: { product }
 });
 
-export const createProduct = product => {
-  return (dispatch, getState) => {
+export const createProduct = (product, history) => {
+  return dispatch => {
     Swal.fire({
       title: 'Creando producto',
       showCancelButton: false,
@@ -111,13 +111,14 @@ export const createProduct = product => {
       onOpen: () => {
         Swal.showLoading();
 
-        const { productName, price } = product;
+        const { productName, price, mandatory } = product;
         const url = 'http://localhost:3500/api/product';
         const config = {
           method: 'POST',
           body: JSON.stringify({
             productName,
-            price
+            price,
+            mandatory
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -137,6 +138,9 @@ export const createProduct = product => {
                 customClass: {
                   icon: 'icon-class',
                   title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
                 }
               });
             } else if (res.errAddProduct === 1062) {
@@ -172,7 +176,7 @@ const editProductAction = product => ({
   payload: { product }
 });
 
-export const editProduct = product => {
+export const editProduct = (product, history) => {
   return dispatch => {
     Swal.fire({
       title: 'Modificando producto',
@@ -184,14 +188,15 @@ export const editProduct = product => {
       },
       onOpen: () => {
         Swal.showLoading();
-        const { idProduct, productName, price } = product;
+        const { idProduct, productName, price, mandatory } = product;
         const url = 'http://localhost:3500/api/updProduct';
         const config = {
           method: 'POST',
           body: JSON.stringify({
             idProduct,
             productName,
-            price
+            price,
+            mandatory
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -212,6 +217,9 @@ export const editProduct = product => {
                 customClass: {
                   icon: 'icon-class',
                   title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
                 }
               });
             } else if (res.err.errno === 1062) {

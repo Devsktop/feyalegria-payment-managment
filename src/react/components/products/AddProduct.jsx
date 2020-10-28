@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { createProduct } from 'react/redux/actions/productsActions';
 
 // Components
+import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
 // Selectors
@@ -15,6 +16,7 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
+  const [mandatory, setMandatory] = useState(false);
   const history = useHistory();
 
   const handleProductName = e => {
@@ -23,6 +25,10 @@ const AddProduct = () => {
 
   const handlePrice = e => {
     setPrice(e.target.value);
+  };
+
+  const handleMandatory = e => {
+    setMandatory(e.target.checked);
   };
 
   const validateInputs = () => {
@@ -35,9 +41,10 @@ const AddProduct = () => {
 
     const newProduct = {
       productName,
-      price
+      price,
+      mandatory
     };
-    dispatch(createProduct(newProduct));
+    dispatch(createProduct(newProduct, history));
   };
 
   return (
@@ -54,19 +61,30 @@ const AddProduct = () => {
           type="number"
           onChange={handlePrice}
           value={price}
-          label="Precio:"
+          label="Precio $:"
         />
+        <div className="checkbox">
+          <label className="container">
+            Obligatorio
+            <input
+              type="checkbox"
+              checked={mandatory}
+              onChange={handleMandatory}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
         <div className="button_container">
-          <button
+          <Button
             type="button"
-            className="button"
             onClick={() => history.goBack()}
-          >
-            volver
-          </button>
-          <button type="submit" className="button" disabled={validateInputs()}>
-            crear producto
-          </button>
+            text="volver"
+          />
+          <Button
+            type="submit"
+            disabled={validateInputs()}
+            text="añadir producto"
+          />
         </div>
       </form>
     </div>

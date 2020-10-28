@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { fetchGrades, deleteGrade } from 'react/redux/actions/gradesActions';
 
 // Components
+import Button from 'react/components/Button';
 import { DataTable } from 'react-pulpo';
 
 // Selectors
@@ -50,7 +51,12 @@ const Grades = () => {
       <div className="box gradesBox">
         <h1 className="box_title">Grados y Secciones</h1>
         {isEmpty ? (
-          <h2>Agregue un grado</h2>
+          <h2 className="box_subtitle">
+            No hay grados registrados
+            <br />
+            Presiona
+            <span> Agregar grado</span>
+          </h2>
         ) : (
           <DataTable
             className="table"
@@ -64,16 +70,14 @@ const Grades = () => {
             order={[
               'scholarYear',
               'sectionsNumber',
-              'sectionStudents',
-              'representatives'
+              'gradeStudents',
+              'gradeRepresentatives'
             ]}
             deleteRow={handleDelete}
             onClickRow={handleClick}
           />
         )}
-        <Link className="button" to="/addGrade">
-          agregar grado
-        </Link>
+        <Button link="/addGrade" text="Añadir Grado" />
       </div>
     </div>
   );
