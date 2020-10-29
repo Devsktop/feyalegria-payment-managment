@@ -14,7 +14,6 @@ router.get('/grades', async (req, res) => {
   }
 
   res.status(200).json(grades);
-  console.log(grades);
   return null;
 });
 
@@ -73,7 +72,6 @@ router.post('/updGrade', async (req, res) => {
     res.status(400).json({ errUpdGrade });
     return null;
   }
-  console.log(grade);
   res.status(200).json({ grade, status: 200 });
   return null;
 });
@@ -82,7 +80,7 @@ router.post('/updGrade', async (req, res) => {
 // Query to get grades
 const getGrades = () => {
   const grades = {};
-  const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade GROUP BY grades.idGrade;`;
+  const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade WHERE grades.deleted = false GROUP BY grades.idGrade;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errGrades, rows) => {
@@ -143,7 +141,6 @@ const getPeopleGrade = () => {
         rows.forEach(row => {
           peopleByGrade[row.idGrade] = { ...row };
         });
-        console.log(peopleByGrade);
         resolve(peopleByGrade);
       } else {
         resolve({ errStudents });
@@ -154,23 +151,16 @@ const getPeopleGrade = () => {
 
 // Query to get grade by id
 const getGrade = idGrade => {
-  const query = `SELECT 
-   scholarYear,
-   section,
-   capacity,
-   idSection
-  FROM grades, sections
-  WHERE ${idGrade} = sections.idGrade;`;
+  const query = `SELECT scholarYear FROM grades WHERE ${idGrade} = idGrade;`;
 
   return new Promise(resolve => {
-    mysqlConnection.query(query, (errGrade, rows) => {
+    mysqlConnection.query(query, async (errGrade, rows) => {
       if (!errGrade) {
-        const { scholarYear, section, capacity, idSection } = rows[0];
+        const { scholarYear } = rows[0];
+        const { sections } = await getGradeSections(idGrade);
         const grade = {
           scholarYear,
-          section,
-          capacity,
-          idSection
+          sections
         };
         resolve({ grade });
       } else {
@@ -180,18 +170,48 @@ const getGrade = idGrade => {
   });
 };
 
+// Query to get grade's sections
+const getGradeSections = idGrade => {
+  const sections = {};
+  const query = `SELECT 
+  section,
+  capacity,
+  idSection,
+  sections.idGrade
+  FROM sections
+  INNER JOIN grades ON sections.idGrade = ${idGrade} 
+  GROUP BY sections.idSection;`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errGradeSections, rows) => {
+      if (!errGradeSections) {
+        rows.forEach(row => {
+          sections[row.idSection] = { ...row };
+        });
+        resolve({ sections });
+      } else {
+        resolve({ errGradeSections });
+      }
+    });
+  });
+};
+
 // Query to delete grade
-const deleteGrade = id => {
-  const query = `DELETE FROM grades WHERE grades.idGrade = ${id};`;
+const deleteGrade = async idGrade => {
+  const { sections } = await getGradeSections(idGrade);
+  const sectionsKeys = Object.keys(sections);
+
+  if (sectionsKeys.length > 0) {
+    return new Promise(resolve => {
+      resolve({ status: 1451 });
+    });
+  }
+  const query = `UPDATE grades SET deleted = true WHERE grades.idGrade = ${idGrade};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errDeleteGrade => {
       if (!errDeleteGrade) {
         resolve({ status: 200 });
-      } else if (errDeleteGrade.errno === 1451) {
-        resolve({ status: 1451 });
-      } else {
-        resolve({ errDeleteGrade });
       }
     });
   });
@@ -266,7 +286,6 @@ const updGrade = (idGrade, scholarYear, gradesSections) => {
         Object.keys(gradesSections).forEach(async sectionKey => {
           const { seccion } = await updSection(gradesSections[sectionKey]);
           const peopleByGrade = await getPeopleGrade();
-          console.log(peopleByGrade);
           gradeSections[seccion.idSection] = { ...seccion };
           counter += 1;
           if (counter === Object.keys(gradesSections).length) {

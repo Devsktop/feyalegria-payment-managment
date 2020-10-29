@@ -224,6 +224,7 @@ interface rates {
 //   type: string;
 //   idRate: number;
 //   [paymentConcepts: number]: {
+//
 //     idConcept: {
 //       concept: string;
 //       price: number;
@@ -231,6 +232,7 @@ interface rates {
 //       idRate: number;
 //     };
 //   };
+// deleted: [number]
 interface updateRate {
   price: number;
   type: string;
