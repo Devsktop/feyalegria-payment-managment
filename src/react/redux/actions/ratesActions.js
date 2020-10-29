@@ -29,10 +29,10 @@ export const updateRate = type => {
     let rawRate = {};
 
     Object.keys(concepts).forEach(concept => {
-      if (concepts[concept].type === type)
-        rawRate = { ...concepts[concept], deleted: concepts.deleted };
+      if (concepts[concept].type === type) rawRate = { ...concepts[concept] };
     });
 
+    const { deleted } = concepts;
     const rate = parseRate(rawRate);
 
     Swal.fire({
@@ -46,47 +46,19 @@ export const updateRate = type => {
       onOpen: async () => {
         Swal.showLoading();
 
-        // const url = 'http://localhost:3500/api/updateRate';
-        // const config = {
-        //   method: 'POST',
-        //   body: JSON.stringify({ rate }),
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   }
-        // };
+        const url = 'http://localhost:3500/api/updateRate';
+        const config = {
+          method: 'POST',
+          body: JSON.stringify({ rate, deleted }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
 
-        // const fetch = await fetch(url, config);
-        // const res = await fetch.json();
+        const fetchRes = await fetch(url, config);
+        const res = await fetchRes.json();
 
-        const res = await new Promise(resolve => {
-          setTimeout(() => {
-            resolve({
-              rate: {
-                idRate: 1,
-                type: 'INSCRIPTION',
-                price: 2,
-                paymentConcepts: {
-                  1: {
-                    idConcept: 1,
-                    concept: 'Proyecto',
-                    conceptPrice: 0.5,
-                    idRate: 1
-                  },
-                  2: {
-                    idConcept: 2,
-                    concept: 'prueba',
-                    conceptPrice: 1,
-                    idRate: 1
-                  }
-                }
-              },
-              status: 200
-            });
-          }, 3000);
-        });
-
-        console.log('afuera');
-
+        console.log(res);
         if (res.status === 200) {
           console.log(res);
           dispatch(updateRateAction(res.rate));
@@ -103,7 +75,7 @@ export const updateRate = type => {
               title: 'title-class'
             }
           });
-        } else if (res.err.errno === 1062) {
+        } else if (res.status === 1062) {
           // if product's  name is already used
           Swal.hideLoading();
           Swal.fire({
@@ -138,6 +110,6 @@ const parseRate = rate => {
     price: parsedPrice,
     paymentConcepts: { ...concepts }
   };
-
+  console.log(parsedRate);
   return parsedRate;
 };
