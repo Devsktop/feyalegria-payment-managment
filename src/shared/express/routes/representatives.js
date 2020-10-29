@@ -28,7 +28,7 @@ router.get('/representatives/:section', async (req, res) => {
 router.get('/representatives/:idRepresentative', async (req, res) => {
   const { idRepresentative } = req.params;
   // Query to get representative
-  const { representative, errRepresentative } = await getRepresentative(
+  const { representative, status, errRepresentative } = await getRepresentative(
     idRepresentative
   );
   if (errRepresentative) {
@@ -36,7 +36,23 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
     return null;
   }
 
-  res.status(200).json(representative);
+  res.status(200).json({ representative, status });
+  return res;
+});
+
+// 3.- Get representative by Dni http://localhost:3500/api/representativesbydni/[dni]
+router.get('/representativesbydni/:dni', async (req, res) => {
+  const { dni } = req.params;
+  // Query to get representative
+  const { representative, errRepresentative } = await getRepresentativeByDni(
+    dni
+  );
+  if (errRepresentative) {
+    res.status(400).json({ errRepresentative });
+    return null;
+  }
+
+  res.status(200).json({ representative });
   return res;
 });
 
@@ -132,6 +148,58 @@ const getStudents = async idRepresentative => {
         resolve({ students });
       } else {
         resolve({ errStudent });
+      }
+    });
+  });
+};
+
+// Query to get representative by dni
+const getRepresentativeByDni = async representativeDni => {
+  const query = `SELECT
+  idRepresentative, 
+  names,
+  lastnames,
+  dni, 
+  phone, 
+  email, 
+  balance, 
+  monthsToPay AS paidMonths 
+  FROM representatives 
+  WHERE ${representativeDni} = dni;`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async (errRepresentative, rows) => {
+      if (!errRepresentative) {
+        if (rows.length === 1) {
+          const {
+            idRepresentative,
+            names,
+            lastnames,
+            dni,
+            phone,
+            email,
+            balance,
+            paidMonths
+          } = rows[0];
+
+          const { students } = await getStudents(idRepresentative);
+          const representative = {
+            names,
+            lastnames,
+            dni,
+            phone,
+            email,
+            balance,
+            paidMonths,
+            students
+          };
+          console.log(representative);
+          resolve({ representative, status: 200 });
+        } else {
+          resolve({ status: 404 });
+        }
+      } else {
+        resolve({ errRepresentative });
       }
     });
   });

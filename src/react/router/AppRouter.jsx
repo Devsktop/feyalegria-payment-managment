@@ -19,6 +19,9 @@ import Config from 'react/components/config/Config';
 import UserRecover from 'react/components/UserRecover/UserRecover';
 import Maintenance from 'react/components/Maintenance/Maintenance';
 
+// Income Screens
+import VerifyRepresentative from 'react/components/income/VerifyRepresentative';
+
 // Config Screens
 import Grades from 'react/components/grades/Grades';
 import AddGrade from 'react/components/grades/AddGrade';
@@ -60,7 +63,14 @@ const AppRouter = () => {
             <Route exact path="/recover" component={UserRecover} />
             <Route exact path="/mantenimiento" component={Maintenance} />
 
-            {/* // Config Screens */}
+            {/* Income Screens */}
+            <Route
+              exact
+              path="/verifyRepresentative"
+              component={VerifyRepresentative}
+            />
+
+            {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />
             <Route exact path="/addGrade" component={AddGrade} />
             <Route exact path="/editGrade/:id" component={EditGrade} />
