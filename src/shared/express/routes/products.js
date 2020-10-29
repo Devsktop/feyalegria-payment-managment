@@ -53,8 +53,8 @@ router.post('/product', async (req, res) => {
 // 4.- Update Product http://localhost:3500/api/updProduct
 router.post('/updProduct', async (req, res) => {
   const { idProduct, productName, price, mandatory } = req.body;
-  // Query to add grade
-  const { product, errUpdProduct } = await updGrade(
+  // Query to update product
+  const { product, errUpdProduct } = await updProduct(
     idProduct,
     productName,
     price,
@@ -73,7 +73,7 @@ router.post('/updProduct', async (req, res) => {
 // Query to get Products
 const getProducts = async () => {
   const products = {};
-  const query = `SELECT idProduct, productName, price, mandatory FROM products;`;
+  const query = `SELECT idProduct, productName, price, mandatory FROM products WHERE deleted = false;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetProducts, rows) => {
@@ -91,7 +91,7 @@ const getProducts = async () => {
 
 // Query to delete product
 const deleteProduct = id => {
-  const query = `DELETE FROM products WHERE products.idProduct = ${id};`;
+  const query = `UPDATE products SET deleted = true where idProduct = ${id};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errDeleteProduct => {
@@ -103,6 +103,21 @@ const deleteProduct = id => {
     });
   });
 };
+
+// Query to delete product
+// const deleteProduct = id => {
+//   const query = `DELETE FROM products WHERE products.idProduct = ${id};`;
+
+//   return new Promise(resolve => {
+//     mysqlConnection.query(query, errDeleteProduct => {
+//       if (!errDeleteProduct) {
+//         resolve({ status: 200 });
+//       } else {
+//         resolve({ errDeleteProduct });
+//       }
+//     });
+//   });
+// };
 
 // Query to add product
 const addProduct = (newProductName, newPrice, newMandatory) => {
@@ -126,7 +141,7 @@ const addProduct = (newProductName, newPrice, newMandatory) => {
 };
 
 // Query to update product
-const updGrade = async (idProduct, productName, price, mandatory) => {
+const updProduct = async (idProduct, productName, price, mandatory) => {
   const query = `UPDATE products SET productName = "${productName}", price = ${price}, mandatory = ${mandatory} where idProduct = ${idProduct};`;
 
   return new Promise(resolve => {
@@ -140,72 +155,5 @@ const updGrade = async (idProduct, productName, price, mandatory) => {
     });
   });
 };
-
-// // 1.- Add Products http://localhost:3500/api/products
-// router.post('/products', (req, res) => {
-//   const { product, price } = req.body;
-//   const query = ` INSERT INTO products (product, price) VALUES (?, ?);
-//      `;
-
-//   mysqlConnection.query(query, [product, price], (err, rows) => {
-//     if (!err) {
-//       res.json({
-//         status: 'ok',
-//         id: rows.insertId
-//       });
-//     } else {
-//       res.json({
-//         status: 'error',
-//         err
-//       });
-//     }
-//   });
-// });
-
-// // 2.-Select Products http://localhost:3500/api/products
-// router.get('/products', (req, res) => {
-//   mysqlConnection.query('SELECT * from products', (err, rows, fields) => {
-//     if (!err) {
-//       res.json(rows);
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
-// // 3.-Delete Products ---> http://localhost:3500/api/products
-// router.delete('/products', (req, res) => {
-//   const { id } = req.body;
-//   const query = `  DELETE FROM products WHERE products.idproducts =(?);
-//      `;
-
-//   mysqlConnection.query(query, [id], (err, rows, fields) => {
-//     if (!err) {
-//       res.json({ status: 'ok' });
-//     } else {
-//       res.json({ status: 'error' });
-//     }
-//   });
-// });
-
-// //4.- Update Products---->http://localhost:3500/api/updProducts
-// router.post('/updProducts', (req, res) => {
-//   const { product, price } = req.body;
-//   const query = ` CALL updProducts(?, ?);
-//      `;
-
-//   mysqlConnection.query(query, [product, price], (err, rows, fields) => {
-//     if (!err) {
-//       res.json({
-//         status: 'ok'
-//       });
-//     } else {
-//       res.json({
-//         status: 'error',
-//         err
-//       });
-//     }
-//   });
-// });
 
 module.exports = router;

@@ -68,7 +68,6 @@ export function deleteGrade(id) {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then(result => {
-      console.log(result);
       if (result.value === 200) {
         dispatch(deleteGradeAction(id));
         Swal.fire({

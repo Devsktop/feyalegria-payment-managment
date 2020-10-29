@@ -70,7 +70,7 @@ const EditGrade = props => {
           />
           <Button
             type="submit"
-            text="editar producto"
+            text="editar grado"
             disabled={validateInputs()}
           />
         </div>

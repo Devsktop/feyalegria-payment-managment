@@ -219,17 +219,45 @@ interface rates {
   };
 } // READY
 
-// GET api/rates - ?type = string
-interface monthlyPayment {
+// UPDATE api/rates
+//   price: number;
+//   type: string;
+//   idRate: number;
+//   [paymentConcepts: number]: {
+//
+//     idConcept: {
+//       concept: string;
+//       price: number;
+//       idConcept: number;
+//       idRate: number;
+//     };
+//   };
+// deleted: [number]
+interface updateRate {
   price: number;
+  type: string;
+  idRate: number;
   [paymentConcepts: number]: {
     idConcept: {
       concept: string;
       price: number;
       idConcept: number;
+      idRate: number;
     };
   };
-} // READY
+}
+
+// GET api/rates - ?type = string
+// interface monthlyPayment {
+//   price: number;
+//   [paymentConcepts: number]: {
+//     idConcept: {
+//       concept: string;
+//       price: number;
+//       idConcept: number;
+//     };
+//   };
+// } // READY
 
 // GET api/products
 interface products {

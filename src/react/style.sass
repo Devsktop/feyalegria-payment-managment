@@ -11,6 +11,7 @@
 @import ./components/products/_products
 @import ./components/_data-table
 @import ./components/join/_join
+@import ./components/valuePair/_valuepair
 @import ./components/income/_income
 
 *
@@ -114,6 +115,14 @@ body
   margin: 0
   width: 100%!important
 
+  &:disabled
+    background: none
+    background-color: rgb(255, 195, 195)
+    border: 1px solid rgb(255, 195, 195)
+    cursor: auto
+
+    &:hover
+      color: #fff
 
 // SweetAlert classes
 

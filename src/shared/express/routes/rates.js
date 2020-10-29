@@ -19,6 +19,22 @@ router.get('/rates', async (req, res) => {
   return null;
 });
 
+// 2.-Update rate http://localhost:3500/api/updateRate
+router.post('/updateRate', async (req, res) => {
+  const { rate, deleted } = req.body;
+  // Query to update Rate
+  const { errUpdRate } = await updRate(rate, deleted);
+
+  if (errUpdRate) {
+    res.status(400).json({ errUpdRate });
+    return null;
+  }
+
+  res.status(200).json(rate);
+
+  return null;
+});
+
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get Rates
 const getRates = async () => {
@@ -48,7 +64,6 @@ const getRates = async () => {
             paymentConcepts: concepts
           };
         });
-
         resolve({ rates });
       } else {
         resolve({ errGetRates });
@@ -71,6 +86,127 @@ const getPaymentsConcepts = async () => {
         resolve({ paymentConcepts });
       } else {
         resolve({ errGetPaymentsConcepts });
+      }
+    });
+  });
+};
+
+// Query to update rate
+const updRate = async (rate, deleted) => {
+  const { idRate, price, type, paymentConcepts } = rate;
+  const query = `UPDATE rates SET price = ${price} where idRate = ${idRate} AND type = "${type}";`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async errUpdRate => {
+      if (!errUpdRate) {
+        // Check if deleted object is empty
+        if (deleted.length > 0) {
+          deleted.forEach(async id => {
+            // Query to delete paymentConcept
+            await deletePaymentConcept(id);
+          });
+        }
+
+        // Get array of keys of paymentConcepts
+        const paymentConceptsKeys = Object.keys(paymentConcepts);
+
+        // forEach to iterate with each individual paymentConcept
+        paymentConceptsKeys.forEach(async paymentConceptsKey => {
+          // Verify if idConcept is positive
+          if (paymentConcepts[paymentConceptsKey].idConcept > 0) {
+            // Query to update paymentConcept
+            await updPaymentConcept(paymentConcepts[paymentConceptsKey]);
+          } else {
+            // Query to insert paymentConcept
+            await addPaymentConcept(paymentConcepts[paymentConceptsKey]);
+          }
+        });
+
+        // Get new paymentConcepts
+        const newPaymentConcepts = await getPaymentConcepts(idRate);
+        // Construction of new rate object
+        const newRate = {
+          idRate,
+          price,
+          type,
+          paymentConcepts: newPaymentConcepts
+        };
+        resolve({ newRate });
+      } else {
+        resolve({ errUpdRate });
+      }
+    });
+  });
+};
+
+// Query to update paymentConcept
+const updPaymentConcept = async paymentConcept => {
+  const { concept, conceptPrice, idConcept, idRate } = paymentConcept;
+  const newPaymentConcept = {};
+  const query = `UPDATE paymentsconcepts SET name = "${concept}", price = ${conceptPrice} WHERE idPaymentsConcept = ${idConcept} AND idRate = ${idRate}`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdPaymentsConcepts => {
+      if (!errUpdPaymentsConcepts) {
+        newPaymentConcept[idConcept] = {
+          idConcept,
+          concept,
+          conceptPrice,
+          idRate
+        };
+        resolve(newPaymentConcept);
+      } else {
+        resolve({ errUpdPaymentsConcepts });
+      }
+    });
+  });
+};
+
+// Query to add paymentConcept
+const addPaymentConcept = async paymentConcept => {
+  const { concept, conceptPrice, idRate } = paymentConcept;
+  const query = `INSERT INTO paymentsconcepts (name, price, idRate) VALUES ("${concept}", ${conceptPrice}, ${idRate})`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errAddPaymentsConcept => {
+      if (!errAddPaymentsConcept) {
+        resolve({ status: 200 });
+      } else {
+        resolve({ errAddPaymentsConcept });
+      }
+    });
+  });
+};
+
+// Query to delete paymentConcept
+const deletePaymentConcept = async id => {
+  const query = `UPDATE paymentsconcepts SET deleted = true WHERE idPaymentsConcept = ${id}`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdPaymentsConcepts => {
+      if (!errUpdPaymentsConcepts) {
+        resolve({ status: 200 });
+      } else {
+        resolve({ errUpdPaymentsConcepts });
+      }
+    });
+  });
+};
+
+// Query to get new paymentConcepts
+const getPaymentConcepts = async idRate => {
+  const newPaymentConcepts = {};
+  const query = `SELECT idPaymentsConcept AS idConcept, name AS concept, paymentsconcepts.price AS conceptPrice, paymentsconcepts.idRate FROM paymentsConcepts LEFT JOIN rates ON rates.idRate = ${idRate} WHERE deleted = false`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errUpdPaymentsConcepts, rows) => {
+      if (!errUpdPaymentsConcepts) {
+        rows.forEach(row => {
+          newPaymentConcepts[row.idConcept] = { ...row };
+        });
+        resolve(newPaymentConcepts);
+      } else {
+        resolve({ errUpdPaymentsConcepts });
       }
     });
   });

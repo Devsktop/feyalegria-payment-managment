@@ -14,7 +14,8 @@ const AddValuePair = ({
   addPairAction,
   removePairAction,
   pairKeys,
-  valueDecimal
+  valueDecimal,
+  pairLabels
 }) => {
   const dispatch = useDispatch();
   const [lastId, setLastId] = useState(-1);
@@ -26,7 +27,7 @@ const AddValuePair = ({
     const newConcept = {
       id: lastId,
       [name]: '',
-      [value]: 0
+      [value]: ''
     };
     setLastId(id => id - 1);
     dispatch(addPairAction(newConcept));
@@ -45,6 +46,7 @@ const AddValuePair = ({
         removePairAction={removePairAction}
         pairKeys={pairKeys}
         valueDecimal={valueDecimal}
+        pairLabels={pairLabels}
       />
     </div>
   );
@@ -57,11 +59,13 @@ AddValuePair.propTypes = {
   removePairAction: PropTypes.func.isRequired,
   pairSelector: PropTypes.func.isRequired,
   pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  valueDecimal: PropTypes.bool
+  valueDecimal: PropTypes.bool,
+  pairLabels: PropTypes.arrayOf(PropTypes.string)
 };
 
 AddValuePair.defaultProps = {
-  valueDecimal: false
+  valueDecimal: false,
+  pairLabels: ['name', 'value']
 };
 
 export default AddValuePair;

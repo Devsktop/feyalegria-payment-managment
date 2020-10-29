@@ -13,7 +13,7 @@ const Income = () => {
     <div className="config content-screen">
       <IncomeBox
         ilustration={JoinIlustration}
-        title="Incribir Alumnos"
+        title="Inscribir Alumnos"
         link="/grades"
       />
       <IncomeBox

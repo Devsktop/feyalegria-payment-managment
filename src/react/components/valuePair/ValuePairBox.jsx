@@ -11,7 +11,8 @@ const ValuePairBox = ({
   pairSelector,
   removePairAction,
   pairKeys,
-  valueDecimal
+  valueDecimal,
+  pairLabels
 }) => {
   const valuePair = useSelector(boxSelector, shallowEqual);
   console.log(valuePair);
@@ -26,6 +27,7 @@ const ValuePairBox = ({
           pairKeys={pairKeys}
           id={parseInt(key, 10)}
           valueDecimal={valueDecimal}
+          pairLabels={pairLabels}
         />
       ))}
     </div>
@@ -38,7 +40,8 @@ ValuePairBox.propTypes = {
   removePairAction: PropTypes.func.isRequired,
   pairSelector: PropTypes.func.isRequired,
   pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  valueDecimal: PropTypes.bool
+  valueDecimal: PropTypes.bool,
+  pairLabels: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 ValuePairBox.defaultProps = {

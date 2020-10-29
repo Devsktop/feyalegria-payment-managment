@@ -7,17 +7,22 @@ import PropTypes from 'prop-types';
 // Helper validators
 import { decimalValidator, intValidator } from 'helper';
 
+// Components
+import Minput from 'react/components/Minput';
+
 const ValuePair = ({
   changePairAction,
   pairSelector,
   pairKeys,
   id,
   removePairAction,
-  valueDecimal
+  valueDecimal,
+  pairLabels
 }) => {
   const dispatch = useDispatch();
   const valuePair = useSelector(state => pairSelector(state, id), shallowEqual);
   const [name, value] = pairKeys;
+  const [nameLabel, valueLabel] = pairLabels;
   console.log(valuePair);
 
   // OnChange
@@ -48,15 +53,21 @@ const ValuePair = ({
       // If number ends with 0 or '.' does not parse it
       const decimal = decimalValidator(e, valuePair[value]);
       if (decimal.endsWith('.') || decimal.endsWith('0')) return decimal;
-      return parseFloat(decimal) || 0;
+      return parseFloat(decimal) || '';
     }
-    return parseInt(intValidator(e, valuePair[value]), 10) || 0;
+    return parseInt(intValidator(e, valuePair[value]), 10) || '';
   };
 
   return (
-    <div>
-      <input type="text" onChange={handleName} value={valuePair[name]} />
-      <input
+    <div className="valuepair_box_pair">
+      <Minput
+        label={nameLabel}
+        type="text"
+        onChange={handleName}
+        value={valuePair[name]}
+      />
+      <Minput
+        label={valueLabel}
         type="text"
         onKeyDown={handleValue}
         value={valuePair[value]}
@@ -73,7 +84,8 @@ ValuePair.propTypes = {
   removePairAction: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  valueDecimal: PropTypes.bool
+  valueDecimal: PropTypes.bool,
+  pairLabels: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 ValuePair.defaultProps = {
