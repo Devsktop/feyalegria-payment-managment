@@ -1,15 +1,19 @@
 .main_panel
     display: flex
-    height: 93vh
 
     .menu
         width: 5%
         min-width: 65px
+        position: fixed
+        height: 100vh
+        z-index: 1000
         @media only screen and (max-width: 100px)
             min-width: 55px
 
     .content
-        width: 95%
+        width: 100%
+        margin-left: 65px
+        min-height: 93vh
 
         &.full_screen
             width: 100%
