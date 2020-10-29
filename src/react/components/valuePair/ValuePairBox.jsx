@@ -15,7 +15,6 @@ const ValuePairBox = ({
   pairLabels
 }) => {
   const valuePair = useSelector(boxSelector, shallowEqual);
-  console.log(valuePair);
   return (
     <div className="valuepair_box">
       {Object.keys(valuePair).map(key => (

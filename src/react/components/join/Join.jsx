@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
-import { restoreConceptInscription } from 'react/redux/actions/conceptsActions';
+import {
+  restoreConceptInscription,
+  updatePriceInscription
+} from 'react/redux/actions/conceptsActions';
 import { updateRate } from 'react/redux/actions/ratesActions';
 
 // Helper
@@ -11,19 +14,20 @@ import { decimalValidator } from 'helper';
 
 // Components
 import Minput from 'react/components/Minput';
+import Button from 'react/components/Button';
 import JoinValuePair from './JoinValuePair';
 
 // Selector
 
-const initialPriceSelector = state => {
-  const { rates } = state;
-  let initialPrice = {};
+const priceSelector = state => {
+  const { concepts } = state;
+  let price = {};
 
-  Object.keys(rates).forEach(rate => {
-    if (rates[rate].type === 'INSCRIPTION') initialPrice = rates[rate].price;
+  Object.keys(concepts).forEach(concept => {
+    if (concepts[concept].type === 'INSCRIPTION')
+      price = concepts[concept].price;
   });
-
-  return initialPrice;
+  return price;
 };
 
 const conceptValidator = state => {
@@ -53,9 +57,8 @@ const conceptValidator = state => {
 const Join = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const initialPrice = useSelector(initialPriceSelector);
+  const price = useSelector(priceSelector);
   const isConceptValid = useSelector(conceptValidator);
-  const [price, setPrice] = useState(initialPrice);
 
   useEffect(() => {
     return () => {
@@ -64,7 +67,7 @@ const Join = () => {
   }, []);
 
   const handleKeyDown = e => {
-    setPrice(decimalValidator(e, price));
+    dispatch(updatePriceInscription(decimalValidator(e, price)));
   };
 
   const handleSubmit = e => {
@@ -78,7 +81,7 @@ const Join = () => {
 
   return (
     <div className="join content-screen">
-      <form className="sweet-form box" onSubmit={handleSubmit}>
+      <form className="sweet-form box inscriptionBox" onSubmit={handleSubmit}>
         <h1 className="box_title">Administre Inscripcrión</h1>
         <Minput
           type="text"
@@ -91,22 +94,14 @@ const Join = () => {
         <JoinValuePair />
 
         <div className="button_container">
-          <button
-            type="button"
-            className="button button-cancel"
-            onClick={handleGoBack}
-          >
-            Volver
-          </button>
-          <button
+          <Button type="button" onClick={handleGoBack} text="Volver" />
+          <Button
             type="submit"
-            className="button button-accept"
             disabled={
               price === '' || !(parseFloat(price) > 0) || !isConceptValid
             }
-          >
-            Aceptar
-          </button>
+            text="Aceptar"
+          />
         </div>
       </form>
     </div>

@@ -23,7 +23,6 @@ const ValuePair = ({
   const valuePair = useSelector(state => pairSelector(state, id), shallowEqual);
   const [name, value] = pairKeys;
   const [nameLabel, valueLabel] = pairLabels;
-  console.log(valuePair);
 
   // OnChange
   const handleName = e => {

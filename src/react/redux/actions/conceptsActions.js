@@ -25,6 +25,13 @@ export const updateConceptInscription = concept => ({
   payload: { concept }
 });
 
+export const UPDATE_PRICE_INSCRIPTION = 'UPDATE_PRICE_INSCRIPTION';
+
+export const updatePriceInscription = price => ({
+  type: UPDATE_PRICE_INSCRIPTION,
+  payload: { price }
+});
+
 export const DELETE_CONCEPTS_INSCRPTION = 'DELETE_CONCEPTS_INSCRPTION';
 
 export const deleteConceptInscription = idConcept => ({

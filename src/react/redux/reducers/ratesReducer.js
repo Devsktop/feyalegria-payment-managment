@@ -1,4 +1,4 @@
-import { FETCH_RATES } from '../actions/ratesActions';
+import { FETCH_RATES, UPDATE_RATES } from '../actions/ratesActions';
 
 const initialState = {};
 
@@ -9,6 +9,16 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         ...payload
       };
+
+    case UPDATE_RATES: {
+      const { rate } = payload;
+      const rates = { ...state, [rate.idRate]: { ...rate } };
+
+      return {
+        ...state,
+        ...rates
+      };
+    }
     default:
       return state;
   }

@@ -30,7 +30,7 @@ router.post('/updateRate', async (req, res) => {
     return null;
   }
 
-  res.status(200).json(rate);
+  res.status(200).json({ rate, status: 200 });
 
   return null;
 });

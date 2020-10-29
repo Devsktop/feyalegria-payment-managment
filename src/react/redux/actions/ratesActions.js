@@ -18,19 +18,22 @@ export const fetchRates = async () => {
 // Save concepts in db and change original concepts.
 export const UPDATE_RATES = 'UPDATE_RATES';
 
-const updateRatesAction = rates => ({
-  type: UPDATE_RATES
+const updateRateAction = rate => ({
+  type: UPDATE_RATES,
+  payload: { rate }
 });
 
 export const updateRate = type => {
   return (dispatch, getState) => {
     const { concepts } = getState();
-    let rate = {};
+    let rawRate = {};
 
     Object.keys(concepts).forEach(concept => {
-      if (concepts[concept].type === type)
-        rate = { ...concept, deleted: concepts.deleted };
+      if (concepts[concept].type === type) rawRate = { ...concepts[concept] };
     });
+
+    const { deleted } = concepts;
+    const rate = parseRate(rawRate);
 
     Swal.fire({
       title: 'Estableciendo conceptos de pago',
@@ -46,47 +49,19 @@ export const updateRate = type => {
         const url = 'http://localhost:3500/api/updateRate';
         const config = {
           method: 'POST',
-          body: JSON.stringify({ rate }),
+          body: JSON.stringify({ rate, deleted }),
           headers: {
             'Content-Type': 'application/json'
           }
         };
 
-        // const fetch = await fetch(url, config);
-        // const res = await fetch.json();
+        const fetchRes = await fetch(url, config);
+        const res = await fetchRes.json();
 
-        const res = await new Promise(resolve => {
-          setTimeout(() => {
-            resolve({
-              rate: {
-                idRate: 1,
-                type: 'INSCRIPTION',
-                price: 2,
-                paymentConcepts: {
-                  1: {
-                    idConcept: 1,
-                    concept: 'Proyecto',
-                    conceptPrice: 0.5,
-                    idRate: 1
-                  },
-                  2: {
-                    idConcept: 2,
-                    concept: 'prueba',
-                    conceptPrice: 1,
-                    idRate: 1
-                  }
-                }
-              },
-              status: 200
-            });
-          }, 3000);
-        });
-
-        console.log('afuera');
-
+        console.log(res);
         if (res.status === 200) {
           console.log(res);
-          dispatch(updateRatesAction(res.rate));
+          dispatch(updateRateAction(res.rate));
           dispatch(updateConcepts(res.rate));
           dispatch(cleanDeleted());
           Swal.hideLoading();
@@ -100,7 +75,7 @@ export const updateRate = type => {
               title: 'title-class'
             }
           });
-        } else if (res.err.errno === 1062) {
+        } else if (res.status === 1062) {
           // if product's  name is already used
           Swal.hideLoading();
           Swal.fire({
@@ -119,4 +94,22 @@ export const updateRate = type => {
       allowEscapeKey: () => !Swal.isLoading()
     });
   };
+};
+
+const parseRate = rate => {
+  const parsedPrice = parseFloat(rate.price);
+
+  const concepts = { ...rate.paymentConcepts };
+
+  Object.keys(concepts).forEach(concept => {
+    concepts[concept].conceptPrice = parseFloat(concepts[concept].conceptPrice);
+  });
+
+  const parsedRate = {
+    ...rate,
+    price: parsedPrice,
+    paymentConcepts: { ...concepts }
+  };
+  console.log(parsedRate);
+  return parsedRate;
 };

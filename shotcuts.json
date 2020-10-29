@@ -23,5 +23,5 @@
   "fold block": "ctrl + shift + ' ",
   "unfold block": "ctrl + shift + ¡",
   "comment/uncomment": "ctrl + }",
-  "go to bracket": "ctrl + shift + {"
+  "go to bracket": "ctrl + shift + }"
 }
