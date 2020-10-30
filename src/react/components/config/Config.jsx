@@ -26,7 +26,7 @@ const Config = () => {
       <ConfigBox
         ilustration={MonthlyPaymentsIlustration}
         title="Mensualidades"
-        link="/monthlyPayments"
+        link="/monthly"
       />
       <ConfigBox
         ilustration={ProductsIlustration}
