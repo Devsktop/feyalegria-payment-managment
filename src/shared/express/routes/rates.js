@@ -75,7 +75,7 @@ const getRates = async () => {
 // Query to get paymentsConcepts
 const getPaymentsConcepts = async () => {
   const paymentConcepts = {};
-  const query = `SELECT paymentsconcepts.idPaymentsConcept AS idConcept, paymentsconcepts.name AS concept, paymentsconcepts.price AS conceptPrice, paymentsconcepts.idRate FROM rates, paymentsconcepts WHERE rates.idRate = paymentsconcepts.idRate;`;
+  const query = `SELECT paymentsconcepts.idPaymentsConcept AS idConcept, paymentsconcepts.name AS concept, paymentsconcepts.price AS conceptPrice, paymentsconcepts.idRate FROM rates, paymentsconcepts WHERE rates.idRate = paymentsconcepts.idRate AND paymentsconcepts.deleted = false;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetPaymentsConcepts, rows) => {
@@ -103,6 +103,7 @@ const updRate = async (rate, deleted) => {
         if (deleted.length > 0) {
           deleted.forEach(async id => {
             // Query to delete paymentConcept
+            console.log(id);
             await deletePaymentConcept(id);
           });
         }
@@ -180,6 +181,7 @@ const addPaymentConcept = async paymentConcept => {
 
 // Query to delete paymentConcept
 const deletePaymentConcept = async id => {
+  console.log(id);
   const query = `UPDATE paymentsconcepts SET deleted = true WHERE idPaymentsConcept = ${id}`;
 
   return new Promise(resolve => {

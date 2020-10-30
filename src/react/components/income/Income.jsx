@@ -14,12 +14,12 @@ const Income = () => {
       <IncomeBox
         ilustration={JoinIlustration}
         title="Inscribir Alumnos"
-        link="/grades"
+        link="/verifyRepresentative"
       />
       <IncomeBox
         ilustration={MonthlyPaymentsIlustration}
         title="Pagar Mensualidades"
-        link="/join"
+        link="/verifyRepresentative"
       />
       <IncomeBox
         ilustration={ProductsIlustration}
