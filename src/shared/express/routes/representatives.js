@@ -44,15 +44,18 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
 router.get('/representativesbydni/:dni', async (req, res) => {
   const { dni } = req.params;
   // Query to get representative
-  const { representative, errRepresentative } = await getRepresentativeByDni(
-    dni
-  );
+  const {
+    representative,
+    status,
+    errRepresentative
+  } = await getRepresentativeByDni(dni);
   if (errRepresentative) {
     res.status(400).json({ errRepresentative });
     return null;
   }
+  console.log(representative);
 
-  res.status(200).json({ representative });
+  res.status(200).json({ representative, status });
   return res;
 });
 
@@ -193,7 +196,6 @@ const getRepresentativeByDni = async representativeDni => {
             paidMonths,
             students
           };
-          console.log(representative);
           resolve({ representative, status: 200 });
         } else {
           resolve({ status: 404 });
