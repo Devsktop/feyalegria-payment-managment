@@ -16,18 +16,18 @@ const priceSelector = state => {
   let price = {};
 
   Object.keys(concepts).forEach(concept => {
-    if (concepts[concept].type === 'INSCRIPTION')
+    if (concepts[concept].type === 'MONTHLYPAYMENT')
       price = concepts[concept].price;
   });
   return price;
 };
 
-const JoinPrice = () => {
+const MonthlyPrice = () => {
   const dispatch = useDispatch();
   const price = useSelector(priceSelector);
 
   const handleKeyDown = e => {
-    dispatch(updatePrice(decimalValidator(e, price), 'INSCRIPTION'));
+    dispatch(updatePrice(decimalValidator(e, price), 'MONTHLYPAYMENT'));
   };
 
   return (
@@ -41,4 +41,4 @@ const JoinPrice = () => {
   );
 };
 
-export default JoinPrice;
+export default MonthlyPrice;

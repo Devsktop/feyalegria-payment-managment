@@ -17,7 +17,8 @@ const ValuePair = ({
   id,
   removePairAction,
   valueDecimal,
-  pairLabels
+  pairLabels,
+  type
 }) => {
   const dispatch = useDispatch();
   const valuePair = useSelector(state => pairSelector(state, id), shallowEqual);
@@ -31,7 +32,7 @@ const ValuePair = ({
       [name]: e.target.value,
       [value]: valuePair[value]
     };
-    dispatch(changePairAction(newConcept));
+    dispatch(changePairAction(newConcept, type));
   };
 
   const handleValue = e => {
@@ -40,11 +41,11 @@ const ValuePair = ({
       [name]: valuePair[name],
       [value]: numberConvertion(e)
     };
-    dispatch(changePairAction(newConcept));
+    dispatch(changePairAction(newConcept, type));
   };
 
   const handleRemove = () => {
-    dispatch(removePairAction(id));
+    dispatch(removePairAction(id, type));
   };
 
   const numberConvertion = e => {
@@ -84,7 +85,8 @@ ValuePair.propTypes = {
   id: PropTypes.number.isRequired,
   pairKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
   valueDecimal: PropTypes.bool,
-  pairLabels: PropTypes.arrayOf(PropTypes.string).isRequired
+  pairLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  type: PropTypes.string.isRequired
 };
 
 ValuePair.defaultProps = {
