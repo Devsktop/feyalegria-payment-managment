@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // Actions
 import { editProduct } from 'react/redux/actions/productsActions';
@@ -9,8 +10,8 @@ import { editProduct } from 'react/redux/actions/productsActions';
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
-const EditProduct = props => {
-  const { id } = props.match.params;
+const EditProduct = ({ match: { params } }) => {
+  const { id } = params;
   const dispatch = useDispatch();
   // Selector
   const currentProduct = useSelector(state => state.products.products[id]);
@@ -72,7 +73,7 @@ const EditProduct = props => {
               checked={mandatory}
               onChange={handleMandatory}
             />
-            <span className="checkmark"></span>
+            <span className="checkmark" />
           </label>
         </div>
         <div className="button_container">
