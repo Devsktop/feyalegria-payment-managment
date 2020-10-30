@@ -29,7 +29,13 @@ export default function reducer(state = initialState, { type, payload }) {
         if (state[concept].type === 'INSCRIPTION') idInscription = concept;
       });
 
-      const newConcept = { ...payload.concept, idConcept: payload.concept.id };
+      const newConcept = {
+        ...payload.concept,
+        idConcept: payload.concept.id,
+        idRate: parseInt(idInscription, 10)
+      };
+      console.log(idInscription);
+
       delete newConcept.id;
 
       const paymentConcepts = {
@@ -52,7 +58,11 @@ export default function reducer(state = initialState, { type, payload }) {
         if (state[concept].type === 'INSCRIPTION') idInscription = concept;
       });
 
-      const newConcept = { ...payload.concept, idConcept: payload.concept.id };
+      const newConcept = {
+        ...payload.concept,
+        idConcept: payload.concept.id,
+        idRate: state[idInscription].paymentConcepts[payload.concept.id].idRate
+      };
       delete newConcept.id;
 
       const paymentConcepts = {
