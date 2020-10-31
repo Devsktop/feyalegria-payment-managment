@@ -4,7 +4,10 @@ import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createGrade } from 'react/redux/actions/gradesActions';
-import { updateMirrorscholarYear } from 'react/redux/actions/mirrorGradeActions';
+import {
+  updateMirrorscholarYear,
+  restoreMirrorGrade
+} from 'react/redux/actions/mirrorGradeActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
@@ -29,6 +32,11 @@ const AddGrade = () => {
     dispatch(createGrade(history));
   };
 
+  const handleGoBack = () => {
+    dispatch(restoreMirrorGrade());
+    history.goBack();
+  };
+
   return (
     <div className="box grade_box">
       <form className="sweet-form grade_form" onSubmit={handleSubmit}>
@@ -41,11 +49,7 @@ const AddGrade = () => {
         />
         <GradeValuePair />
         <div className="button_container">
-          <Button
-            type="button"
-            onClick={() => history.goBack()}
-            text="volver"
-          />
+          <Button type="button" onClick={handleGoBack} text="volver" />
           <Button
             type="submit"
             disabled={validateInputs()}

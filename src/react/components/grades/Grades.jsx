@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 // Actions
 import { fetchGrades, deleteGrade } from 'react/redux/actions/gradesActions';
+import { setMirrorGrade } from 'react/redux/actions/mirrorGradeActions';
 
 // Components
 import Button from 'react/components/Button';
@@ -44,7 +45,10 @@ const Grades = () => {
 
   const handleDelete = id => dispatch(deleteGrade(id));
 
-  const handleClick = id => history.push(`/editGrade/${id}`);
+  const handleClick = id => {
+    dispatch(setMirrorGrade(grades[id]));
+    history.push(`/editGrade/${id}`);
+  };
 
   return (
     <div className="content-screen">

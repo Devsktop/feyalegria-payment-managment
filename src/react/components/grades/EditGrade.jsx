@@ -1,27 +1,28 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 // Actions
+import {
+  updateMirrorscholarYear,
+  restoreMirrorGrade
+} from 'react/redux/actions/mirrorGradeActions';
 import { editGrade } from 'react/redux/actions/gradesActions';
 
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import GradeValuePair from './GradeValuePair';
 
-const EditGrade = props => {
-  const { id } = props.match.params;
+const EditGrade = () => {
   const dispatch = useDispatch();
-  // Selector
-  const currentGrade = useSelector(state => state.grades.grades[id]);
-  const [grade, setGrade] = useState(currentGrade.scholarYear);
+  const grade = useSelector(state => state.mirrorGrade.grade);
   const history = useHistory();
 
   const handleGrade = e => {
-    setGrade(e.target.value);
+    dispatch(updateMirrorscholarYear(e.target.value));
   };
 
   const validateInputs = () => {
@@ -31,44 +32,27 @@ const EditGrade = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    dispatch(editGrade(history));
+  };
 
-    const gradesSections = {
-      1: {
-        idSection: 1,
-        section: 'A',
-        capacity: 30
-      },
-      2: {
-        idSection: 2,
-        section: 'B',
-        capacity: 25
-      }
-    };
-
-    const newGrade = {
-      idGrade: id,
-      scholarYear: grade,
-      gradesSections
-    };
-    dispatch(editGrade(newGrade, history));
+  const handleGoBack = () => {
+    dispatch(restoreMirrorGrade());
+    history.goBack();
   };
 
   return (
-    <div className="box">
-      <form className="sweet-form grade-form" onSubmit={handleSubmit}>
+    <div className="box grade_box">
+      <form className="sweet-form grade_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Grados y Secciones</h1>
         <Minput
           type="text"
           onChange={handleGrade}
-          value={grade}
+          value={grade.scholarYear}
           label="Grado:"
         />
+        <GradeValuePair />
         <div className="button_container">
-          <Button
-            type="button"
-            text="volver"
-            onClick={() => history.goBack()}
-          />
+          <Button type="button" text="volver" onClick={handleGoBack} />
           <Button
             type="submit"
             text="editar grado"
@@ -78,11 +62,6 @@ const EditGrade = props => {
       </form>
     </div>
   );
-};
-
-EditGrade.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  id: PropTypes.number.isRequired
 };
 
 export default EditGrade;
