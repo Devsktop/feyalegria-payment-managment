@@ -7,6 +7,7 @@ import grades from './gradesReducer';
 import concepts from './conceptsReducer';
 import products from './productsReducer';
 import rates from './ratesReducer';
+import mirrorGrade from './mirrorGradeReducer';
 
 export default combineReducers({
   login,
@@ -16,5 +17,6 @@ export default combineReducers({
   rates,
   grades,
   concepts,
-  products
+  products,
+  mirrorGrade
 });

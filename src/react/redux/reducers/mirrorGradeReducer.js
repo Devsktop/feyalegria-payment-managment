@@ -31,13 +31,13 @@ export default function reducer(state = initialState, { type, payload }) {
     case ADD_MIRROR_SECTION: {
       const newSection = {
         ...payload.section,
-        idSection: payload.section,
+        idSection: payload.section.id,
         idGrade: state.grade.idGrade
       };
       delete newSection.id;
 
       const gradesSections = {
-        ...gradesSections,
+        ...state.grade.gradesSections,
         [newSection.idSection]: newSection
       };
 
@@ -50,13 +50,13 @@ export default function reducer(state = initialState, { type, payload }) {
     case UPDATE_MIRROR_SECTION: {
       const newSection = {
         ...payload.section,
-        idSection: payload.section,
+        idSection: payload.section.id,
         idGrade: state.grade.idGrade
       };
       delete newSection.id;
 
       const gradesSections = {
-        ...gradesSections,
+        ...state.grade.gradesSections,
         [newSection.idSection]: newSection
       };
 
@@ -78,8 +78,11 @@ export default function reducer(state = initialState, { type, payload }) {
       };
     }
 
-    case RESTORE_MIRROR_GRADE:
+    case RESTORE_MIRROR_GRADE: {
+      console.log('hola');
+      console.log(initialState);
       return { ...initialState };
+    }
 
     default:
       return state;

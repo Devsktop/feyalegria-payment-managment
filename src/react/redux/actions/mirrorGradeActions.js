@@ -28,26 +28,20 @@ export const updateMirrorSection = section => ({
 
 export const UPDATE_MIRROR_SCHOLARYEAR = 'UPDATE_MIRROR_SCHOLARYEAR';
 
-export const updateMirrorPrice = scholarYear => ({
+export const updateMirrorscholarYear = scholarYear => ({
   type: UPDATE_MIRROR_SCHOLARYEAR,
   payload: { scholarYear }
 });
 
 export const DELETE_MIRROR_SECTION = 'DELETE_MIRROR_SECTION';
 
-export const deleteMirrorSection = idSeciton => ({
+export const deleteMirrorSection = idSection => ({
   type: DELETE_MIRROR_SECTION,
-  payload: { idSeciton }
+  payload: { idSection }
 });
 
 export const RESTORE_MIRROR_GRADE = 'RESTORE_MIRROR_GRADE';
 
-export const restoreConceptInscription = () => {
-  return (dispatch, getState) => {
-    const { rates } = getState();
-    dispatch({
-      type: RESTORE_MIRROR_GRADE,
-      payload: { rates }
-    });
-  };
-};
+export const restoreMirrorGrade = () => ({
+  type: RESTORE_MIRROR_GRADE
+});

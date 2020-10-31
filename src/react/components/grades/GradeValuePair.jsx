@@ -2,59 +2,46 @@ import React from 'react';
 import { createSelector } from 'reselect';
 // Actions
 import {
-  addConcepts,
-  updateConcept,
-  deleteConcept
-} from 'react/redux/actions/conceptsActions';
+  addMirrorSection,
+  updateMirrorSection,
+  deleteMirrorSection
+} from 'react/redux/actions/mirrorGradeActions';
 
 // Components
 import AddValuePair from '../valuePair/AddValuePair';
 
 // Selectors
 const boxSelector = state => {
-  const { mirrorGrade: gradesSection } = state;
-  let paymentConcepts = {};
+  const { gradesSections } = state.mirrorGrade.grade;
 
-  Object.keys(concepts).forEach(concept => {
-    if (concepts[concept].type === 'INSCRIPTION')
-      paymentConcepts = { ...concepts[concept].paymentConcepts };
+  const gradesSectionsKeys = {};
+
+  Object.keys(gradesSections).forEach(section => {
+    gradesSectionsKeys[section] = section;
   });
 
-  const paymentConceptsKeys = {};
-
-  Object.keys(paymentConcepts).forEach(concept => {
-    paymentConceptsKeys[concept] = concept;
-  });
-
-  return paymentConceptsKeys;
+  return gradesSectionsKeys;
 };
 
-const joinConceptsSelector = createSelector(
+const sectionSelector = createSelector(
   state => {
-    const { concepts } = state;
-    let paymentConcepts = {};
+    const { gradesSections } = state.mirrorGrade.grade;
 
-    Object.keys(concepts).forEach(concept => {
-      if (concepts[concept].type === 'INSCRIPTION')
-        paymentConcepts = { ...concepts[concept].paymentConcepts };
-    });
-
-    return paymentConcepts;
+    return gradesSections;
   },
   (_, id) => id,
-  (paymentConcepts, id) => paymentConcepts[id]
+  (gradesSections, id) => gradesSections[id]
 );
 
 const GradeValuePair = () => {
   return (
     <AddValuePair
       boxSelector={boxSelector}
-      addPairAction={addConcepts}
-      changePairAction={updateConcept}
-      pairSelector={joinConceptsSelector}
-      removePairAction={deleteConcept}
-      pairKeys={['concept', 'conceptPrice']}
-      valueDecimal
+      addPairAction={addMirrorSection}
+      changePairAction={updateMirrorSection}
+      pairSelector={sectionSelector}
+      removePairAction={deleteMirrorSection}
+      pairKeys={['section', 'capacity']}
       pairLabels={['Sección', 'Capacidad']}
       type=""
     />

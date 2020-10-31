@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createGrade } from 'react/redux/actions/gradesActions';
-
+import { updateMirrorscholarYear } from 'react/redux/actions/mirrorGradeActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 import GradeValuePair from './GradeValuePair';
+
 const AddGrade = () => {
   const dispatch = useDispatch();
-  const [grade, setGrade] = useState('');
+  const grade = useSelector(state => state.mirrorGrade.grade.scholarYear);
   const history = useHistory();
 
   const handleGrade = e => {
-    setGrade(e.target.value);
+    dispatch(updateMirrorscholarYear(e.target.value));
   };
 
   const validateInputs = () => {
@@ -25,28 +26,12 @@ const AddGrade = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    const gradesSections = {
-      1: {
-        section: 'A',
-        capacity: 30
-      },
-      2: {
-        section: 'B',
-        capacity: 25
-      }
-    };
-
-    const newGrade = {
-      scholarYear: grade,
-      gradesSections
-    };
-    dispatch(createGrade(newGrade, history));
+    dispatch(createGrade(history));
   };
 
   return (
-    <div className="box">
-      <form className="sweet-form grade-form" onSubmit={handleSubmit}>
+    <div className="box grade_box">
+      <form className="sweet-form grade_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Grados y Secciones</h1>
         <Minput
           type="text"
