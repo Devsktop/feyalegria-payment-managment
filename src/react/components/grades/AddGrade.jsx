@@ -8,7 +8,7 @@ import { createGrade } from 'react/redux/actions/gradesActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
+import GradeValuePair from './GradeValuePair';
 const AddGrade = () => {
   const dispatch = useDispatch();
   const [grade, setGrade] = useState('');
@@ -54,6 +54,7 @@ const AddGrade = () => {
           value={grade}
           label="Grado:"
         />
+        <GradeValuePair />
         <div className="button_container">
           <Button
             type="button"
