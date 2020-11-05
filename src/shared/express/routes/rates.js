@@ -113,7 +113,7 @@ const updRate = async (rate, deleted) => {
 
         // forEach to iterate with each individual paymentConcept
         paymentConceptsKeys.forEach(async paymentConceptsKey => {
-          // Verify if idConcept is positive
+          // Verify if idConcept is positive ('+ = Update', '- = Delete')
           if (paymentConcepts[paymentConceptsKey].idConcept > 0) {
             // Query to update paymentConcept
             await updPaymentConcept(paymentConcepts[paymentConceptsKey]);

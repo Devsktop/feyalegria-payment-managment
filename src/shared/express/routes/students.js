@@ -5,124 +5,6 @@ const router = express.Router();
 
 // Rutas o Endpoints
 
-// 1.- Add Students http://localhost:3500/api/students
-router.post('/students', (req, res) => {
-  const {
-    names,
-    lastnames,
-    dni,
-    birthDate,
-    relationship,
-    state,
-    blood,
-    weight,
-    size,
-    email,
-    phone,
-    socialMedia
-  } = req.body;
-  const query = ` INSERT INTO students (names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-     `;
-
-  mysqlConnection.query(
-    query,
-    [
-      names,
-      lastnames,
-      dni,
-      birthDate,
-      relationship,
-      state,
-      blood,
-      weight,
-      size,
-      email,
-      phone,
-      socialMedia
-    ],
-    (err, rows) => {
-      if (!err) {
-        res.status(200).json({
-          id: rows.insertId
-        });
-      } else if (err.errno === 1062) {
-        // Handle Duplicate entry error
-        res.status(409).json({ err });
-      } else {
-        res.json({
-          status: 'error',
-          err
-        });
-      }
-    }
-  );
-});
-
-// 3.-Delete Student ---> http://localhost:3500/api/students
-router.delete('/students', (req, res) => {
-  const { id } = req.body;
-  const query = `  DELETE FROM students WHERE students.Id_students =(?);
-     `;
-
-  mysqlConnection.query(query, [id], err => {
-    if (!err) {
-      res.json({ status: 'ok' });
-    } else {
-      res.json({ status: 'error' });
-    }
-  });
-});
-
-// 4.- Update Student---->http://localhost:3500/api/updStudent
-router.post('/updStudent', (req, res) => {
-  const {
-    names,
-    lastnames,
-    dni,
-    birthDate,
-    relationship,
-    state,
-    blood,
-    weight,
-    size,
-    email,
-    phone,
-    socialMedia
-  } = req.body;
-  const query = ` CALL updStudent(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-     `;
-
-  mysqlConnection.query(
-    query,
-    [
-      names,
-      lastnames,
-      dni,
-      birthDate,
-      relationship,
-      state,
-      blood,
-      weight,
-      size,
-      email,
-      phone,
-      socialMedia
-    ],
-    err => {
-      if (!err) {
-        res.json({
-          status: 'ok'
-        });
-      } else {
-        res.json({
-          status: 'error',
-          err
-        });
-      }
-    }
-  );
-});
-
 // 1.-Select 10 Solvent & 10 Insolvent Students http://localhost:3500/api/students
 router.get('/students', (req, res) => {
   const students = {};
@@ -205,7 +87,7 @@ router.get('/students', (req, res) => {
   });
 });
 
-// 1.-Select Students By Section http://localhost:3500/api/students/:section
+// 2.-Select Students By Section http://localhost:3500/api/students/:section
 router.get('/students/:section', (req, res) => {
   const { section } = req.params;
   const students = {};
@@ -231,5 +113,98 @@ router.get('/students/:section', (req, res) => {
     }
   });
 });
+
+// 4.- Post add student http://localhost:3500/api/student
+router.post('/student', async (req, res) => {
+  const {
+    names,
+    lastNames,
+    dni,
+    phone,
+    email,
+    balance,
+    paidMonths,
+    inscription,
+    idDniType
+  } = req.body;
+  // Query to add student
+  const { student, errAddStudent } = await addStudent(
+    names,
+    lastNames,
+    dni,
+    phone,
+    email,
+    balance,
+    paidMonths,
+    inscription,
+    idDniType
+  );
+  if (errAddStudent) {
+    res.status(400).json({ errAddStudent });
+    return null;
+  }
+
+  res.status(200).json({ student, status: 200 });
+  return null;
+});
+
+// Query to add student
+const addStudent = (
+  names,
+  lastNames,
+  dni,
+  birthDate,
+  relationship,
+  state,
+  balance,
+  inscription,
+  paidMonths,
+  idRepresentative,
+  idDniType,
+  idSection,
+  idGrade
+) => {
+  const query = `INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, balance, inscription, paidMonths, idRepresentative, idDniType, idSection, idGrade) 
+  VALUES
+  ("${names}", 
+  "${lastNames}", 
+  "${dni}", 
+  "${birthDate}", 
+  "${relationship}",
+  "${state}", 
+  ${balance},
+  ${inscription},
+  ${paidMonths},
+  ${idRepresentative}, 
+  ${idDniType},
+  ${idSection},
+  ${idGrade});`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errAddStudent, rows) => {
+      if (!errAddStudent) {
+        const student = {
+          idStudent: rows.insertId,
+          names,
+          lastNames,
+          dni,
+          birthDate,
+          relationship,
+          state,
+          balance,
+          inscription,
+          paidMonths,
+          idRepresentative,
+          idDniType,
+          idSection,
+          idGrade
+        };
+        resolve({ student });
+      } else {
+        resolve({ errAddStudent });
+      }
+    });
+  });
+};
 
 module.exports = router;

@@ -1,7 +1,8 @@
 import {
   FETCH_REPRESENTATIVEBYDNI,
   IS_FECTHING,
-  IS_FECTHED
+  IS_FECTHED,
+  ADD_REPRESENTATIVE
 } from '../actions/representativesActions';
 
 const initialState = {
@@ -29,6 +30,19 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         isFetched: true
       };
+
+    case ADD_REPRESENTATIVE: {
+      const { idRepresentative } = payload.representative;
+      const representative = { ...payload.representative, idRepresentative };
+      const representatives = {
+        ...state.representatives,
+        [idRepresentative]: representative
+      };
+      return {
+        ...state,
+        representatives
+      };
+    }
 
     default:
       return state;

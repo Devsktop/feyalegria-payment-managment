@@ -21,7 +21,7 @@ router.get('/representatives/:section', async (req, res) => {
   }
 
   res.status(200).json(representatives);
-  return res;
+  return null;
 });
 
 // 2.- Get representative http://localhost:3500/api/representatives/[idRepresentative]
@@ -37,7 +37,7 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
   }
 
   res.status(200).json({ representative, status });
-  return res;
+  return null;
 });
 
 // 3.- Get representative by Dni http://localhost:3500/api/representativesbydni/[dni]
@@ -53,13 +53,44 @@ router.get('/representativesbydni/:dni', async (req, res) => {
     res.status(400).json({ errRepresentative });
     return null;
   }
-  console.log(representative);
 
   res.status(200).json({ representative, status });
-  return res;
+  return null;
 });
 
-module.exports = router;
+// 4.- Post add representative http://localhost:3500/api/representative
+router.post('/representative', async (req, res) => {
+  const {
+    names,
+    lastNames,
+    dni,
+    phone,
+    email,
+    balance,
+    paidMonths,
+    inscription,
+    idDniType
+  } = req.body;
+  // Query to add representative
+  const { representative, errAddRepresentative } = await addRepresentative(
+    names,
+    lastNames,
+    dni,
+    phone,
+    email,
+    balance,
+    paidMonths,
+    inscription,
+    idDniType
+  );
+  if (errAddRepresentative) {
+    res.status(400).json({ errAddRepresentative });
+    return null;
+  }
+
+  res.status(200).json({ representative, status: 200 });
+  return null;
+});
 
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get representatives from section
@@ -103,7 +134,7 @@ const getRepresentative = async idRepresentative => {
   phone, 
   email, 
   balance, 
-  monthsToPay AS paidMonths 
+  paidMonths 
   FROM representatives 
   WHERE ${idRepresentative} = idRepresentative;`;
 
@@ -161,12 +192,12 @@ const getRepresentativeByDni = async representativeDni => {
   const query = `SELECT
   idRepresentative, 
   names,
-  lastnames,
+  lastNames,
   dni, 
   phone, 
   email, 
   balance, 
-  monthsToPay AS paidMonths 
+  paidMonths 
   FROM representatives 
   WHERE ${representativeDni} = dni;`;
 
@@ -177,7 +208,7 @@ const getRepresentativeByDni = async representativeDni => {
           const {
             idRepresentative,
             names,
-            lastnames,
+            lastNames,
             dni,
             phone,
             email,
@@ -188,7 +219,7 @@ const getRepresentativeByDni = async representativeDni => {
           const { students } = await getStudents(idRepresentative);
           const representative = {
             names,
-            lastnames,
+            lastNames,
             dni,
             phone,
             email,
@@ -207,77 +238,51 @@ const getRepresentativeByDni = async representativeDni => {
   });
 };
 
-// // 1.- Add Represantives http://localhost:3500/api/represantives
-// router.post('/represantives', (req, res) => {
-//   const { names, lastnames, dni, balance, phone, email } = req.body;
-//   const query = ` INSERT INTO represantives (names, lastnames, dni, balance, phone, email) VALUES (?, ?, ?, ?, ?, ?);
-//      `;
+// Query to add representative
+const addRepresentative = (
+  names,
+  lastNames,
+  dni,
+  phone,
+  email,
+  balance,
+  paidMonths,
+  inscription,
+  idDniType
+) => {
+  const query = `INSERT INTO representatives(names, lastNames, dni, phone, email, balance, paidMonths, inscription, idDniType) 
+  VALUES 
+  ("${names}", 
+  "${lastNames}", 
+  "${dni}", 
+  "${phone}", 
+  "${email}", 
+  ${balance},
+  ${paidMonths}, 
+  ${inscription}, 
+  ${idDniType});`;
 
-//   mysqlConnection.query(
-//     query,
-//     [names, lastnames, dni, balance, phone, email],
-//     (err, rows) => {
-//       if (!err) {
-//         res.json({
-//           status: 'ok',
-//           id: rows.insertId
-//         });
-//       } else {
-//         res.json({
-//           status: 'error',
-//           err
-//         });
-//       }
-//     }
-//   );
-// });
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errAddRepresentative, rows) => {
+      if (!errAddRepresentative) {
+        const representative = {
+          idRepresentative: rows.insertId,
+          names,
+          lastNames,
+          dni,
+          phone,
+          email,
+          balance,
+          paidMonths,
+          inscription,
+          idDniType
+        };
+        resolve({ representative });
+      } else {
+        resolve({ errAddRepresentative });
+      }
+    });
+  });
+};
 
-// // 2.-Select Represantives http://localhost:3500/api/represantives
-// router.get('/represantives', (req, res) => {
-//   mysqlConnection.query('SELECT * from represantives', (err, rows, fields) => {
-//     if (!err) {
-//       res.json(rows);
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
-// // 3.-Delete Represantives ---> http://localhost:3500/api/represantives
-// router.delete('/represantives', (req, res) => {
-//   const { id } = req.body;
-//   const query = `  DELETE FROM represantives WHERE represantives.idrepresentative =(?);
-//      `;
-
-//   mysqlConnection.query(query, [id], (err, rows, fields) => {
-//     if (!err) {
-//       res.json({ status: 'ok' });
-//     } else {
-//       res.json({ status: 'error' });
-//     }
-//   });
-// });
-
-// // 4.- Update Represantives---->http://localhost:3500/api/updRepresantives
-// router.post('/updRepresantives', (req, res) => {
-//   const { names, lastnames, dni, balance, phone, email } = req.body;
-//   const query = ` CALL updRepresantives(?, ?, ?, ?, ?, ?);
-//      `;
-
-//   mysqlConnection.query(
-//     query,
-//     [names, lastnames, dni, balance, phone, email],
-//     (err, rows, fields) => {
-//       if (!err) {
-//         res.json({
-//           status: 'ok'
-//         });
-//       } else {
-//         res.json({
-//           status: 'error',
-//           err
-//         });
-//       }
-//     }
-//   );
-// });
+module.exports = router;

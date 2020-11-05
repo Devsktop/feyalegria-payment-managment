@@ -22,6 +22,7 @@ import Maintenance from 'react/components/Maintenance/Maintenance';
 // Income Screens
 import VerifyRepresentative from 'react/components/income/VerifyRepresentative';
 import AddRepresentative from 'react/components/income/AddRepresentative';
+import AddStudent from 'react/components/income/AddStudent';
 
 // Config Screens
 import Grades from 'react/components/grades/Grades';
@@ -75,6 +76,7 @@ const AppRouter = () => {
               path="/addRepresentative"
               component={AddRepresentative}
             />
+            <Route exact path="/addStudent" component={AddStudent} />
 
             {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />
