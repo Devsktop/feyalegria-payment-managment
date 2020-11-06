@@ -104,21 +104,6 @@ const deleteProduct = id => {
   });
 };
 
-// Query to delete product
-// const deleteProduct = id => {
-//   const query = `DELETE FROM products WHERE products.idProduct = ${id};`;
-
-//   return new Promise(resolve => {
-//     mysqlConnection.query(query, errDeleteProduct => {
-//       if (!errDeleteProduct) {
-//         resolve({ status: 200 });
-//       } else {
-//         resolve({ errDeleteProduct });
-//       }
-//     });
-//   });
-// };
-
 // Query to add product
 const addProduct = (newProductName, newPrice, newMandatory) => {
   const query = `INSERT INTO products (productName, price, mandatory) VALUES ("${newProductName}", ${newPrice}, ${newMandatory});`;

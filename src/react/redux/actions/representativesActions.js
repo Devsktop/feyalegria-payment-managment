@@ -10,7 +10,6 @@ export const fetchRepresentativeByDni = (dni, history) => {
     );
 
     const { representative, status } = await res.json();
-    console.log(representative);
 
     if (status === 200) {
       const hasStudents = Object.keys(representative.students).length > 0;
@@ -55,7 +54,7 @@ const addRepresentativeAction = representative => ({
   payload: { representative }
 });
 
-export const addRepresentative = (representative, history) => {
+export const addRepresentative = (newRepresentative, history) => {
   return (dispatch, getState) => {
     Swal.fire({
       title: 'Creando Representante',
@@ -67,17 +66,30 @@ export const addRepresentative = (representative, history) => {
       },
       onOpen: () => {
         Swal.showLoading();
-
-        const { names, lastnames, dni, phone, email } = representative;
-        const url = 'http://localhost:3500/api/represantives';
+        const {
+          names,
+          lastNames,
+          dni,
+          phone,
+          email,
+          balance,
+          paidMonths,
+          inscription,
+          idDniType
+        } = newRepresentative;
+        const url = 'http://localhost:3500/api/representative';
         const config = {
           method: 'POST',
           body: JSON.stringify({
             names,
-            lastnames,
+            lastNames,
             dni,
             phone,
-            email
+            email,
+            balance,
+            paidMonths,
+            inscription,
+            idDniType
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -99,7 +111,7 @@ export const addRepresentative = (representative, history) => {
                   title: 'title-class'
                 },
                 preConfirm: () => {
-                  history.goBack();
+                  history.push('/addStudent');
                 }
               });
             } else if (res.errAddGrade === 1062) {

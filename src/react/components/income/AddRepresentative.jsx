@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
 
 // Actions
 import { addRepresentative } from 'react/redux/actions/representativesActions';
@@ -20,6 +21,26 @@ const AddRepresentative = () => {
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const options = [
+    { value: 'V', label: 'V' },
+    { value: 'E', label: 'E' },
+    { value: 'P', label: 'P' },
+    { value: 'M', label: 'M' }
+  ];
+
+  const customStyles = {
+    container: (provided, state) => ({
+      ...provided,
+      height: '40px',
+      top: '7px'
+    }),
+    control: (provided, state) => ({
+      ...provided,
+      border: state.isFocused ? '1px solid #820101' : '1px solid #e32526',
+      width: '75px'
+    })
+  };
 
   const handleNames = e => {
     setNames(e.target.value);
@@ -55,8 +76,18 @@ const AddRepresentative = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const representative = { names, lastNames, dni, phone, email };
-    dispatch(addRepresentative(representative, history));
+    const newRepresentative = {
+      names,
+      lastNames,
+      dni,
+      phone,
+      email,
+      balance: 0,
+      paidMonths: 0,
+      inscription: false,
+      idDniType: 1
+    };
+    dispatch(addRepresentative(newRepresentative, history));
   };
 
   return (
@@ -69,20 +100,33 @@ const AddRepresentative = () => {
         <h1 className="box_title">Agregar un Representante</h1>
         <Minput type="text" onChange={handleNames} label="Nombres:" />
         <Minput type="text" onChange={handleLastNames} label="Apellidos:" />
-        <Minput type="number" onChange={handleDni} label="Cédula:" />
+        <div className="form-group">
+          <Select
+            options={options}
+            defaultValue={options[0]}
+            styles={customStyles}
+          />
+          <Minput
+            type="number"
+            onChange={handleDni}
+            label="Cédula:"
+            className="dni_Input"
+          />
+        </div>
         <Minput type="number" onChange={handlePhone} label="Teléfono:" />
         <Minput
-          type="email"
+          type="text"
           onChange={handleEmail}
           label="Correo Electrónico:"
         />
+
         <div className="button_container">
           <Button
             type="button"
             onClick={() => history.goBack()}
             text="volver"
           />
-          <Button type="submit" disabled={validateInputs()} text="aceptar" />
+          <Button type="submit" disabled={validateInputs()} text="agregar" />
         </div>
       </form>
     </div>

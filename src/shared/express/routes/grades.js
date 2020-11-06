@@ -61,12 +61,13 @@ router.post('/grade', async (req, res) => {
 
 // 5.- Update Grade http://localhost:3500/api/updGrade
 router.post('/updGrade', async (req, res) => {
-  const { idGrade, scholarYear, gradesSections } = req.body;
+  const { idGrade, scholarYear, gradesSections, deleted } = req.body;
   // Query to add grade
   const { grade, errUpdGrade } = await updGrade(
     idGrade,
     scholarYear,
-    gradesSections
+    gradesSections,
+    deleted
   );
   if (errUpdGrade) {
     res.status(400).json({ errUpdGrade });
@@ -179,7 +180,8 @@ const getGradeSections = idGrade => {
   idSection,
   sections.idGrade
   FROM sections
-  INNER JOIN grades ON sections.idGrade = ${idGrade} 
+  INNER JOIN grades ON sections.idGrade = ${idGrade}
+  WHERE sections.deleted = false 
   GROUP BY sections.idSection;`;
 
   return new Promise(resolve => {
@@ -253,9 +255,9 @@ const addGrade = (scholarYear, gradesSections) => {
 };
 
 // Query to add section
-const addSection = (id, Gradesection) => {
-  const { section, capacity } = Gradesection;
-  const query = `INSERT INTO sections (section, capacity, idGrade) VALUES ("${section}", ${capacity}, ${id});`;
+const addSection = (Gradesection) => {
+  const { idGrade, section, capacity } = Gradesection;
+  const query = `INSERT INTO sections (section, capacity, idGrade) VALUES ("${section}", ${capacity}, ${idGrade});`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errAddSection, rows) => {
@@ -275,7 +277,7 @@ const addSection = (id, Gradesection) => {
 };
 
 // Query to update grade
-const updGrade = (idGrade, scholarYear, gradesSections) => {
+const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
   let counter = 0;
   const gradeSections = {};
   const query = `UPDATE grades SET scholarYear = "${scholarYear}" where grades.idGrade = ${idGrade};`;
@@ -283,9 +285,32 @@ const updGrade = (idGrade, scholarYear, gradesSections) => {
   return new Promise(resolve => {
     mysqlConnection.query(query, errUpdGrade => {
       if (!errUpdGrade) {
-        Object.keys(gradesSections).forEach(async sectionKey => {
-          const { seccion } = await updSection(gradesSections[sectionKey]);
-          const peopleByGrade = await getPeopleGrade();
+        // Check if deleted object is empty
+        if (deleted.length > 0) {
+          deleted.forEach(async id => {
+            // Query to delete section
+            await deleteSection(id);
+          });
+        }
+
+        // Get array of keys of gradesSections
+        const gradesSectionsKeys = Object.keys(gradesSections);
+
+        // Iterate in gradesSections with each key
+        gradesSectionsKeys.forEach(async sectionKey => {
+          // Verify if idSection is positive or negative ('+ = Update', '- = Delete')
+          if (gradesSections[sectionKey].idSection > 0) {
+            // Query to update a section
+            await updSection(gradesSections[sectionKey]);
+          } else {
+            // Query to insert a section
+            await addSection(gradesSections[sectionKey]);
+          }
+        });
+
+        // Get new sections
+        const sections = await getGradeSections(idGrade);
+        const peopleByGrade = await getPeopleGrade();
           gradeSections[seccion.idSection] = { ...seccion };
           counter += 1;
           if (counter === Object.keys(gradesSections).length) {
@@ -323,6 +348,22 @@ const updSection = Gradesection => {
         resolve({ seccion });
       } else {
         resolve({ errUpdSection });
+      }
+    });
+  });
+};
+
+// Query to delete section
+const deleteSection = async id => {
+  console.log(id);
+  const query = `UPDATE sections SET deleted = true WHERE idSection = ${id}`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errDeleteSection => {
+      if (!errDeleteSection) {
+        resolve({ status: 200 });
+      } else {
+        resolve({ errDeleteSection });
       }
     });
   });
