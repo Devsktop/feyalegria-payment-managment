@@ -48,6 +48,7 @@ router.delete('/grade', async (req, res) => {
 // 4.- Add Grade http://localhost:3500/api/grade
 router.post('/grade', async (req, res) => {
   const { scholarYear, gradesSections } = req.body;
+
   // Query to add grade
   const { grade, errAddGrade } = await addGrade(scholarYear, gradesSections);
   if (errAddGrade) {
@@ -61,7 +62,10 @@ router.post('/grade', async (req, res) => {
 
 // 5.- Update Grade http://localhost:3500/api/updGrade
 router.post('/updGrade', async (req, res) => {
-  const { idGrade, scholarYear, gradesSections, deleted } = req.body;
+  const {
+    grade: { idGrade, scholarYear, gradesSections },
+    deleted
+  } = req.body;
   // Query to add grade
   const { grade, errUpdGrade } = await updGrade(
     idGrade,
@@ -81,7 +85,7 @@ router.post('/updGrade', async (req, res) => {
 // Query to get grades
 const getGrades = () => {
   const grades = {};
-  const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade WHERE grades.deleted = false GROUP BY grades.idGrade;`;
+  const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade WHERE grades.deleted = false AND sections.deleted = false GROUP BY grades.idGrade;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errGrades, rows) => {
@@ -115,7 +119,7 @@ const getGrades = () => {
 // Query to get sections
 const getSections = () => {
   const sections = {};
-  const query = `SELECT idSection, section, capacity, sections.idGrade FROM sections LEFT JOIN grades ON sections.idGrade = grades.idGrade;`;
+  const query = `SELECT idSection, section, capacity, sections.idGrade FROM sections LEFT JOIN grades ON sections.idGrade = grades.idGrade WHERE sections.deleted = false;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errGrades, rows) => {
@@ -255,10 +259,9 @@ const addGrade = (scholarYear, gradesSections) => {
 };
 
 // Query to add section
-const addSection = Gradesection => {
-  const { idGrade, section, capacity } = Gradesection;
+const addSection = (idGrade, Gradesection) => {
+  const { section, capacity } = Gradesection;
   const query = `INSERT INTO sections (section, capacity, idGrade) VALUES ("${section}", ${capacity}, ${idGrade});`;
-
   return new Promise(resolve => {
     mysqlConnection.query(query, (errAddSection, rows) => {
       if (!errAddSection) {
@@ -268,6 +271,7 @@ const addSection = Gradesection => {
           capacity,
           idGrade
         };
+        console.log(seccion);
         resolve({ seccion });
       } else {
         resolve({ errAddSection });
@@ -296,20 +300,20 @@ const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
 
         // Iterate in gradesSections with each key
         gradesSectionsKeys.forEach(async sectionKey => {
+          console.log(sectionKey);
           // Verify if idSection is positive or negative ('+ = Update', '- = Delete')
           if (gradesSections[sectionKey].idSection > 0) {
             // Query to update a section
             await updSection(gradesSections[sectionKey]);
           } else {
             // Query to insert a section
-            await addSection(gradesSections[sectionKey]);
+            await addSection(idGrade, gradesSections[sectionKey]);
           }
         });
 
         // Get new sections
-        const sections = await getGradeSections(idGrade);
+        const { sections } = await getGradeSections(idGrade);
         const peopleByGrade = await getPeopleGrade();
-
         // Contruction of updated grade
         const grade = {
           idGrade,

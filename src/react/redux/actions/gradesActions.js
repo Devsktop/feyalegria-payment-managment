@@ -125,7 +125,7 @@ export const createGrade = history => {
       },
       onOpen: () => {
         Swal.showLoading();
-
+        console.log(grade);
         const { scholarYear, gradesSections } = grade;
         const url = 'http://localhost:3500/api/grade';
         const config = {

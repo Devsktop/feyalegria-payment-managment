@@ -79,8 +79,6 @@ export default function reducer(state = initialState, { type, payload }) {
     }
 
     case RESTORE_MIRROR_GRADE: {
-      console.log('hola');
-      console.log(initialState);
       return { ...initialState };
     }
 
