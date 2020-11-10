@@ -115,7 +115,7 @@ const AddRepresentative = () => {
         </div>
         <Minput type="number" onChange={handlePhone} label="Teléfono:" />
         <Minput
-          type="text"
+          type="email"
           onChange={handleEmail}
           label="Correo Electrónico:"
         />
