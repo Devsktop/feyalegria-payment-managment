@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 
@@ -106,12 +106,7 @@ const AddRepresentative = () => {
             defaultValue={options[0]}
             styles={customStyles}
           />
-          <Minput
-            type="number"
-            onChange={handleDni}
-            label="Cédula:"
-            className="dni_Input"
-          />
+          <label>Cédula:</label>
         </div>
         <Minput type="number" onChange={handlePhone} label="Teléfono:" />
         <Minput
