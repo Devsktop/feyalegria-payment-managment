@@ -16,7 +16,6 @@
     "mysql-backup": "^1.0.0",
     "mysql-import": "^4.0.24",
     "node-sass": "^4.13.1",
-    "nodemon": "^2.0.6",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-circular-progressbar": "^2.0.3",

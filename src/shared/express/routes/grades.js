@@ -255,7 +255,7 @@ const addGrade = (scholarYear, gradesSections) => {
 };
 
 // Query to add section
-const addSection = (Gradesection) => {
+const addSection = Gradesection => {
   const { idGrade, section, capacity } = Gradesection;
   const query = `INSERT INTO sections (section, capacity, idGrade) VALUES ("${section}", ${capacity}, ${idGrade});`;
 
@@ -283,7 +283,7 @@ const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
   const query = `UPDATE grades SET scholarYear = "${scholarYear}" where grades.idGrade = ${idGrade};`;
 
   return new Promise(resolve => {
-    mysqlConnection.query(query, errUpdGrade => {
+    mysqlConnection.query(query, async errUpdGrade => {
       if (!errUpdGrade) {
         // Check if deleted object is empty
         if (deleted.length > 0) {
@@ -311,20 +311,19 @@ const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
         // Get new sections
         const sections = await getGradeSections(idGrade);
         const peopleByGrade = await getPeopleGrade();
-          gradeSections[seccion.idSection] = { ...seccion };
-          counter += 1;
-          if (counter === Object.keys(gradesSections).length) {
-            const grade = {
-              idGrade,
-              scholarYear,
-              gradesSections: gradeSections,
-              sectionsNumber: Object.keys(gradesSections).length,
-              gradeStudents: peopleByGrade[idGrade].gradeStudents,
-              gradeRepresentatives: peopleByGrade[idGrade].gradeRepresentatives
-            };
-            resolve({ grade });
-          }
-        });
+        gradeSections[seccion.idSection] = { ...seccion };
+        counter += 1;
+        if (counter === Object.keys(gradesSections).length) {
+          const grade = {
+            idGrade,
+            scholarYear,
+            gradesSections: gradeSections,
+            sectionsNumber: Object.keys(gradesSections).length,
+            gradeStudents: peopleByGrade[idGrade].gradeStudents,
+            gradeRepresentatives: peopleByGrade[idGrade].gradeRepresentatives
+          };
+          resolve({ grade });
+        }
       } else {
         resolve({ errUpdGrade });
       }

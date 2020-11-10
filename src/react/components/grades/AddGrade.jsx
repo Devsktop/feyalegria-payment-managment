@@ -21,7 +21,7 @@ const validSectionsSelector = state => {
 
   Object.keys(gradesSections).forEach(sectionPair => {
     const { section, capacity } = gradesSections[sectionPair];
-    if (section.length > 1 || capacity > 1) disable = true;
+    if (section.length < 1 || capacity < 1) disable = true;
   });
 
   return disable;
