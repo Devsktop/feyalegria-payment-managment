@@ -9,8 +9,6 @@ import { createProduct } from 'react/redux/actions/productsActions';
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
-// Selectors
-
 const AddProduct = () => {
   const dispatch = useDispatch();
   const [productName, setProductName] = useState('');
@@ -70,7 +68,7 @@ const AddProduct = () => {
               checked={mandatory}
               onChange={handleMandatory}
             />
-            <span className="checkmark"></span>
+            <span className="checkmark" />
           </label>
         </div>
         <div className="button_container">

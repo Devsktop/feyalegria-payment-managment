@@ -266,7 +266,7 @@ const addSection = Gradesection => {
           idSection: rows.insertId,
           section,
           capacity,
-          idGrade: id
+          idGrade
         };
         resolve({ seccion });
       } else {
@@ -278,8 +278,6 @@ const addSection = Gradesection => {
 
 // Query to update grade
 const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
-  let counter = 0;
-  const gradeSections = {};
   const query = `UPDATE grades SET scholarYear = "${scholarYear}" where grades.idGrade = ${idGrade};`;
 
   return new Promise(resolve => {
@@ -311,19 +309,17 @@ const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
         // Get new sections
         const sections = await getGradeSections(idGrade);
         const peopleByGrade = await getPeopleGrade();
-        gradeSections[seccion.idSection] = { ...seccion };
-        counter += 1;
-        if (counter === Object.keys(gradesSections).length) {
-          const grade = {
-            idGrade,
-            scholarYear,
-            gradesSections: gradeSections,
-            sectionsNumber: Object.keys(gradesSections).length,
-            gradeStudents: peopleByGrade[idGrade].gradeStudents,
-            gradeRepresentatives: peopleByGrade[idGrade].gradeRepresentatives
-          };
-          resolve({ grade });
-        }
+
+        // Contruction of updated grade
+        const grade = {
+          idGrade,
+          scholarYear,
+          gradesSections: sections,
+          sectionsNumber: Object.keys(gradesSections).length,
+          gradeStudents: peopleByGrade[idGrade].gradeStudents,
+          gradeRepresentatives: peopleByGrade[idGrade].gradeRepresentatives
+        };
+        resolve({ grade });
       } else {
         resolve({ errUpdGrade });
       }

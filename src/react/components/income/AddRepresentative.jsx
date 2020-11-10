@@ -22,6 +22,7 @@ const AddRepresentative = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Select options
   const options = [
     { value: 'V', label: 'V' },
     { value: 'E', label: 'E' },
@@ -29,8 +30,9 @@ const AddRepresentative = () => {
     { value: 'M', label: 'M' }
   ];
 
+  // Select Styles
   const customStyles = {
-    container: (provided, state) => ({
+    container: provided => ({
       ...provided,
       height: '40px',
       top: '7px'
@@ -110,7 +112,7 @@ const AddRepresentative = () => {
         </div>
         <Minput type="number" onChange={handlePhone} label="Teléfono:" />
         <Minput
-          type="text"
+          type="email"
           onChange={handleEmail}
           label="Correo Electrónico:"
         />
