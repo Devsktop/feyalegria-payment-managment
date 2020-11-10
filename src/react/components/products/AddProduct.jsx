@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createProduct } from 'react/redux/actions/productsActions';
@@ -8,9 +8,6 @@ import { createProduct } from 'react/redux/actions/productsActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-
-// Selectors
-const productsSelector = state => state.products.products;
 
 const AddProduct = () => {
   const dispatch = useDispatch();
@@ -71,7 +68,7 @@ const AddProduct = () => {
               checked={mandatory}
               onChange={handleMandatory}
             />
-            <span className="checkmark"></span>
+            <span className="checkmark" />
           </label>
         </div>
         <div className="button_container">
