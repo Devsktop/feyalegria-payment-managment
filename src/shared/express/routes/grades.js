@@ -61,7 +61,10 @@ router.post('/grade', async (req, res) => {
 
 // 5.- Update Grade http://localhost:3500/api/updGrade
 router.post('/updGrade', async (req, res) => {
-  const { idGrade, scholarYear, gradesSections, deleted } = req.body;
+  const {
+    grade: { idGrade, scholarYear, gradesSections },
+    deleted
+  } = req.body;
   // Query to add grade
   const { grade, errUpdGrade } = await updGrade(
     idGrade,
