@@ -1,4 +1,4 @@
-import { SET_INCOME } from '../actions/incomeActions';
+import { SET_INCOME, UPDATE_REPRESENTATIVE } from '../actions/incomeActions';
 
 const initialState = {
   income: '',
@@ -12,10 +12,10 @@ const initialState = {
     balance: 0,
     paidMonths: 0,
     inscription: false,
-    idDniType: 1
+    idDniType: 1,
+    students: {}
   },
-  students: {},
-  currentBalance: {
+  incomeBalance: {
     balance: 0,
     transference: true,
     cash: false,
@@ -30,6 +30,12 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         income: payload.income
+      };
+
+    case UPDATE_REPRESENTATIVE:
+      return {
+        ...state,
+        representative: { ...state.representative, ...payload.representative }
       };
 
     default:
