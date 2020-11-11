@@ -9,6 +9,7 @@ import concepts from './conceptsReducer';
 import products from './productsReducer';
 import rates from './ratesReducer';
 import mirrorGrade from './mirrorGradeReducer';
+import income from './incomeReducer';
 
 export default combineReducers({
   login,
@@ -20,5 +21,6 @@ export default combineReducers({
   grades,
   concepts,
   products,
-  mirrorGrade
+  mirrorGrade,
+  income
 });

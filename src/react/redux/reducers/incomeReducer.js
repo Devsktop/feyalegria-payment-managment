@@ -1,4 +1,4 @@
-import { FETCH_GRADES } from '../actions/gradesActions';
+import { SET_INCOME } from '../actions/incomeActions';
 
 const initialState = {
   income: '',
@@ -26,10 +26,10 @@ const initialState = {
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
-    case FETCH_GRADES:
+    case SET_INCOME:
       return {
         ...state,
-        ...payload
+        income: payload.income
       };
 
     default:
