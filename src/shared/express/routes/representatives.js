@@ -193,13 +193,15 @@ const getRepresentativeByDni = async representativeDni => {
   idRepresentative, 
   names,
   lastNames,
-  dni, 
+  dni,
+  idDniType, 
   phone, 
   email, 
   balance, 
-  paidMonths 
+  paidMonths,
+  inscription 
   FROM representatives 
-  WHERE ${representativeDni} = dni;`;
+  WHERE ${representativeDni} = dni AND deleted = false;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errRepresentative, rows) => {
@@ -210,22 +212,27 @@ const getRepresentativeByDni = async representativeDni => {
             names,
             lastNames,
             dni,
-            phone,
-            email,
-            balance,
-            paidMonths
-          } = rows[0];
-
-          const { students } = await getStudents(idRepresentative);
-          const representative = {
-            names,
-            lastNames,
-            dni,
+            idDniType,
             phone,
             email,
             balance,
             paidMonths,
-            students
+            inscription
+          } = rows[0];
+
+          const { students } = await getStudents(idRepresentative);
+          const representative = {
+            idRepresentative,
+            names,
+            lastNames,
+            dni,
+            idDniType,
+            phone,
+            email,
+            balance,
+            paidMonths,
+            students,
+            inscription
           };
           resolve({ representative, status: 200 });
         } else {

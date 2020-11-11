@@ -4,39 +4,39 @@ export const fetchConcepts = rates => ({
   type: FETCH_CONCEPTS,
   payload: { rates }
 });
-export const UPDATE_CONCEPTS = 'UPDATE_CONCEPTS';
+export const UPDATE_CONCEPTS_RATES = 'UPDATE_CONCEPTS_RATES';
 
 export const updateConcepts = rate => ({
-  type: UPDATE_CONCEPTS,
+  type: UPDATE_CONCEPTS_RATES,
   payload: { rate }
 });
 
-export const ADD_CONCEPTS_INSCRPTION = 'ADD_CONCEPTS_INSCRPTION';
+export const ADD_CONCEPTS = 'ADD_CONCEPTS';
 
-export const addConceptsInscription = concept => ({
-  type: ADD_CONCEPTS_INSCRPTION,
-  payload: { concept }
+export const addConcepts = (concept, type) => ({
+  type: ADD_CONCEPTS,
+  payload: { concept, type }
 });
 
-export const UPDATE_CONCEPTS_INSCRPTION = 'UPDATE_CONCEPTS_INSCRPTION';
+export const UPDATE_CONCEPTS = 'UPDATE_CONCEPTS';
 
-export const updateConceptInscription = concept => ({
-  type: UPDATE_CONCEPTS_INSCRPTION,
-  payload: { concept }
+export const updateConcept = (concept, type) => ({
+  type: UPDATE_CONCEPTS,
+  payload: { concept, type }
 });
 
-export const UPDATE_PRICE_INSCRIPTION = 'UPDATE_PRICE_INSCRIPTION';
+export const UPDATE_PRICE = 'UPDATE_PRICE';
 
-export const updatePriceInscription = price => ({
-  type: UPDATE_PRICE_INSCRIPTION,
-  payload: { price }
+export const updatePrice = (price, type) => ({
+  type: UPDATE_PRICE,
+  payload: { price, type }
 });
 
-export const DELETE_CONCEPTS_INSCRPTION = 'DELETE_CONCEPTS_INSCRPTION';
+export const DELETE_CONCEPTS = 'DELETE_CONCEPTS';
 
-export const deleteConceptInscription = idConcept => ({
-  type: DELETE_CONCEPTS_INSCRPTION,
-  payload: { idConcept }
+export const deleteConcept = (idConcept, type) => ({
+  type: DELETE_CONCEPTS,
+  payload: { idConcept, type }
 });
 
 export const RESTORE_CONCEPTS_INSCRPTION = 'RESTORE_CONCEPTS_INSCRPTION';

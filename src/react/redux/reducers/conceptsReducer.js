@@ -1,12 +1,12 @@
 import {
   FETCH_CONCEPTS,
-  ADD_CONCEPTS_INSCRPTION,
-  UPDATE_CONCEPTS_INSCRPTION,
-  DELETE_CONCEPTS_INSCRPTION,
+  ADD_CONCEPTS,
+  UPDATE_CONCEPTS,
+  DELETE_CONCEPTS,
   RESTORE_CONCEPTS_INSCRPTION,
   CLEAN_DELETED,
-  UPDATE_CONCEPTS,
-  UPDATE_PRICE_INSCRIPTION
+  UPDATE_CONCEPTS_RATES,
+  UPDATE_PRICE
 } from '../actions/conceptsActions';
 
 // Concepts is internally equal to rates reducer, buty this is used to manipuale
@@ -22,71 +22,71 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         ...payload.rates
       };
-    case ADD_CONCEPTS_INSCRPTION: {
-      let idInscription;
+    case ADD_CONCEPTS: {
+      let idRate;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
+        if (state[concept].type === payload.type) idRate = concept;
       });
 
       const newConcept = {
         ...payload.concept,
         idConcept: payload.concept.id,
-        idRate: parseInt(idInscription, 10)
+        idRate: parseInt(idRate, 10)
       };
-      console.log(idInscription);
+      console.log(idRate);
 
       delete newConcept.id;
 
       const paymentConcepts = {
-        ...state[idInscription].paymentConcepts,
+        ...state[idRate].paymentConcepts,
         [newConcept.idConcept]: newConcept
       };
 
-      const concept = { ...state[idInscription], paymentConcepts };
+      const concept = { ...state[idRate], paymentConcepts };
 
       return {
         ...state,
-        [idInscription]: concept
+        [idRate]: concept
       };
     }
 
-    case UPDATE_CONCEPTS_INSCRPTION: {
-      let idInscription;
+    case UPDATE_CONCEPTS: {
+      let idRate;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
+        if (state[concept].type === payload.type) idRate = concept;
       });
 
       const newConcept = {
         ...payload.concept,
         idConcept: payload.concept.id,
-        idRate: state[idInscription].paymentConcepts[payload.concept.id].idRate
+        idRate: state[idRate].paymentConcepts[payload.concept.id].idRate
       };
       delete newConcept.id;
 
       const paymentConcepts = {
-        ...state[idInscription].paymentConcepts,
+        ...state[idRate].paymentConcepts,
         [newConcept.idConcept]: newConcept
       };
 
-      const concept = { ...state[idInscription], paymentConcepts };
+      const concept = { ...state[idRate], paymentConcepts };
 
       return {
         ...state,
-        [idInscription]: concept
+        [idRate]: concept
       };
     }
-    case UPDATE_PRICE_INSCRIPTION: {
-      let idInscription;
+    case UPDATE_PRICE: {
+      let idRate;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
+        if (state[concept].type === payload.type) idRate = concept;
       });
 
       const newInscription = {
         ...state,
-        [idInscription]: { ...state[idInscription], price: payload.price }
+        [idRate]: { ...state[idRate], price: payload.price }
       };
 
       return {
@@ -95,15 +95,15 @@ export default function reducer(state = initialState, { type, payload }) {
       };
     }
 
-    case DELETE_CONCEPTS_INSCRPTION: {
-      let idInscription;
+    case DELETE_CONCEPTS: {
+      let idRate;
 
       Object.keys(state).forEach(concept => {
-        if (state[concept].type === 'INSCRIPTION') idInscription = concept;
+        if (state[concept].type === payload.type) idRate = concept;
       });
 
       const paymentConcepts = {
-        ...state[idInscription].paymentConcepts
+        ...state[idRate].paymentConcepts
       };
 
       delete paymentConcepts[payload.idConcept];
@@ -111,12 +111,12 @@ export default function reducer(state = initialState, { type, payload }) {
       const deleted = state.deleted ? [...state.deleted] : [];
       if (payload.idConcept > 0) deleted.push(payload.idConcept);
 
-      const concept = { ...state[idInscription], paymentConcepts };
+      const concept = { ...state[idRate], paymentConcepts };
 
       return {
         ...state,
         deleted,
-        [idInscription]: concept
+        [idRate]: concept
       };
     }
     case RESTORE_CONCEPTS_INSCRPTION:
@@ -131,7 +131,7 @@ export default function reducer(state = initialState, { type, payload }) {
         deleted: []
       };
 
-    case UPDATE_CONCEPTS: {
+    case UPDATE_CONCEPTS_RATES: {
       const { rate } = payload;
       console.log(rate);
       const rates = { ...state, [rate.idRate]: { ...rate } };

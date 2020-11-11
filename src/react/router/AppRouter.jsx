@@ -32,7 +32,7 @@ import Join from 'react/components/join/Join';
 import Products from 'react/components/products/Products';
 import AddProduct from 'react/components/products/AddProduct';
 import EditProduct from 'react/components/products/EditProduct';
-// import Join from 'react/components/join/Join';
+import Monthly from 'react/components/monthly/Monthly';
 
 // Navigations
 import UpperBar from './Upperbar';
@@ -86,7 +86,7 @@ const AppRouter = () => {
             <Route exact path="/products" component={Products} />
             <Route exact path="/addProduct" component={AddProduct} />
             <Route exact path="/editProduct/:id" component={EditProduct} />
-            {/* <Route exact path="/join" component={Join} /> */}
+            <Route exact path="/monthly" component={Monthly} />
           </Switch>
         </div>
       </div>

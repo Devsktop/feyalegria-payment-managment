@@ -1,52 +1,60 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
 import { createGrade } from 'react/redux/actions/gradesActions';
-
+import {
+  updateMirrorscholarYear,
+  restoreMirrorGrade
+} from 'react/redux/actions/mirrorGradeActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import GradeValuePair from './GradeValuePair';
+
+// Selectors
+const validSectionsSelector = state => {
+  const { gradesSections } = state.mirrorGrade.grade;
+
+  let disable = false;
+
+  Object.keys(gradesSections).forEach(sectionPair => {
+    const { section, capacity } = gradesSections[sectionPair];
+    if (section.length < 1 || capacity < 1) disable = true;
+  });
+
+  return disable;
+};
 
 const AddGrade = () => {
   const dispatch = useDispatch();
-  const [grade, setGrade] = useState('');
+  const grade = useSelector(state => state.mirrorGrade.grade.scholarYear);
+  const validSections = useSelector(validSectionsSelector);
   const history = useHistory();
 
   const handleGrade = e => {
-    setGrade(e.target.value);
+    dispatch(updateMirrorscholarYear(e.target.value));
   };
 
-  const validateInputs = () => {
+  const disableButton = () => {
     if (grade.length === 0) return true;
     return false;
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    dispatch(createGrade(history));
+  };
 
-    const gradesSections = {
-      1: {
-        section: 'A',
-        capacity: 30
-      },
-      2: {
-        section: 'B',
-        capacity: 25
-      }
-    };
-
-    const newGrade = {
-      scholarYear: grade,
-      gradesSections
-    };
-    dispatch(createGrade(newGrade, history));
+  const handleGoBack = () => {
+    dispatch(restoreMirrorGrade());
+    history.goBack();
   };
 
   return (
-    <div className="box">
-      <form className="sweet-form grade-form" onSubmit={handleSubmit}>
+    <div className="box grade_box">
+      <form className="sweet-form grade_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Grados y Secciones</h1>
         <Minput
           type="text"
@@ -54,15 +62,12 @@ const AddGrade = () => {
           value={grade}
           label="Grado:"
         />
+        <GradeValuePair />
         <div className="button_container">
-          <Button
-            type="button"
-            onClick={() => history.goBack()}
-            text="volver"
-          />
+          <Button type="button" onClick={handleGoBack} text="volver" />
           <Button
             type="submit"
-            disabled={validateInputs()}
+            disabled={disableButton() || validSections}
             text="crear grado"
           />
         </div>

@@ -16,7 +16,7 @@ const boxSelector = state => {
   let paymentConcepts = {};
 
   Object.keys(concepts).forEach(concept => {
-    if (concepts[concept].type === 'INSCRIPTION')
+    if (concepts[concept].type === 'MONTHLYPAYMENT')
       paymentConcepts = { ...concepts[concept].paymentConcepts };
   });
 
@@ -35,7 +35,7 @@ const joinConceptsSelector = createSelector(
     let paymentConcepts = {};
 
     Object.keys(concepts).forEach(concept => {
-      if (concepts[concept].type === 'INSCRIPTION')
+      if (concepts[concept].type === 'MONTHLYPAYMENT')
         paymentConcepts = { ...concepts[concept].paymentConcepts };
     });
 
@@ -56,7 +56,7 @@ const JoinValuePair = () => {
       pairKeys={['concept', 'conceptPrice']}
       valueDecimal
       pairLabels={['Concepto', 'Precio']}
-      type="INSCRIPTION"
+      type="MONTHLYPAYMENT"
     />
   );
 };

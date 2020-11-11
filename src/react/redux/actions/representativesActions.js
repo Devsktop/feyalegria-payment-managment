@@ -1,8 +1,9 @@
+import { updateRepresentative } from 'react/redux/actions/incomeActions';
 import Swal from 'sweetalert2';
 
 export const FETCH_REPRESENTATIVEBYDNI = 'FETCH_REPRESENTATIVEBYDNI';
 
-export const fetchRepresentativeByDni = (dni, history) => {
+export const fetchRepresentativeByDni = (dni, idDniType, history) => {
   return async dispatch => {
     // HACER FETCH A LA BDD
     const res = await fetch(
@@ -12,6 +13,7 @@ export const fetchRepresentativeByDni = (dni, history) => {
     const { representative, status } = await res.json();
 
     if (status === 200) {
+      dispatch(updateRepresentative({ ...representative }));
       const hasStudents = Object.keys(representative.students).length > 0;
       if (hasStudents) {
         history.push('/joinStudents');
@@ -19,18 +21,13 @@ export const fetchRepresentativeByDni = (dni, history) => {
         history.push('/addStudent');
       }
     } else if (status === 404) {
+      dispatch(updateRepresentative({ dni, idDniType }));
       history.push('/addRepresentative');
     } else {
       console.log('remember swal');
     }
-    dispatch(fetchRepresentativeByIdActions(representative));
   };
 };
-
-const fetchRepresentativeByIdActions = representative => ({
-  type: FETCH_REPRESENTATIVEBYDNI,
-  payload: { representative }
-});
 
 export const IS_FECTHING = 'IS_FECTHING';
 

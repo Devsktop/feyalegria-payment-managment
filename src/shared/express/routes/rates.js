@@ -46,7 +46,7 @@ const getRates = async () => {
       if (!errGetRates) {
         // Query to get all paymentConcepts
         const { paymentConcepts } = await getPaymentsConcepts();
-
+        console.log(paymentConcepts);
         // loop for each rate
         rows.forEach(row => {
           const concepts = {};

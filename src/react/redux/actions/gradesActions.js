@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import { restoreMirrorGrade } from 'react/redux/actions/mirrorGradeActions';
 
 export const FETCH_GRADES = 'FETCH_GRADES';
 
@@ -111,8 +112,9 @@ const createGradeAction = grade => ({
   payload: { grade }
 });
 
-export const createGrade = (grade, history) => {
+export const createGrade = history => {
   return (dispatch, getState) => {
+    const { grade } = getState().mirrorGrade;
     Swal.fire({
       title: 'Creando grado',
       showCancelButton: false,
@@ -123,7 +125,7 @@ export const createGrade = (grade, history) => {
       },
       onOpen: () => {
         Swal.showLoading();
-
+        console.log(grade);
         const { scholarYear, gradesSections } = grade;
         const url = 'http://localhost:3500/api/grade';
         const config = {
@@ -140,8 +142,9 @@ export const createGrade = (grade, history) => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
-              console.log(res);
               dispatch(createGradeAction(res.grade));
+              dispatch(restoreMirrorGrade());
+
               Swal.hideLoading();
               Swal.fire({
                 title: 'El grado se ha registrado con éxito',
@@ -188,8 +191,9 @@ const editGradeAction = grade => ({
   payload: { grade }
 });
 
-export const editGrade = (grade, history) => {
-  return dispatch => {
+export const editGrade = history => {
+  return (dispatch, getState) => {
+    const { grade, deleted } = getState().mirrorGrade;
     Swal.fire({
       title: 'Modificando grado',
       showCancelButton: false,
@@ -200,15 +204,12 @@ export const editGrade = (grade, history) => {
       },
       onOpen: () => {
         Swal.showLoading();
-        const { idGrade, scholarYear, gradesSections } = grade;
-
         const url = 'http://localhost:3500/api/updGrade';
         const config = {
           method: 'POST',
           body: JSON.stringify({
-            idGrade,
-            scholarYear,
-            gradesSections
+            grade,
+            deleted
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -219,7 +220,9 @@ export const editGrade = (grade, history) => {
           .then(res => res.json())
           .then(res => {
             if (res.status === 200) {
+              console.log(res.grade);
               dispatch(editGradeAction(res.grade));
+              dispatch(restoreMirrorGrade());
               Swal.hideLoading();
               Swal.fire({
                 title: 'El grado se ha modificado con éxito',

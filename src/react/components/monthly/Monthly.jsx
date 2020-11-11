@@ -6,11 +6,11 @@ import { restoreConceptInscription } from 'react/redux/actions/conceptsActions';
 import { updateRate } from 'react/redux/actions/ratesActions';
 
 // Components
-import JoinPrice from './JoinPrice';
-import JoinValuePair from './JoinValuePair';
-import JoinButtons from './JoinButtons';
+import MonthlyPrice from './MonthlyPrice';
+import MonthlyValuePair from './MonthlyValuePair';
+import MonthlyButtons from './MonthlyButtons';
 
-const Join = () => {
+const Monthly = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,21 +21,21 @@ const Join = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(updateRate('INSCRIPTION'));
+    dispatch(updateRate('MONTHLYPAYMENT'));
   };
 
   return (
     <div className="join content-screen">
       <form className="sweet-form box inscriptionBox" onSubmit={handleSubmit}>
-        <h1 className="box_title">Administre Inscripción</h1>
-        <JoinPrice />
-        <JoinValuePair />
-        <JoinButtons />
+        <h1 className="box_title">Administre Mensualidad</h1>
+        <MonthlyPrice />
+        <MonthlyValuePair />
+        <MonthlyButtons />
       </form>
     </div>
   );
 };
 
-Join.displayName = 'Join';
+Monthly.displayName = 'Monthly';
 
-export default Join;
+export default Monthly;

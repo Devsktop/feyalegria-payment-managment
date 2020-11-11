@@ -56,6 +56,7 @@ export const intValidator = (
   maxNumber = 999999999999999999,
   minNumber = 0
 ) => {
+  const parsedValue = value.toString();
   if (e.target.value.length > 18 && e.keyCode !== 8) return e.target.value;
   const reg = /\d/;
   if (reg.test(e.key)) {
@@ -67,7 +68,7 @@ export const intValidator = (
       return e.target.value + e.key;
   } else if (e.keyCode === 8) {
     // KeyCode 8 = Delete button
-    return value.substr(0, value.length - 1);
+    return parsedValue.substr(0, parsedValue.length - 1);
   }
 
   return e.target.value;
