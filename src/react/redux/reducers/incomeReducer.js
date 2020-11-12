@@ -1,9 +1,12 @@
-import { SET_INCOME, UPDATE_REPRESENTATIVE } from '../actions/incomeActions';
+import {
+  SET_INCOME,
+  UPDATE_REPRESENTATIVE,
+  RESET_INCOME
+} from '../actions/incomeActions';
 
 const initialState = {
   income: '',
   representative: {
-    idRepresentative: 0,
     names: '',
     lastNames: '',
     dni: '',
@@ -43,6 +46,9 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         representative: { ...state.representative, ...payload.representative }
       };
+
+    case RESET_INCOME:
+      return initialState;
 
     default:
       return state;

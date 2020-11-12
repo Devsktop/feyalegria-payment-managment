@@ -11,3 +11,9 @@ export const updateRepresentative = representative => ({
   type: UPDATE_REPRESENTATIVE,
   payload: { representative }
 });
+
+export const RESET_INCOME = 'RESET_INCOME';
+
+export const resetIncome = () => ({
+  type: RESET_INCOME
+});

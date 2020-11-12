@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
@@ -12,18 +12,39 @@ import Minput from 'react/components/Minput';
 // Import imgs
 import AddRepresentativeIlustration from './AddRepresentativeIlustration.svg';
 
-const representativeDniSelector = state => {
-  const { dni, idDniType } = state.income.representative;
+const representativeInitSelector = state => {
+  const {
+    dni,
+    idDniType,
+    names,
+    lastNames,
+    phone,
+    email
+  } = state.income.representative;
   const { dniTypeById } = state.income;
-  return { dni, dniType: dniTypeById[idDniType] };
+  return {
+    dni,
+    dniType: dniTypeById[idDniType],
+    names,
+    lastNames,
+    phone,
+    email
+  };
 };
 
 const AddRepresentative = () => {
-  const { dni, dniType } = useSelector(representativeDniSelector, shallowEqual);
-  const [names, setNames] = useState('');
-  const [lastNames, setLastNames] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const {
+    dni,
+    dniType,
+    names: initNames,
+    lastNames: initLastNames,
+    phone: initPhone,
+    email: initEmail
+  } = useSelector(representativeInitSelector);
+  const [names, setNames] = useState(initNames);
+  const [lastNames, setLastNames] = useState(initLastNames);
+  const [phone, setPhone] = useState(initPhone);
+  const [email, setEmail] = useState(initEmail);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -78,13 +99,29 @@ const AddRepresentative = () => {
         <img src={AddRepresentativeIlustration} alt="Ilustración" />
         <h1 className="box_title">Agregar un Representante</h1>
         <h2 className="box_title">{`${dniType} - ${dni}`}</h2>
-        <Minput type="text" onChange={handleNames} label="Nombres:" />
-        <Minput type="text" onChange={handleLastNames} label="Apellidos:" />
-        <Minput type="number" onChange={handlePhone} label="Teléfono:" />
+        <Minput
+          type="text"
+          onChange={handleNames}
+          label="Nombres:"
+          value={names}
+        />
+        <Minput
+          type="text"
+          onChange={handleLastNames}
+          label="Apellidos:"
+          value={lastNames}
+        />
+        <Minput
+          type="number"
+          onChange={handlePhone}
+          label="Teléfono:"
+          value={phone}
+        />
         <Minput
           type="email"
           onChange={handleEmail}
           label="Correo Electrónico:"
+          value={email}
         />
 
         <div className="button_container">

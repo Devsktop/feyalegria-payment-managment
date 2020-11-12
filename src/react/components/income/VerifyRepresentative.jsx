@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 
@@ -35,9 +35,18 @@ const customStyles = {
   })
 };
 
+const representativeInitSelector = state => {
+  const { dni, idDniType } = state.income.representative;
+  return {
+    dni,
+    idDniType
+  };
+};
+
 const VerifyRepresentative = () => {
-  const [dniOption, setDniOption] = useState(options[0].value);
-  const [representativesDni, setrepresentativesDni] = useState('');
+  const { dni, idDniType } = useSelector(representativeInitSelector);
+  const [dniOption, setDniOption] = useState(idDniType);
+  const [representativesDni, setrepresentativesDni] = useState(dni);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -70,7 +79,7 @@ const VerifyRepresentative = () => {
         <div className="form-group">
           <Select
             options={options}
-            defaultValue={options[0]}
+            defaultValue={options[idDniType - 1]}
             styles={customStyles}
             onChange={handleDniOption}
           />
@@ -78,6 +87,7 @@ const VerifyRepresentative = () => {
             type="number"
             onChange={handleRepresentativesDni}
             label="Cédula del Representante:"
+            value={representativesDni}
           />
         </div>
         <div className="button_container">
