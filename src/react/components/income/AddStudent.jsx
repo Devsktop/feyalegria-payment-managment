@@ -8,6 +8,7 @@ import { addStudent } from 'react/redux/actions/studentsActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import RepresentativeData from './RepresentativeData';
 
 const AddStudent = () => {
   const [names, setNames] = useState('');
@@ -52,16 +53,14 @@ const AddStudent = () => {
   };
 
   return (
-    <div className="box add_representatives_box">
-      <form
-        className="sweet-form add_representatives_form"
-        onSubmit={handleSubmit}
-      >
+    <div className="add_student_box">
+      <RepresentativeData />
+      <form className="sweet-form add_student_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Agregar un Estudiante</h1>
         <Minput type="text" onChange={handleNames} label="Nombres:" />
         <Minput type="text" onChange={handleLastNames} label="Apellidos:" />
         <Minput type="number" onChange={handleDni} label="Cédula:" />
-        <Minput type="date" onChange={''} label="Teléfono:" />
+        <Minput type="date" onChange={''} label="Fecha de Nacimiento:" />
         <Minput
           type="email"
           onChange={handleRelationship}
