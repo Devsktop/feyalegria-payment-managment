@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Select from 'react-select';
 
 // Actions
-import { addRepresentative } from 'react/redux/actions/representativesActions';
+import { updateRepresentative } from 'react/redux/actions/incomeActions';
 
 // Components
 import Button from 'react/components/Button';
@@ -13,36 +12,20 @@ import Minput from 'react/components/Minput';
 // Import imgs
 import AddRepresentativeIlustration from './AddRepresentativeIlustration.svg';
 
+const representativeDniSelector = state => {
+  const { dni, idDniType } = state.income.representative;
+  const { dniTypeById } = state.income;
+  return { dni, dniType: dniTypeById[idDniType] };
+};
+
 const AddRepresentative = () => {
+  const { dni, dniType } = useSelector(representativeDniSelector, shallowEqual);
   const [names, setNames] = useState('');
   const [lastNames, setLastNames] = useState('');
-  const [dni, setDni] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-
-  // Select options
-  const options = [
-    { value: 'V', label: 'V' },
-    { value: 'E', label: 'E' },
-    { value: 'P', label: 'P' },
-    { value: 'M', label: 'M' }
-  ];
-
-  // Select Styles
-  const customStyles = {
-    container: provided => ({
-      ...provided,
-      height: '40px',
-      top: '7px'
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      border: state.isFocused ? '1px solid #820101' : '1px solid #e32526',
-      width: '75px'
-    })
-  };
 
   const handleNames = e => {
     setNames(e.target.value);
@@ -50,10 +33,6 @@ const AddRepresentative = () => {
 
   const handleLastNames = e => {
     setLastNames(e.target.value);
-  };
-
-  const handleDni = e => {
-    setDni(e.target.value);
   };
 
   const handlePhone = e => {
@@ -68,7 +47,6 @@ const AddRepresentative = () => {
     if (
       names.length === 0 ||
       lastNames.length === 0 ||
-      dni.length === 0 ||
       phone.length === 0 ||
       email.length === 0
     )
@@ -81,15 +59,14 @@ const AddRepresentative = () => {
     const newRepresentative = {
       names,
       lastNames,
-      dni,
       phone,
       email,
       balance: 0,
       paidMonths: 0,
-      inscription: false,
-      idDniType: 1
+      inscription: false
     };
-    dispatch(addRepresentative(newRepresentative, history));
+    dispatch(updateRepresentative(newRepresentative));
+    history.push('/addStudent');
   };
 
   return (
@@ -100,16 +77,9 @@ const AddRepresentative = () => {
       >
         <img src={AddRepresentativeIlustration} alt="Ilustración" />
         <h1 className="box_title">Agregar un Representante</h1>
+        <h2 className="box_title">{`${dniType} - ${dni}`}</h2>
         <Minput type="text" onChange={handleNames} label="Nombres:" />
         <Minput type="text" onChange={handleLastNames} label="Apellidos:" />
-        <div className="form-group">
-          <Select
-            options={options}
-            defaultValue={options[0]}
-            styles={customStyles}
-          />
-          <label>Cédula:</label>
-        </div>
         <Minput type="number" onChange={handlePhone} label="Teléfono:" />
         <Minput
           type="email"

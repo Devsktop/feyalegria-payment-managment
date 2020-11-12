@@ -21,7 +21,13 @@ const initialState = {
     cash: false,
     dolar: false
   },
-  products: {}
+  products: {},
+  dniTypeById: {
+    1: 'V',
+    2: 'E',
+    3: 'P',
+    4: 'M'
+  }
 };
 
 export default function reducer(state = initialState, { type, payload }) {
