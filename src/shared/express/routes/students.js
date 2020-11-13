@@ -43,7 +43,8 @@ router.get('/students', (req, res) => {
   });
 
   // Query to get students total
-  query = 'SELECT COUNT(idStudent) AS joinedStudents from students';
+  query =
+    'SELECT COUNT(idStudent) AS joinedStudents from students where inscription = true';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
       joinedStudents = rows[0].joinedStudents;
