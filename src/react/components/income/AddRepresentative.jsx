@@ -8,7 +8,6 @@ import { updateRepresentative } from 'react/redux/actions/incomeActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
-import Select from 'react-select';
 
 // Import imgs
 import AddRepresentativeIlustration from './AddRepresentativeIlustration.svg';
@@ -99,7 +98,7 @@ const AddRepresentative = () => {
       >
         <img src={AddRepresentativeIlustration} alt="Ilustración" />
         <h1 className="box_title">Agregar un Representante</h1>
-        <h2 className="box_title">{`${dniType} - ${dni}`}</h2>
+        <h2 className="box_subtitle">{`${dniType} - ${dni}`}</h2>
         <Minput
           type="text"
           onChange={handleNames}

@@ -177,6 +177,13 @@ const AddStudent = () => {
           <Button type="button" onClick={handleGoBack} text="volver" />
           <Button type="submit" disabled={validateInputs()} text="aceptar" />
         </div>
+        <Button
+          type="button"
+          text="aceptar"
+          onClick={() => {
+            history.push('/JoinStudents');
+          }}
+        />
       </form>
     </div>
   );

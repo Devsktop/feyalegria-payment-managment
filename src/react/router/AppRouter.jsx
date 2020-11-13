@@ -23,6 +23,7 @@ import Maintenance from 'react/components/Maintenance/Maintenance';
 import VerifyRepresentative from 'react/components/income/VerifyRepresentative';
 import AddRepresentative from 'react/components/income/AddRepresentative';
 import AddStudent from 'react/components/income/AddStudent';
+import JoinStudents from 'react/components/income/JoinStudentsBox';
 
 // Config Screens
 import Grades from 'react/components/grades/Grades';
@@ -77,6 +78,7 @@ const AppRouter = () => {
               component={AddRepresentative}
             />
             <Route exact path="/addStudent" component={AddStudent} />
+            <Route exact path="/JoinStudents" component={JoinStudents} />
 
             {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />

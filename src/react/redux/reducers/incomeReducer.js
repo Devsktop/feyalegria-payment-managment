@@ -9,6 +9,7 @@ import {
 const initialState = {
   income: '',
   representative: {
+    idRepresentative: 0,
     names: '',
     lastNames: '',
     dni: '',
@@ -61,6 +62,7 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         representative: {
           ...state.representative,
+          idRepresentative: 0,
           names: '',
           lastNames: '',
           phone: '',
