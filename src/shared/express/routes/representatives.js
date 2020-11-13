@@ -168,10 +168,12 @@ const getStudents = async idRepresentative => {
   CONCAT(students.names, ' ', students.lastnames) AS name,
   students.dni,
   relationship,
-  scholarYear AS grade
+  scholarYear AS grade,
+  section
   FROM students
   INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
-  INNER JOIN grades ON students.idGrade = grades.idGrade;`;
+  INNER JOIN grades ON students.idGrade = grades.idGrade
+  INNER JOIN sections ON students.idSection = sections.idSection`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errStudent, rows) => {
