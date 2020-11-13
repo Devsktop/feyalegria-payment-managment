@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
 import { addStudent } from 'react/redux/actions/studentsActions';
+import { resetRepresentative } from 'react/redux/actions/incomeActions';
 
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 
+const representativeExistSelector = state => {
+  return state.income.representativeExist;
+};
+
 const AddStudent = () => {
+  const representativeExist = useSelector(representativeExistSelector);
   const [names, setNames] = useState('');
   const [lastNames, setLastNames] = useState('');
   const [dni, setDni] = useState('');
@@ -51,6 +57,15 @@ const AddStudent = () => {
     dispatch(addStudent(student, history));
   };
 
+  const handleGoBack = () => {
+    if (representativeExist) {
+      dispatch(resetRepresentative());
+      history.goBack();
+    } else {
+      history.goBack();
+    }
+  };
+
   return (
     <div className="box add_representatives_box">
       <form
@@ -68,11 +83,7 @@ const AddStudent = () => {
           label="Correo Electrónico:"
         />
         <div className="button_container">
-          <Button
-            type="button"
-            onClick={() => history.goBack()}
-            text="volver"
-          />
+          <Button type="button" onClick={handleGoBack} text="volver" />
           <Button type="submit" disabled={validateInputs()} text="aceptar" />
         </div>
       </form>

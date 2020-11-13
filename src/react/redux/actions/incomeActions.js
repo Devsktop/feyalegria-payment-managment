@@ -12,8 +12,21 @@ export const updateRepresentative = representative => ({
   payload: { representative }
 });
 
+export const EXIST_REPRESENTATIVE = 'EXIST_REPRESENTATIVE';
+
+export const existRepresentative = exist => ({
+  type: EXIST_REPRESENTATIVE,
+  payload: { exist }
+});
+
 export const RESET_INCOME = 'RESET_INCOME';
 
 export const resetIncome = () => ({
   type: RESET_INCOME
+});
+
+export const RESET_REPRESENTATIVE = 'RESET_REPRESENTATIVE';
+
+export const resetRepresentative = () => ({
+  type: RESET_REPRESENTATIVE
 });
