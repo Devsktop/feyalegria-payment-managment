@@ -8,6 +8,7 @@ import { updateRepresentative } from 'react/redux/actions/incomeActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import Select from 'react-select';
 
 // Import imgs
 import AddRepresentativeIlustration from './AddRepresentativeIlustration.svg';
