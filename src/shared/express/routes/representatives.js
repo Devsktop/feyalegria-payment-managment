@@ -143,7 +143,7 @@ const getRepresentative = async idRepresentative => {
       if (!errRepresentative) {
         const { name, dni, phone, email, balance, paidMonths } = rows[0];
         // Function to get represantive's students
-        const { students } = await getStudents(idRepresentative);
+        const { students } = await getStudents(idRepresentative, true);
         const representative = {
           name,
           dni,
@@ -162,7 +162,7 @@ const getRepresentative = async idRepresentative => {
 };
 
 // Query to get representative students
-const getStudents = async idRepresentative => {
+const getStudents = async (idRepresentative, inscription) => {
   const students = {};
   const query = `SELECT idStudent,
   CONCAT(students.names, ' ', students.lastnames) AS name,
@@ -173,7 +173,8 @@ const getStudents = async idRepresentative => {
   FROM students
   INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
   INNER JOIN grades ON students.idGrade = grades.idGrade
-  INNER JOIN sections ON students.idSection = sections.idSection`;
+  INNER JOIN sections ON students.idSection = sections.idSection
+  WHERE students.inscription = ${inscription}`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errStudent, rows) => {
@@ -222,7 +223,7 @@ const getRepresentativeByDni = async representativeDni => {
             inscription
           } = rows[0];
 
-          const { students } = await getStudents(idRepresentative);
+          const { students } = await getStudents(idRepresentative, false);
           const representative = {
             idRepresentative,
             names,
