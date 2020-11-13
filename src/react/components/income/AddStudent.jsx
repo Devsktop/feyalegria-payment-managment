@@ -8,7 +8,32 @@ import { addStudent } from 'react/redux/actions/studentsActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import Select from 'react-select';
 import RepresentativeData from './RepresentativeData';
+
+// Import imgs
+import Timeline from './Timeline.svg';
+
+// Select options
+const options = [
+  { value: 'child', label: 'Hijo' },
+  { value: 'nephew', label: 'Sobrino' },
+  { value: 'nephew', label: 'Nieto' },
+  { value: 'adopted', label: 'Adoptado' }
+];
+
+// Select Styles
+const customStyles = {
+  container: provided => ({
+    ...provided,
+    height: '40px',
+    top: '7px'
+  }),
+  control: (provided, state) => ({
+    ...provided,
+    border: state.isFocused ? '1px solid #820101' : '1px solid #e32526'
+  })
+};
 
 const AddStudent = () => {
   const [names, setNames] = useState('');
@@ -57,15 +82,82 @@ const AddStudent = () => {
       <RepresentativeData />
       <form className="sweet-form add_student_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Agregar un Estudiante</h1>
+        <img src={Timeline} alt="" />
         <Minput type="text" onChange={handleNames} label="Nombres:" />
         <Minput type="text" onChange={handleLastNames} label="Apellidos:" />
         <Minput type="number" onChange={handleDni} label="Cédula:" />
-        <Minput type="date" onChange={''} label="Fecha de Nacimiento:" />
-        <Minput
-          type="email"
-          onChange={handleRelationship}
-          label="Correo Electrónico:"
-        />
+        <div className="form-group">
+          <label>Fecha de Nacimiento:</label>
+          <Select
+            options={options}
+            defaultValue={options[0]}
+            styles={customStyles}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Parentesco:</label>
+          <Select
+            options={options}
+            defaultValue={options[0]}
+            styles={customStyles}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Seleccione año escolar:</label>
+          <Select
+            options={options}
+            defaultValue={options[0]}
+            styles={customStyles}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Seleccione sección:</label>
+          <Select
+            options={options}
+            defaultValue={options[0]}
+            styles={customStyles}
+          />
+        </div>
+
+        <div className="checkbox">
+          <label className="container">
+            Normal
+            <input
+              type="radio"
+              checked={'mandatory'}
+              onChange={'handleMandatory'}
+            />
+            <span className="checkmark" />
+          </label>
+        </div>
+
+        <div className="checkbox">
+          <label className="container">
+            Becado
+            <input
+              type="radio"
+              checked={'mandatory'}
+              onChange={'handleMandatory'}
+            />
+            <span className="checkmark" />
+          </label>
+        </div>
+
+        <div className="checkbox">
+          <label className="container">
+            Excento
+            <input
+              type="radio"
+              checked={'mandatory'}
+              onChange={'handleMandatory'}
+            />
+            <span className="checkmark" />
+          </label>
+        </div>
+
         <div className="button_container">
           <Button
             type="button"

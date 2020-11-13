@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Select from 'react-select';
 
 // Actions
 import { addRepresentative } from 'react/redux/actions/representativesActions';
@@ -9,6 +8,7 @@ import { addRepresentative } from 'react/redux/actions/representativesActions';
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
+import Select from 'react-select';
 
 // Import imgs
 import AddRepresentativeIlustration from './AddRepresentativeIlustration.svg';
