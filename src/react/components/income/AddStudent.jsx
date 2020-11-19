@@ -83,13 +83,18 @@ const AddStudent = () => {
     dispatch(addStudent(student, history));
   };
 
+  // When path come from join student do not reset
+  // representative but if it come from verifyrepresentative
+  // reset it cause it could later insert a not existing dni
+  // and last representative data will be displayed
   const handleGoBack = () => {
-    if (representativeExist) {
+    if (
+      representativeExist &&
+      history.location.state.prevPath !== 'JoinStudent'
+    ) {
       dispatch(resetRepresentative());
-      history.goBack();
-    } else {
-      history.goBack();
     }
+    history.goBack();
   };
 
   return (

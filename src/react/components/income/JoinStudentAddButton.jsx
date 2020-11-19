@@ -4,7 +4,15 @@ import Button from 'react/components/Button';
 const JoinStudentAddButton = () => {
   return (
     <div className="joinstudent_addbutton">
-      <Button link="/addStudent" text="Añadir estudiante" />
+      <Button
+        link={{
+          pathname: '/addStudent',
+          state: {
+            prevPath: 'JoinStudent'
+          }
+        }}
+        text="Añadir estudiante"
+      />
     </div>
   );
 };
