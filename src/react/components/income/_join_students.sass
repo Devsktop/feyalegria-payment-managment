@@ -13,3 +13,49 @@
         &_subtitle
             font: $subtitle
             color: $subtitle-color
+
+        .studentrow_box
+            padding: 40px 15px
+            height: 250px
+            overflow: auto
+
+            .studentrow
+                width: 100%
+                position: relative
+                display: flex
+                justify-content: space-between
+                align-items: center
+                padding: 20px
+                color: $primary
+                box-shadow: $shadow
+                border-radius: $bradius
+                cursor: pointer
+                transition: all .3s ease-out
+
+                .checkmark
+                    position: absolute
+                    top: -10px
+                    right: -10px
+                    width: 25px
+                    height: 25px
+                    border: none
+                    border-radius: 50%
+                    background-color: #fff
+                    box-shadow: $shadow
+                    font-size: 1.8rem
+                    text-align: center
+                    line-height: 10px
+                    transition: all .3s ease-out
+
+
+                    svg
+                        opacity: 0
+                        transition: all .3s ease-out 
+
+                &.checked
+                    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4)
+
+                    .checkmark
+                        box-shadow: 0 0 3px rgba(0, 0, 0, 0.4)
+                    svg 
+                        opacity: 1

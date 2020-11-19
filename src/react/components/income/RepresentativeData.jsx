@@ -3,12 +3,25 @@ import { useSelector, shallowEqual } from 'react-redux';
 
 // Selectors
 const representativeDataSelector = state => {
-  const { names, lastNames, dni, phone } = state.income.representative;
-  return { names, lastNames, dni, phone };
+  const {
+    dni,
+    idDniType,
+    names,
+    lastNames,
+    phone
+  } = state.income.representative;
+  const { dniTypeById } = state.income;
+  return {
+    dni,
+    dniType: dniTypeById[idDniType],
+    names,
+    lastNames,
+    phone
+  };
 };
 
 const RepresentativeData = () => {
-  const { names, lastNames, dni, phone } = useSelector(
+  const { names, lastNames, dni, phone, dniType } = useSelector(
     representativeDataSelector,
     shallowEqual
   );
@@ -19,7 +32,7 @@ const RepresentativeData = () => {
   return (
     <div className="representativedata">
       <p>{`${name[0]} ${lastName[0]}`}</p>
-      <p>{dni}</p>
+      <p>{`${dniType}-${dni}`}</p>
       <p>{phone}</p>
     </div>
   );
