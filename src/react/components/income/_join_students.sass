@@ -60,3 +60,20 @@
                         box-shadow: 0 0 3px rgba(0, 0, 0, 0.4)
                     svg 
                         opacity: 1
+
+        .joinstudent_addbutton
+            position: relative
+            width: 100%
+            &::after, &::before
+                content: ''
+                position: absolute
+                width: 24%
+                height: 3px
+                background-color: $primary-light
+                top: 50%
+
+            &::before
+                left: 0
+
+            &::after
+                right: 0    
