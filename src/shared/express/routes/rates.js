@@ -214,4 +214,19 @@ const getPaymentConcepts = async idRate => {
   });
 };
 
+// 1.-Select rates http://localhost:3500/api/rates
+router.get('/globals', async (req, res) => {
+  // Query to get RaECT idPaymentsConcept AS idConcept, name AS concept, paymentsconcepts.price AS conceptPrice, paymentsconcepts.idRate FROM paymentsConcepts LEFT JOIN rates ON rates.idRate = ${idRate} WHERE deleted = false`;
+  const query = `SELECT actualMonth FROM globals`;
+
+  mysqlConnection.query(query, (err, rows) => {
+    if (!err) {
+      const actualMonth = rows[0];
+      res.status(200).json(actualMonth);
+    } else {
+      res.status(500).json({});
+    }
+  });
+});
+
 module.exports = router;

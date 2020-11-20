@@ -50,9 +50,11 @@ const monthPaymentsSelector = createSelector(
 const dolarCashSelector = state => {
   const { dolar } = state.payments.month;
   let dolarAmount = 0;
-  dolar.forEach(({ amount }) => {
-    dolarAmount += amount;
-  });
+  if (dolar) {
+    dolar.forEach(({ amount }) => {
+      dolarAmount += amount;
+    });
+  }
 
   return dolarAmount;
 };
