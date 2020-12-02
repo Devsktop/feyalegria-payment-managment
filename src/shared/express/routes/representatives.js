@@ -165,11 +165,14 @@ const getRepresentative = async idRepresentative => {
 const getStudents = async (idRepresentative, inscription) => {
   const students = {};
   const query = `SELECT idStudent,
-  CONCAT(students.names, ' ', students.lastnames) AS name,
+  students.names AS names,
+  students.lastnames AS lastnames,
   students.dni,
   relationship,
-  scholarYear AS grade,
-  section
+  scholarYear AS gradeName,
+  section AS sectionName,
+  idGrade,
+  idSection
   FROM students
   INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
   INNER JOIN grades ON students.idGrade = grades.idGrade

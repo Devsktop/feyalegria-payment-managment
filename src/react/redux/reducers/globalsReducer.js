@@ -1,7 +1,7 @@
 import { FETCH_GLOBALS } from '../actions/globalsActions';
 
 const initialState = {
-  actualMonth: 0
+  currentMonth: 0
 };
 
 export default function reducer(state = initialState, { type, payload }) {

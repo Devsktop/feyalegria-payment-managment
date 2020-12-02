@@ -175,7 +175,7 @@ CREATE TABLE dolarPrice (
 const t11 = `
 CREATE TABLE globals (
   idGlobal INT NOT NULL AUTO_INCREMENT,
-  actualMonth INT NOT NULL,
+  currentMonth INT NOT NULL,
   stundetsIn VARCHAR(45) NOT NULL,
   PRIMARY KEY (idGlobal),
   UNIQUE INDEX idGlobal_UNIQUE (idGlobal));
