@@ -84,6 +84,7 @@ router.post('/updGrade', async (req, res) => {
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get grades
 const getGrades = () => {
+  console.log('hola');
   const grades = {};
   const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade WHERE grades.deleted = false AND sections.deleted = false GROUP BY grades.idGrade;`;
 
@@ -124,12 +125,35 @@ const getSections = () => {
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errGrades, rows) => {
       if (!errGrades) {
+        const peopleBySection = await getStudentsBySection();
         rows.forEach(row => {
-          sections[row.idSection] = { ...row };
+          sections[row.idSection] = {
+            ...row,
+            ...peopleBySection[row.idSection]
+          };
         });
+        console.log(sections);
         resolve({ sections });
       } else {
+        console.log(errGrades);
         resolve({ errGrades });
+      }
+    });
+  });
+};
+
+// Query to get students by section
+const getStudentsBySection = () => {
+  const query = `SELECT sections.idSection, COUNT(students.idStudent) AS sectionStudents, COUNT(DISTINCT students.idRepresentative) AS sectionRepresentatives FROM sections LEFT JOIN students ON students.idSection = sections.idSection GROUP BY sections.idSection;`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async (errGetStudentsBySection, rows) => {
+      if (!errGetStudentsBySection) {
+        const { sectionStudents } = rows[0];
+        const peopleBySection = { sectionStudents };
+        resolve({ peopleBySection });
+      } else {
+        resolve({ errGetStudentsBySection });
       }
     });
   });

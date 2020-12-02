@@ -161,8 +161,10 @@ const AddStudent = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const idGrade = scholarYear.value;
-    const idSection = section.value;
+    const idGrade = parseInt(scholarYear.value);
+    const idSection = parseInt(section.value);
+    const gradeName = scholarYear.label;
+    const sectionName = section.label;
     const student = {
       names,
       lastNames,
@@ -172,6 +174,8 @@ const AddStudent = () => {
       relationship,
       idGrade,
       idSection,
+      gradeName,
+      sectionName,
       status
     };
     dispatch(addStudent(student));
