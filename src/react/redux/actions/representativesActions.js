@@ -135,3 +135,24 @@ export const addRepresentative = (newRepresentative, history) => {
     });
   };
 };
+
+export const FETCH_REPRESENTATIVES = 'FETCH_REPRESENTATIVES';
+
+export const fetchRepresentatives = () => {
+  return async dispatch => {
+    dispatch(isFetching(true));
+    // HACER FETCH A LA BDD
+    const response = await fetch(
+      'http://localhost:3500/api/representatives/:section'
+    );
+    const representatives = await response.json();
+    dispatch(fetchProductsActions(representatives));
+    dispatch(isFetched());
+    dispatch(isFetching(false));
+  };
+};
+
+const fetchProductsActions = representatives => ({
+  type: FETCH_REPRESENTATIVES,
+  payload: { representatives }
+});
