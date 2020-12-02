@@ -2,7 +2,8 @@ import {
   SET_INCOME,
   UPDATE_REPRESENTATIVE,
   RESET_INCOME,
-  RESET_REPRESENTATIVE
+  RESET_REPRESENTATIVE,
+  ADD_STUDENT
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -33,7 +34,8 @@ const initialState = {
     3: 'P',
     4: 'M'
   },
-  representativeExist: false
+  representativeExist: false,
+  idNewStudent: -1
 };
 
 export default function reducer(state = initialState, { type, payload }) {
@@ -70,6 +72,22 @@ export default function reducer(state = initialState, { type, payload }) {
           students: {}
         }
       };
+
+    case ADD_STUDENT: {
+      const representative = {
+        ...state.representative,
+        students: {
+          ...state.representative.students,
+          [state.idNewStudent]: payload.student
+        }
+      };
+      const idNewStudent = state.idNewStudent - 1;
+      return {
+        ...state,
+        representative,
+        idNewStudent
+      };
+    }
 
     default:
       return state;

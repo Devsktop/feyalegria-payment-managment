@@ -34,12 +34,11 @@ export const addStudent = (newStudent, history) => {
           names,
           lastNames,
           dni,
-          phone,
-          email,
-          balance,
-          paidMonths,
-          inscription,
-          idDniType
+          bornDate,
+          relationship,
+          scholarYear,
+          section,
+          status
         } = newStudent;
         const url = 'http://localhost:3500/api/student';
         const config = {
@@ -48,12 +47,11 @@ export const addStudent = (newStudent, history) => {
             names,
             lastNames,
             dni,
-            phone,
-            email,
-            balance,
-            paidMonths,
-            inscription,
-            idDniType
+            bornDate,
+            relationship,
+            scholarYear,
+            section,
+            status
           }),
           headers: {
             'Content-Type': 'application/json'

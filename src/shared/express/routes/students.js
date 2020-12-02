@@ -121,24 +121,22 @@ router.post('/student', async (req, res) => {
     names,
     lastNames,
     dni,
-    phone,
-    email,
-    balance,
-    paidMonths,
-    inscription,
-    idDniType
+    bornDate,
+    relationship,
+    scholarYear,
+    section,
+    status
   } = req.body;
   // Query to add student
   const { student, errAddStudent } = await addStudent(
     names,
     lastNames,
     dni,
-    phone,
-    email,
-    balance,
-    paidMonths,
-    inscription,
-    idDniType
+    bornDate,
+    relationship,
+    scholarYear,
+    section,
+    status
   );
   if (errAddStudent) {
     res.status(400).json({ errAddStudent });
@@ -154,32 +152,22 @@ const addStudent = (
   names,
   lastNames,
   dni,
-  birthDate,
+  bornDate,
   relationship,
-  state,
-  balance,
-  inscription,
-  paidMonths,
-  idRepresentative,
-  idDniType,
-  idSection,
-  idGrade
+  scholarYear,
+  section,
+  status
 ) => {
-  const query = `INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, balance, inscription, paidMonths, idRepresentative, idDniType, idSection, idGrade) 
+  const query = `INSERT INTO students(names, lastNames, dni, birthDate, relationship, idGrade, idSection, state) 
   VALUES
   ("${names}", 
   "${lastNames}", 
   "${dni}", 
-  "${birthDate}", 
+  "${bornDate}", 
   "${relationship}",
-  "${state}", 
-  ${balance},
-  ${inscription},
-  ${paidMonths},
-  ${idRepresentative}, 
-  ${idDniType},
-  ${idSection},
-  ${idGrade});`;
+  ${scholarYear.value}, 
+  ${section.value},
+  "${status}");`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errAddStudent, rows) => {
@@ -189,19 +177,15 @@ const addStudent = (
           names,
           lastNames,
           dni,
-          birthDate,
+          bornDate,
           relationship,
-          state,
-          balance,
-          inscription,
-          paidMonths,
-          idRepresentative,
-          idDniType,
-          idSection,
-          idGrade
+          scholarYear,
+          section,
+          status
         };
         resolve({ student });
       } else {
+        console.log(errAddStudent);
         resolve({ errAddStudent });
       }
     });
