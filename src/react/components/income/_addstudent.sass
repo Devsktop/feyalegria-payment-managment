@@ -7,20 +7,116 @@
     border-radius: $bradius
     text-align: center
     width: 700px
+    height: 677px
 
     .add_student_form
-        width: 300px
+        width: 340px
         padding: 40px 0
+
+        label
+            text-align: left
 
         img
             margin-top: 10px
 
         .form-group
-            margin: 30px 0
+            margin: 20px 0
             text-align: left
+
+        .form-group-dni
+            display: flex
+            justify-content: space-between
+            align-items: center
+            margin: 25px 0
+
+            .css-156z4zn-container
+                width: 22%
+
+            .MuiFormControl-root
+                width: 75%
+                margin: 0
 
         & .MuiFormControl-root
             margin: 20px 0
 
         & .MuiInputBase-input
             height: 0.9em
+
+        .react-datepicker-wrapper
+            width: 100%
+            border-radius: 8px
+            border: 1px solid $primary
+            background: none
+            margin-top: 8px
+
+            & input
+                color: $primary
+                background: none
+                border: none
+                font-size: 15px
+                padding: 8px
+                outline: none
+                cursor: pointer
+                width: 100%
+
+        .radios
+            display: flex
+            justify-content: space-between
+            margin: 10px 0 0 0
+
+            .radio
+                display: block
+                position: relative
+                padding-left: 35px
+                margin-bottom: 12px
+                cursor: pointer
+                font-size: 22px
+                user-select: none
+
+                & label
+                    padding-top: 3px
+
+                input
+                    position: absolute
+                    opacity: 0
+                    cursor: pointer
+                    height: 0
+                    width: 0
+
+                    & ~ .checkmark
+                        background-color: $primary
+
+                    &:checked ~ .checkmark
+                        background-color: $primary
+
+                    &:checked ~ .checkmark:after
+                        display: block
+
+                & .checkmark:after
+                    top: 9px
+                    left: 9px
+                    width: 8px
+                    height: 8px
+                    border-radius: 50%
+                    background: white
+                
+            .checkmark
+                position: absolute
+                top: 0
+                left: 0
+                height: 25px
+                width: 25px
+                background-color: #eee
+                border-radius: 50%
+
+                &:after
+                    content: ""
+                    position: absolute
+                    display: none
+
+        .button_container
+            margin-top: 30px
+
+        .button_container_submit
+            margin-top: 150px
+            

@@ -30,3 +30,10 @@ export const RESET_REPRESENTATIVE = 'RESET_REPRESENTATIVE';
 export const resetRepresentative = () => ({
   type: RESET_REPRESENTATIVE
 });
+
+export const ADD_STUDENT = 'ADD_STUDENT';
+
+export const addStudent = student => ({
+  type: ADD_STUDENT,
+  payload: { student }
+});
