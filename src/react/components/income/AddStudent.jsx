@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -161,8 +162,8 @@ const AddStudent = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const idGrade = parseInt(scholarYear.value);
-    const idSection = parseInt(section.value);
+    const idGrade = parseInt(scholarYear.value, 10);
+    const idSection = parseInt(section.value, 10);
     const gradeName = scholarYear.label;
     const sectionName = section.label;
     const student = {
@@ -171,7 +172,7 @@ const AddStudent = () => {
       dniOption,
       dni,
       bornDate,
-      relationship,
+      relationship: options[relationship].label,
       idGrade,
       idSection,
       gradeName,

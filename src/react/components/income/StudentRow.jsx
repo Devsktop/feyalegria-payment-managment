@@ -6,7 +6,14 @@ import PropTypes from 'prop-types';
 
 const StudentRow = ({ student }) => {
   const [check, setCheck] = useState(false);
-  const { names, lastnames, dni, relationship, grade, section } = student;
+  const {
+    names,
+    lastNames,
+    dni,
+    relationship,
+    gradeName,
+    sectionName
+  } = student;
   return (
     <div
       className={`studentrow ${check ? 'checked' : ''}`}
@@ -15,10 +22,10 @@ const StudentRow = ({ student }) => {
       <span className="checkmark">
         <FontAwesomeIcon icon={faCheck} className="checkicon" />
       </span>
-      <span>{`${names} ${lastnames}`}</span>
+      <span>{`${names} ${lastNames}`}</span>
       <span>{dni}</span>
       <span>{relationship}</span>
-      <span>{`${grade} ${section}`}</span>
+      <span>{`${gradeName} ${sectionName}`}</span>
     </div>
   );
 };
@@ -28,10 +35,10 @@ export default StudentRow;
 StudentRow.propTypes = {
   student: PropTypes.shape({
     names: PropTypes.string.isRequired,
-    lastnames: PropTypes.string.isRequired,
+    lastNames: PropTypes.string.isRequired,
     dni: PropTypes.string.isRequired,
     relationship: PropTypes.string.isRequired,
-    grade: PropTypes.string.isRequired,
-    section: PropTypes.string.isRequired
+    gradeName: PropTypes.string.isRequired,
+    sectionName: PropTypes.string.isRequired
   }).isRequired
 };

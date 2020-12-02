@@ -166,13 +166,13 @@ const getStudents = async (idRepresentative, inscription) => {
   const students = {};
   const query = `SELECT idStudent,
   students.names AS names,
-  students.lastnames AS lastnames,
+  students.lastnames AS lastNames,
   students.dni,
   relationship,
   scholarYear AS gradeName,
   section AS sectionName,
-  idGrade,
-  idSection
+  students.idGrade AS idGrade,
+  students.idSection AS idSection
   FROM students
   INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
   INNER JOIN grades ON students.idGrade = grades.idGrade
@@ -187,6 +187,7 @@ const getStudents = async (idRepresentative, inscription) => {
         });
         resolve({ students });
       } else {
+        console.log(errStudent);
         resolve({ errStudent });
       }
     });
