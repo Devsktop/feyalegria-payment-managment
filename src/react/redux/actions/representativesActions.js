@@ -1,7 +1,4 @@
-import {
-  updateRepresentative,
-  existRepresentative
-} from 'react/redux/actions/incomeActions';
+import { updateRepresentative } from 'react/redux/actions/incomeActions';
 import Swal from 'sweetalert2';
 
 export const FETCH_REPRESENTATIVEBYDNI = 'FETCH_REPRESENTATIVEBYDNI';
@@ -16,8 +13,7 @@ export const fetchRepresentativeByDni = (dni, idDniType, history) => {
     const { representative, status } = await res.json();
 
     if (status === 200) {
-      dispatch(updateRepresentative({ ...representative }));
-      dispatch(existRepresentative(true));
+      dispatch(updateRepresentative(representative, true));
       const hasStudents = Object.keys(representative.students).length > 0;
       if (hasStudents) {
         history.push('/joinStudents');
@@ -25,8 +21,7 @@ export const fetchRepresentativeByDni = (dni, idDniType, history) => {
         history.push('/addStudent');
       }
     } else if (status === 404) {
-      dispatch(updateRepresentative({ dni, idDniType }));
-      dispatch(existRepresentative(false));
+      dispatch(updateRepresentative({ dni, idDniType }, false));
       history.push('/addRepresentative');
     } else {
       console.log('remember swal');

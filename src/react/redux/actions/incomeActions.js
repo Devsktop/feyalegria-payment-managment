@@ -7,16 +7,9 @@ export const setIncome = income => ({
 
 export const UPDATE_REPRESENTATIVE = 'UPDATE_REPRESENTATIVE';
 
-export const updateRepresentative = representative => ({
+export const updateRepresentative = (representative, exist) => ({
   type: UPDATE_REPRESENTATIVE,
-  payload: { representative }
-});
-
-export const EXIST_REPRESENTATIVE = 'EXIST_REPRESENTATIVE';
-
-export const existRepresentative = exist => ({
-  type: EXIST_REPRESENTATIVE,
-  payload: { exist }
+  payload: { representative, exist }
 });
 
 export const RESET_INCOME = 'RESET_INCOME';

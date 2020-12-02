@@ -2,8 +2,7 @@ import {
   SET_INCOME,
   UPDATE_REPRESENTATIVE,
   RESET_INCOME,
-  RESET_REPRESENTATIVE,
-  EXIST_REPRESENTATIVE
+  RESET_REPRESENTATIVE
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -48,11 +47,9 @@ export default function reducer(state = initialState, { type, payload }) {
     case UPDATE_REPRESENTATIVE:
       return {
         ...state,
-        representative: { ...state.representative, ...payload.representative }
+        representative: { ...state.representative, ...payload.representative },
+        representativeExist: payload.exist
       };
-
-    case EXIST_REPRESENTATIVE:
-      return { ...state, representativeExist: payload.exist };
 
     case RESET_INCOME:
       return initialState;
