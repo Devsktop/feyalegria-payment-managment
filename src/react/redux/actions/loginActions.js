@@ -75,7 +75,6 @@ export function fetchData() {
       dispatch(fetchConcepts(rates.payload));
 
       const globals = await fetchGlobals();
-      console.log(globals);
       await dispatch(globals);
 
       // Data loaded set to true

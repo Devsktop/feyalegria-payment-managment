@@ -30,3 +30,10 @@ export const addStudent = student => ({
   type: ADD_STUDENT,
   payload: { student }
 });
+
+export const TOGGLE_STUDENT = 'TOGGLE_STUDENT';
+
+export const toggleStudent = (idStudent, toggle) => ({
+  type: TOGGLE_STUDENT,
+  payload: { idStudent, toggle }
+});

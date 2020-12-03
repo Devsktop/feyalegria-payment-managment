@@ -1,10 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
+import { toggleStudent } from 'react/redux/actions/incomeActions';
+
 const StudentRow = ({ student }) => {
+  const disipatch = useDispatch();
   const [check, setCheck] = useState(false);
   const {
     names,
@@ -12,12 +16,19 @@ const StudentRow = ({ student }) => {
     dni,
     relationship,
     gradeName,
-    sectionName
+    sectionName,
+    idStudent
   } = student;
+
+  const handleToggleStudent = () => {
+    setCheck(!check);
+    disipatch(toggleStudent(idStudent, !check));
+  };
+
   return (
     <div
       className={`studentrow ${check ? 'checked' : ''}`}
-      onClick={() => setCheck(!check)}
+      onClick={handleToggleStudent}
     >
       <span className="checkmark">
         <FontAwesomeIcon icon={faCheck} className="checkicon" />
@@ -39,6 +50,7 @@ StudentRow.propTypes = {
     dni: PropTypes.string.isRequired,
     relationship: PropTypes.string.isRequired,
     gradeName: PropTypes.string.isRequired,
-    sectionName: PropTypes.string.isRequired
+    sectionName: PropTypes.string.isRequired,
+    idStudent: PropTypes.number.isRequired
   }).isRequired
 };

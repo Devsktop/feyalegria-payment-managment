@@ -19,6 +19,7 @@ const inscriptionPriceSelector = state => {
 
 const monthlyDebt = state => {
   const { rates } = state;
+  const { currentMonth } = state.globals;
 
   let price = 0;
 
@@ -31,7 +32,7 @@ const monthlyDebt = state => {
     }
   });
 
-  return price;
+  return price * currentMonth;
 };
 
 const countStudentsSelector = state => {

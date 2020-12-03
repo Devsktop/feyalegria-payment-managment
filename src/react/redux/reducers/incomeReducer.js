@@ -3,7 +3,8 @@ import {
   UPDATE_REPRESENTATIVE,
   RESET_INCOME,
   RESET_REPRESENTATIVE,
-  ADD_STUDENT
+  ADD_STUDENT,
+  TOGGLE_STUDENT
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -78,14 +79,25 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state.representative,
         students: {
           ...state.representative.students,
-          [state.idNewStudent]: payload.student
+          [state.idNewStudent]: { ...payload.student, willJoin: false }
         }
       };
+
       const idNewStudent = state.idNewStudent - 1;
       return {
         ...state,
         representative,
         idNewStudent
+      };
+    }
+
+    case TOGGLE_STUDENT: {
+      const students = { ...state.representative.students };
+      students[payload.idStudent].willJoin = payload.toggle;
+
+      return {
+        ...state,
+        representative: { ...state.representative, students }
       };
     }
 
