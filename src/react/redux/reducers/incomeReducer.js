@@ -79,7 +79,11 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state.representative,
         students: {
           ...state.representative.students,
-          [state.idNewStudent]: { ...payload.student, willJoin: false }
+          [state.idNewStudent]: {
+            idStudent: state.idNewStudent,
+            ...payload.student,
+            willJoin: false
+          }
         }
       };
 
