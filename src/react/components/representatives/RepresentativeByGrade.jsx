@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 // Actions
-import { fetchGrades } from 'react/redux/actions/gradesActions';
+import { fetchRepresentatives } from 'react/redux/actions/representativesActions';
 
 // Components
 import { DataTable } from 'react-pulpo';
@@ -12,11 +12,32 @@ import { DataTable } from 'react-pulpo';
 const representativesSelector = state => state.representatives.representatives;
 
 const Representatives = () => {
+  // States
+  const [pag, setPag] = useState(0);
+  // Link Params
+  const { id } = useParams();
+  // Link Query
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const grade = query.get('scholarYear');
+  const section = query.get('section');
+  // Dispatch
   const dispatch = useDispatch();
+  // useSelectors
   const representatives = useSelector(representativesSelector);
   const isFetched = useSelector(state => state.representatives.isFetched);
   const isFetching = useSelector(state => state.representatives.isFetching);
+  // useHistory
   const history = useHistory();
+
+  let isEmpty = false;
+  const representativesData = [];
+
+  useEffect(() => {
+    if (!isFetched) {
+      dispatch(fetchRepresentatives(id, pag));
+    }
+  }, [pag, id]);
 
   if (isFetching) {
     return (
@@ -27,30 +48,36 @@ const Representatives = () => {
     );
   }
 
-  if (!isFetched) {
-    dispatch(fetchRepresentatives());
-  }
-
-  let isEmpty = false;
   if (Object.keys(representatives).length === 0) {
     isEmpty = true;
   }
 
-  const representativesData = [];
   Object.keys(representatives).forEach(representativeKey => {
+    const { names, lastNames } = representatives[representativeKey];
+    // Split to names & lastNames
+    const name = names.split(' ');
+    const lastName = lastNames.split(' ');
+    // Array Destructuring
+    const [shortName] = name;
+    const [shortLastName] = lastName;
+    // Equalize shortName & shortLastName in representatives's name & lastNames properties
+    representatives[representativeKey].names = shortName;
+    representatives[representativeKey].lastNames = shortLastName;
+    // Convert representative object to an array for DataTable
     representativesData.push({
       ...representatives[representativeKey],
       id: representatives[representativeKey].idRepresentative
     });
   });
 
-  // const handleClick = id => history.push(`/editProduct/${id}`s);
+  const handleClick = idRepresentative =>
+    history.push(`/representativeProfile/${idRepresentative}`);
 
   return (
     <div className="content-screen">
-      <div className="box representatives_box">
-        <h1 className="box_title">Representantes</h1>
-        <h2 className="box_subtitle">Seleccionar un Represetante</h2>
+      <div className="box representatives_box_big">
+        <h1 className="box_title">{`Representantes de ${grade} ${section}`}</h1>
+        <h2 className="box_subtitle">Seleccione un Representante</h2>
         {isEmpty ? (
           <h2 className="box_subtitle">No hay representantes registrados</h2>
         ) : (
@@ -63,16 +90,10 @@ const Representatives = () => {
               'Cédula',
               'Teléfono',
               'Correo',
-              'Saldo $',
-              'Saldo Bs.S'
+              'Saldo $'
             ]}
-            order={[
-              'scholarYear',
-              'sectionsNumber',
-              'representativestudents',
-              'gradeRepresentatives'
-            ]}
-            // onClickRow={handleClick}
+            order={['names', 'lastNames', 'dni', 'phone', 'email', 'balance']}
+            onClickRow={handleClick}
           />
         )}
       </div>

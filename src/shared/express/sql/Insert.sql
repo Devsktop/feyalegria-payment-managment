@@ -15,14 +15,14 @@ INSERT INTO dnitype (letter) VALUES ('V'), ('E'), ('R');
 
 // representatives
 
-INSERT INTO representatives(names, lastnames, dni, balance, phone, email, monthsToPay, inscription, idDniType) 
+INSERT INTO representatives(names, lastnames, dni, balance, phone, email, paidMonths, inscription, idDniType) 
 VALUES 
     ('Meiro Sario','Gonzalez Gil','7785390',0,'04246438964','meirocr@hotmail.com',0,false,1),
     ('Lina Rosa','Duarte Caballero','9709555',0,'04141689544','linarosaduarte@hotmail.com',0,false,1)
 
 // students
 
-INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia, balance, inscription, monthsToPay, idRepresentative, idDniType, idSection, idGrade) VALUES 
+INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia, balance, inscription, paidMonths, idRepresentative, idDniType, idSection, idGrade) VALUES 
 ('Alejandro José','González Duarte','27849217','2000-10-05','child','regular','A+','45','1.60','alejandrogonzalezduarte@hotmail.com','04246438964','@alejandrogonzalezdu',0,true,0,1,1,1,5), 
 ('Jhoseph Jefferson','Guerrero Puche','27456321','1998-08-01','child','regular','A+','45','1.60','jhosephgph@gmail.com','04146613245','@jhoseph',-1,true,0,2,1,2,5), 
 ('Jhostteen Jeremy','Guerrero Puche','27456322','2005-09-26','child','regular','A+','45','1.60','jhosephgph@gmail.com','04146613245','@jhostten',-2,true,0,2,1,2,5), 

@@ -34,19 +34,19 @@ export const fetchRepresentativeByDni = (dni, idDniType, history) => {
   };
 };
 
-export const IS_FECTHING = 'IS_FECTHING';
+export const IS_FECTHING_REPRESENTATIVES = 'IS_FECTHING_REPRESENTATIVES';
 
 // fetching: boolean
 const isFetching = fetching => ({
-  type: IS_FECTHING,
+  type: IS_FECTHING_REPRESENTATIVES,
   payload: fetching
 });
 
-export const IS_FECTHED = 'IS_FECTHED';
+export const IS_FECTHED_REPRESENTATIVES = 'IS_FECTHED_REPRESENTATIVES';
 
 // fetched: boolean
 const isFetched = () => ({
-  type: IS_FECTHED
+  type: IS_FECTHED_REPRESENTATIVES
 });
 
 export const ADD_REPRESENTATIVE = 'ADD_REPRESENTATIVE';
@@ -143,12 +143,14 @@ export const addRepresentative = (newRepresentative, history) => {
 
 export const FETCH_REPRESENTATIVES = 'FETCH_REPRESENTATIVES';
 
-export const fetchRepresentatives = () => {
+export const fetchRepresentatives = (id, pag) => {
+  console.log(id);
+  console.log(pag);
   return async dispatch => {
     dispatch(isFetching(true));
     // HACER FETCH A LA BDD
     const response = await fetch(
-      'http://localhost:3500/api/representatives/:section'
+      `http://localhost:3500/api/representatives/${id}?pag=${pag}`
     );
     const representatives = await response.json();
     dispatch(fetchProductsActions(representatives));

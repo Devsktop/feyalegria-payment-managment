@@ -99,7 +99,8 @@ const getRepresentatives = async (section, pag, pattern) => {
   const representatives = {};
   const patternQuery = `AND representatives.names LIKE "%${pattern}%" OR representatives.lastnames LIKE "%${pattern}%" OR representatives.dni LIKE "%${pattern}%" OR representatives.phone LIKE "%${pattern}%" OR representatives.email LIKE "%${pattern}%" OR representatives.balance LIKE "%${pattern}%" OR representatives.idRepresentative LIKE "%${pattern}%"`;
   const query = `SELECT DISTINCT 
-  CONCAT(representatives.names, ' ', representatives.lastnames) AS name, 
+  representatives.names,
+  representatives.lastnames AS lastNames, 
   representatives.dni, 
   representatives.phone, 
   representatives.email, 

@@ -1,12 +1,13 @@
 import {
   FETCH_REPRESENTATIVEBYDNI,
-  IS_FECTHING,
-  IS_FECTHED,
-  ADD_REPRESENTATIVE
+  IS_FECTHING_REPRESENTATIVES,
+  IS_FECTHED_REPRESENTATIVES,
+  ADD_REPRESENTATIVE,
+  FETCH_REPRESENTATIVES
 } from '../actions/representativesActions';
 
 const initialState = {
-  representative: {},
+  representatives: {},
   isFetched: false,
   isFetching: false
 };
@@ -19,13 +20,13 @@ export default function reducer(state = initialState, { type, payload }) {
         ...payload
       };
 
-    case IS_FECTHING:
+    case IS_FECTHING_REPRESENTATIVES:
       return {
         ...state,
         isFetching: payload
       };
 
-    case IS_FECTHED:
+    case IS_FECTHED_REPRESENTATIVES:
       return {
         ...state,
         isFetched: true
@@ -43,6 +44,12 @@ export default function reducer(state = initialState, { type, payload }) {
         representatives
       };
     }
+
+    case FETCH_REPRESENTATIVES:
+      return {
+        ...state,
+        ...payload
+      };
 
     default:
       return state;
