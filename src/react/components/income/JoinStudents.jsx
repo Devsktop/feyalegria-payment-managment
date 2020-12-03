@@ -1,6 +1,9 @@
 import React from 'react';
+
+// Components
 import StudentRowBox from './StudentRowBox';
 import JoinStudentAddButton from './JoinStudentAddButton';
+import JoinStudentPrice from './JoinStudentsPrice';
 
 const JoinStudents = () => {
   return (
@@ -11,6 +14,9 @@ const JoinStudents = () => {
       </h2>
       <StudentRowBox />
       <JoinStudentAddButton />
+      <div className="joinstudents_bottom">
+        <JoinStudentPrice />
+      </div>
     </div>
   );
 };

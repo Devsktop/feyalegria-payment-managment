@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 
 const inscriptionPriceSelector = state => {
   const { rates } = state;
@@ -17,7 +18,7 @@ const inscriptionPriceSelector = state => {
   return price;
 };
 
-const monthlyDebt = state => {
+const monthlyDebtSelector = state => {
   const { rates } = state;
   const { currentMonth } = state.globals;
 
@@ -35,18 +36,54 @@ const monthlyDebt = state => {
   return price * currentMonth;
 };
 
-const countStudentsSelector = state => {
-  const { students } = state.income.representative;
-  return Object.keys(students).length;
+const representativeBalanceSelector = state => {
+  return state.income.representative.balance;
 };
 
+const checkedStudentsSelector = state => {
+  const { students } = state.income.representative;
+  let checkedStudents = 0;
+  Object.keys(students).forEach(studentKey => {
+    if (students[studentKey].willJoin) checkedStudents += 1;
+  });
+  return checkedStudents;
+};
+
+const totalInscriptionSelector = createSelector(
+  inscriptionPriceSelector,
+  checkedStudentsSelector,
+  (inscriptionPrice, checkedStudents) => inscriptionPrice * checkedStudents
+);
+
+const totalMonthlySelector = createSelector(
+  monthlyDebtSelector,
+  checkedStudentsSelector,
+  (monthlyDebt, checkedStudents) => monthlyDebt * checkedStudents
+);
+
 const JoinStudentsPrice = () => {
+  const inscriptionPrice = useSelector(totalInscriptionSelector);
+  const monthlyDebt = useSelector(totalMonthlySelector);
+  const representativeBalance = useSelector(representativeBalanceSelector);
+
   return (
     <div className="joinstudents_price">
-      <p>Total inscripciones:</p>
-      <p>Mensualidades pendientes:</p>
-      <p>Balance actual:</p>
-      <p>Total a pagar:</p>
+      <p>
+        Total inscripciones:
+        {inscriptionPrice}
+      </p>
+      <p>
+        Mensualidades pendientes:
+        {monthlyDebt}
+      </p>
+      <p>
+        Balance actual:
+        {representativeBalance}
+      </p>
+      <p>
+        Total a pagar:
+        {inscriptionPrice + monthlyDebt - representativeBalance}
+      </p>
     </div>
   );
 };

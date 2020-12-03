@@ -18,8 +18,8 @@ const initialState = {
   username: ''
 };
 
-export default function reducer(state = initialState, { type, payload }) {
-  switch (type) {
+export default function reducer(state = initialState, action) {
+  switch (action.type) {
     case IS_LOGIN:
       return {
         ...state,
@@ -29,8 +29,8 @@ export default function reducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLogin: false,
-        idUser: payload.idUser,
-        username: payload.username,
+        idUser: action.payload.idUser,
+        username: action.payload.username,
         logged: true
       };
 
