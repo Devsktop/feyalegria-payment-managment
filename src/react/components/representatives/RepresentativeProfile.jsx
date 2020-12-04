@@ -1,37 +1,131 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 // Components
 import Button from 'react/components/Button';
 import { DataTable } from 'react-pulpo';
 
+// Actions
+import { fetchRepresentativeById } from 'react/redux/actions/representativesActions';
+
 // Import imgs
 import ProfilePic from './ProfilePic.svg';
+import NameIcon from './NameIcon.svg';
+import DniIcon from './DniIcon.svg';
+import PhoneIcon from './PhoneIcon.svg';
+import EmailIcon from './EmailIcon.svg';
+import BalanceIcon from './BalanceIcon.svg';
+
+// Selectors
+const representativesSelector = state => state.representatives.representative;
 
 const RepresentativeProfile = () => {
+  // Link Params
+  const { idRepresentative } = useParams();
   const history = useHistory();
+  // Dispatch
+  const dispatch = useDispatch();
+  // useSelectors
+  const representative = useSelector(representativesSelector);
+  const isFetching = useSelector(state => state.representatives.isFetching);
+
+  const studentsData = [];
+
+  useEffect(() => {
+    dispatch(fetchRepresentativeById(idRepresentative));
+  }, []);
+
+  if (isFetching) {
+    return (
+      <div className="loader-container">
+        <div className="loader">Loading...</div>
+        <p>Cargando Datos...</p>
+      </div>
+    );
+  }
+
+  if (Object.keys(representative).length > 0) {
+    Object.keys(representative.students).forEach(studentKey => {
+      const { names, lastNames, grade, section } = representative.students[
+        studentKey
+      ];
+      // Split to names & lastNames
+      const name = names.split(' ');
+      const lastName = lastNames.split(' ');
+      // Array Destructuring
+      const [shortName] = name;
+      const [shortLastName] = lastName;
+      // Concat name & lastName / grade & section
+      const fullName = `${shortName} ${shortLastName}`;
+      const fullGrade = `${grade} ${section}`;
+      // Equalize fullName / fullGrade  in students's name properties
+      representative.students[studentKey].names = fullName;
+      representative.students[studentKey].grade = fullGrade;
+      // Convert students object to an array for DataTable
+      studentsData[studentKey] = {
+        ...representative.students[studentKey],
+        id: representative.students[studentKey].idStudent
+      };
+    });
+  }
 
   return (
-    <div className="box representative_profile_box">
-      <img src={ProfilePic} alt="" />
-      <h1 className="box_title">Perfil del Representante</h1>
-      <Button
-        type="button"
-        onClick={() => history.push('')}
-        text="estatus de pago"
-      />
-      <p>Alejandro Jose Gonzalez Duarte</p>
-      <p>27.849.217</p>
-      <p>0424-638-964</p>
-      <p>alejandrogonzalezduarte@hotmail.com</p>
-      <p>-10$ / -35.000.000</p>
+    <div className="content-screen">
+      {representative ? (
+        <div className="box representative_profile_box">
+          <img src={ProfilePic} alt="" />
+          <div className="profile_header">
+            <h1 className="box_title">Perfil del Representante</h1>
+            <Button
+              type="button"
+              onClick={() => history.push('')}
+              text="estatus de pago"
+            />
+          </div>
+          <div className="representative_data">
+            <div className="representative_data_group">
+              <img src={NameIcon} alt="" />
+              <p>{`${representative.names} ${representative.lastNames}`}</p>
+            </div>
+            <div className="representative_data_group">
+              <img src={DniIcon} alt="" />
+              <p>{representative.dni}</p>
+            </div>
+            <div className="representative_data_group">
+              <img src={PhoneIcon} alt="" />
+              <p>{representative.phone}</p>
+            </div>
+            <div className="representative_data_group">
+              <img src={EmailIcon} alt="" />
+              <p>{representative.email}</p>
+            </div>
+            <div className="representative_data_group">
+              <img src={BalanceIcon} alt="" />
+              <p>{representative.balance}</p>
+            </div>
+          </div>
 
-      <DataTable />
+          <DataTable
+            className="table"
+            data={studentsData}
+            properties={['Nombre', 'Cédula', 'Parentesco', 'Grado']}
+            order={['names', 'dni', 'relationship', 'grade']}
+            // onClickRow={handleClick}
+          />
 
-      <div className="button_container">
-        <Button type="button" onClick={() => history.goBack()} text="volver" />
-        <Button type="submit" text="editar" />
-      </div>
+          <div className="button_container">
+            <Button
+              type="button"
+              onClick={() => history.goBack()}
+              text="volver"
+            />
+            <Button type="submit" text="editar" />
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

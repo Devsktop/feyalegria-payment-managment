@@ -92,7 +92,7 @@ const AppRouter = () => {
             />
             <Route
               exact
-              path="/representativeProfile/:id"
+              path="/representativeProfile/:idRepresentative"
               component={RepresentativeProfile}
             />
 

@@ -144,8 +144,6 @@ export const addRepresentative = (newRepresentative, history) => {
 export const FETCH_REPRESENTATIVES = 'FETCH_REPRESENTATIVES';
 
 export const fetchRepresentatives = (id, pag) => {
-  console.log(id);
-  console.log(pag);
   return async dispatch => {
     dispatch(isFetching(true));
     // HACER FETCH A LA BDD
@@ -153,13 +151,35 @@ export const fetchRepresentatives = (id, pag) => {
       `http://localhost:3500/api/representatives/${id}?pag=${pag}`
     );
     const representatives = await response.json();
-    dispatch(fetchProductsActions(representatives));
+    dispatch(fetchRepresentativesActions(representatives));
     dispatch(isFetched());
     dispatch(isFetching(false));
   };
 };
 
-const fetchProductsActions = representatives => ({
+const fetchRepresentativesActions = representatives => ({
   type: FETCH_REPRESENTATIVES,
   payload: { representatives }
+});
+
+export const FETCH_REPRESENTATIVEBYID = 'FETCH_REPRESENTATIVEBYID';
+
+export const fetchRepresentativeById = id => {
+  return async dispatch => {
+    dispatch(isFetching(true));
+    // HACER FETCH A LA BDD
+    const response = await fetch(
+      `http://localhost:3500/api/representativebyid/${id}`
+    );
+    const representative = await response.json();
+    dispatch(fetchRepresentativeByIdActions(representative));
+    dispatch(isFetched());
+    dispatch(isFetching(false));
+    console.log(representative);
+  };
+};
+
+const fetchRepresentativeByIdActions = representative => ({
+  type: FETCH_REPRESENTATIVEBYID,
+  payload: { representative }
 });

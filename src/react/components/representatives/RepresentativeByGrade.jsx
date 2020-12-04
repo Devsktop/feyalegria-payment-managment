@@ -25,7 +25,6 @@ const Representatives = () => {
   const dispatch = useDispatch();
   // useSelectors
   const representatives = useSelector(representativesSelector);
-  const isFetched = useSelector(state => state.representatives.isFetched);
   const isFetching = useSelector(state => state.representatives.isFetching);
   // useHistory
   const history = useHistory();
@@ -34,9 +33,7 @@ const Representatives = () => {
   const representativesData = [];
 
   useEffect(() => {
-    if (!isFetched) {
-      dispatch(fetchRepresentatives(id, pag));
-    }
+    dispatch(fetchRepresentatives(id, pag));
   }, [pag, id]);
 
   if (isFetching) {
@@ -64,10 +61,10 @@ const Representatives = () => {
     representatives[representativeKey].names = shortName;
     representatives[representativeKey].lastNames = shortLastName;
     // Convert representative object to an array for DataTable
-    representativesData.push({
+    representativesData[representativeKey] = {
       ...representatives[representativeKey],
       id: representatives[representativeKey].idRepresentative
-    });
+    };
   });
 
   const handleClick = idRepresentative =>

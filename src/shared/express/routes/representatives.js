@@ -25,10 +25,10 @@ router.get('/representatives/:section', async (req, res) => {
 });
 
 // 2.- Get representative http://localhost:3500/api/representatives/[idRepresentative]
-router.get('/representatives/:idRepresentative', async (req, res) => {
+router.get('/representativebyid/:idRepresentative', async (req, res) => {
   const { idRepresentative } = req.params;
   // Query to get representative
-  const { representative, status, errRepresentative } = await getRepresentative(
+  const { representative, errRepresentative } = await getRepresentative(
     idRepresentative
   );
   if (errRepresentative) {
@@ -36,7 +36,7 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
     return null;
   }
 
-  res.status(200).json({ representative, status });
+  res.status(200).json(representative);
   return null;
 });
 
@@ -127,10 +127,11 @@ const getRepresentatives = async (section, pag, pattern) => {
   });
 };
 
-// Query to get representative
+// Query to get representative by id
 const getRepresentative = async idRepresentative => {
   const query = `SELECT 
-  CONCAT(names, ' ', lastnames) AS name, 
+  names, 
+  lastnames AS lastNames, 
   dni, 
   phone, 
   email, 
@@ -142,11 +143,20 @@ const getRepresentative = async idRepresentative => {
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errRepresentative, rows) => {
       if (!errRepresentative) {
-        const { name, dni, phone, email, balance, paidMonths } = rows[0];
+        const {
+          names,
+          lastNames,
+          dni,
+          phone,
+          email,
+          balance,
+          paidMonths
+        } = rows[0];
         // Function to get represantive's students
         const { students } = await getStudents(idRepresentative, true);
         const representative = {
-          name,
+          names,
+          lastNames,
           dni,
           phone,
           email,
@@ -166,7 +176,8 @@ const getRepresentative = async idRepresentative => {
 const getStudents = async (idRepresentative, inscription) => {
   const students = {};
   const query = `SELECT idStudent,
-  CONCAT(students.names, ' ', students.lastnames) AS name,
+  students.names,
+  students.lastnames AS lastNames,
   students.dni,
   relationship,
   scholarYear AS grade,

@@ -3,13 +3,15 @@ import {
   IS_FECTHING_REPRESENTATIVES,
   IS_FECTHED_REPRESENTATIVES,
   ADD_REPRESENTATIVE,
-  FETCH_REPRESENTATIVES
+  FETCH_REPRESENTATIVES,
+  FETCH_REPRESENTATIVEBYID
 } from '../actions/representativesActions';
 
 const initialState = {
   representatives: {},
   isFetched: false,
-  isFetching: false
+  isFetching: false,
+  representative: {}
 };
 
 export default function reducer(state = initialState, { type, payload }) {
@@ -46,6 +48,12 @@ export default function reducer(state = initialState, { type, payload }) {
     }
 
     case FETCH_REPRESENTATIVES:
+      return {
+        ...state,
+        ...payload
+      };
+
+    case FETCH_REPRESENTATIVEBYID:
       return {
         ...state,
         ...payload
