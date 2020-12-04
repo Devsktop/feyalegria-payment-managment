@@ -65,24 +65,19 @@ const JoinStudentsPrice = () => {
   const inscriptionPrice = useSelector(totalInscriptionSelector);
   const monthlyDebt = useSelector(totalMonthlySelector);
   const representativeBalance = useSelector(representativeBalanceSelector);
-
+  const totalBalance = inscriptionPrice + monthlyDebt - representativeBalance;
   return (
     <div className="joinstudents_price">
-      <p>
-        Total inscripciones:
-        {inscriptionPrice}
+      <p>{`Total inscripciones: ${inscriptionPrice}`}</p>
+      <p>{`Mensualidades pendientes: ${monthlyDebt}`}</p>
+      <p
+        className={representativeBalance < 0 ? 'balance_red' : 'balance_green'}
+      >
+        {`Balance actual: ${representativeBalance}`}
       </p>
-      <p>
-        Mensualidades pendientes:
-        {monthlyDebt}
-      </p>
-      <p>
-        Balance actual:
-        {representativeBalance}
-      </p>
-      <p>
-        Total a pagar:
-        {inscriptionPrice + monthlyDebt - representativeBalance}
+      <p className={totalBalance > 0 ? 'balance_red' : 'balance_green'}>
+        {totalBalance > 0 ? 'Saldo deudor: ' : 'Saldo acreedor: '}
+        {Math.abs(totalBalance)}
       </p>
     </div>
   );

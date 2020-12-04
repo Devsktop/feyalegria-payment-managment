@@ -1,6 +1,7 @@
 .joinstudent_box
     padding: 0!important
     width: 700px
+    max-height: none!important
 
     .joinstudents
         width: 100%
@@ -77,4 +78,28 @@
                 left: 0
 
             &::after
-                right: 0    
+                right: 0
+
+        .joinstudents_bottom
+            display: flex
+            align-items: center
+            justify-content: space-between
+            margin-top: 40px
+
+            .joinstudents_price
+                padding: 15px
+                box-shadow: $shadow
+                text-align: left
+                border-radius: $bradius
+                font-size: 1.1rem
+                font-weight: bold
+
+                & > *
+                    margin: 10px 0
+                    color: $title-color
+
+                .balance_red
+                    color: $primary
+
+                .balance_green
+                    color: $succes
