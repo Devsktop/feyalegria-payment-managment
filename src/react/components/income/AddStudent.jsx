@@ -188,11 +188,10 @@ const AddStudent = () => {
   // reset it cause it could later insert a not existing dni
   // and last representative data will be displayed
   const handleGoBack = () => {
-    if (
-      representativeExist &&
-      history.location.state.prevPath !== 'JoinStudent'
-    ) {
-      dispatch(resetRepresentative());
+    if (representativeExist) {
+      if (!history.location.state) {
+        dispatch(resetRepresentative());
+      }
     }
     history.goBack();
   };

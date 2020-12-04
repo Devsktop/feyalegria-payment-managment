@@ -4,6 +4,7 @@ import React from 'react';
 import StudentRowBox from './StudentRowBox';
 import JoinStudentAddButton from './JoinStudentAddButton';
 import JoinStudentPrice from './JoinStudentsPrice';
+import JoinStudentsButtons from './JoinStudentsButtons';
 
 const JoinStudents = () => {
   return (
@@ -16,6 +17,7 @@ const JoinStudents = () => {
       <JoinStudentAddButton />
       <div className="joinstudents_bottom">
         <JoinStudentPrice />
+        <JoinStudentsButtons />
       </div>
     </div>
   );
