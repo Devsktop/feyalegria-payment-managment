@@ -29,6 +29,7 @@ const StudentRow = ({ student }) => {
     <div
       className={`studentrow ${check ? 'checked' : ''}`}
       onClick={handleToggleStudent}
+      onContextMenu={() => console.log('right click')}
     >
       <span className="checkmark">
         <FontAwesomeIcon icon={faCheck} className="checkicon" />
