@@ -1,7 +1,10 @@
 import {
   FETCH_STUDENTS,
   ADD_STUDENT,
-  EDIT_STUDENT
+  EDIT_STUDENT,
+  IS_FETCHED_STUDENTS,
+  IS_FETCHING_STUDENTS,
+  FETCH_STUDENTSBYSECTION
 } from '../actions/studentsActions';
 
 const initialState = {
@@ -43,6 +46,24 @@ export default function reducer(state = initialState, { type, payload }) {
         students
       };
     }
+
+    case IS_FETCHED_STUDENTS:
+      return {
+        ...state,
+        isFetching: payload
+      };
+
+    case IS_FETCHED_STUDENTS:
+      return {
+        ...state,
+        isFetched: true
+      };
+
+    case FETCH_STUDENTSBYSECTION:
+      return {
+        ...state,
+        ...payload
+      };
 
     default:
       return state;

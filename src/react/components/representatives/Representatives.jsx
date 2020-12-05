@@ -65,7 +65,7 @@ const Representatives = () => {
     <div className="content-screen">
       <div className="box representatives_box">
         <h1 className="box_title">Representantes</h1>
-        <h2 className="box_subtitle">Seleccionar un Año escolar</h2>
+        <h2 className="box_subtitle">Seleccionar un año escolar</h2>
         {isEmpty ? (
           <h2 className="box_subtitle">No hay grados registrados</h2>
         ) : (

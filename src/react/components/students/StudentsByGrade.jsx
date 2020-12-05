@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 // Actions
-import { fetchRepresentatives } from 'react/redux/actions/representativesActions';
+import { fetchStudents } from 'react/redux/actions/studentsActions';
 
 // Components
 import { DataTable } from 'react-pulpo';
 
 // Selectors
-const representativesSelector = state => state.representatives.representatives;
+const studentsSelector = state => state.students.students;
 
-const RepresentativesByGrade = () => {
+const StudentsByGrade = () => {
   // States
   const [pag, setPag] = useState(0);
   // Link Params
@@ -24,16 +24,16 @@ const RepresentativesByGrade = () => {
   // Dispatch
   const dispatch = useDispatch();
   // useSelectors
-  const representatives = useSelector(representativesSelector);
-  const isFetching = useSelector(state => state.representatives.isFetching);
+  const students = useSelector(studentsSelector);
+  const isFetching = useSelector(state => state.students.isFetching);
   // useHistory
   const history = useHistory();
 
   let isEmpty = false;
-  const representativesData = [];
+  const studentsData = [];
 
   useEffect(() => {
-    dispatch(fetchRepresentatives(id, pag));
+    dispatch(fetchStudents(id, pag));
   }, [pag, id]);
 
   if (isFetching) {
@@ -45,25 +45,25 @@ const RepresentativesByGrade = () => {
     );
   }
 
-  if (Object.keys(representatives).length === 0) {
+  if (Object.keys(students).length === 0) {
     isEmpty = true;
   }
 
-  Object.keys(representatives).forEach(representativeKey => {
-    const { names, lastNames } = representatives[representativeKey];
+  Object.keys(students).forEach(studentKey => {
+    const { names, lastNames } = students[studentKey];
     // Split to names & lastNames
     const name = names.split(' ');
     const lastName = lastNames.split(' ');
     // Array Destructuring
     const [shortName] = name;
     const [shortLastName] = lastName;
-    // Equalize shortName & shortLastName in representatives's name & lastNames properties
-    representatives[representativeKey].names = shortName;
-    representatives[representativeKey].lastNames = shortLastName;
-    // Convert representative object to an array for DataTable
-    representativesData[representativeKey] = {
-      ...representatives[representativeKey],
-      id: representatives[representativeKey].idRepresentative
+    // Equalize shortName & shortLastName in students's name & lastNames properties
+    students[studentKey].names = shortName;
+    students[studentKey].lastNames = shortLastName;
+    // Convert students object to an array for DataTable
+    studentsData[studentKey] = {
+      ...students[studentKey],
+      id: students[studentKey].idStudent
     };
   });
 
@@ -73,23 +73,30 @@ const RepresentativesByGrade = () => {
   return (
     <div className="content-screen">
       <div className="box representatives_box_big">
-        <h1 className="box_title">{`Representantes de ${grade} ${section}`}</h1>
-        <h2 className="box_subtitle">Seleccione un Representante</h2>
+        <h1 className="box_title">{`Estudiantes de ${grade} ${section}`}</h1>
+        <h2 className="box_subtitle">Seleccione un estudiante</h2>
         {isEmpty ? (
-          <h2 className="box_subtitle">No hay representantes registrados</h2>
+          <h2 className="box_subtitle">No hay estudiantes registrados</h2>
         ) : (
           <DataTable
             className="table"
-            data={representativesData}
+            data={studentsData}
             properties={[
               'Nombre',
               'Apellido',
               'Cédula',
-              'Teléfono',
-              'Correo',
+              'Fecha Nac',
+              'Representante',
               'Saldo $'
             ]}
-            order={['names', 'lastNames', 'dni', 'phone', 'email', 'balance']}
+            order={[
+              'names',
+              'lastNames',
+              'dni',
+              'birthDate',
+              'representative',
+              'balance'
+            ]}
             onClickRow={handleClick}
           />
         )}
@@ -98,6 +105,6 @@ const RepresentativesByGrade = () => {
   );
 };
 
-RepresentativesByGrade.displayName = 'RepresentativesByGrade';
+StudentsByGrade.displayName = 'StudentsByGrade';
 
-export default RepresentativesByGrade;
+export default StudentsByGrade;
