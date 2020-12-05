@@ -92,6 +92,36 @@ router.post('/representative', async (req, res) => {
   return null;
 });
 
+// 5.- Update Representative http://localhost:3500/api/updRepresentative
+router.post('/updRepresentative', async (req, res) => {
+  const {
+    idRepresentative,
+    names,
+    lastNames,
+    idDniType,
+    dni,
+    phone,
+    email
+  } = req.body;
+  // Query to update product
+  const { representative, errUpdRepresentative } = await updRepresentative(
+    idRepresentative,
+    names,
+    lastNames,
+    idDniType,
+    dni,
+    phone,
+    email
+  );
+  if (errUpdRepresentative) {
+    res.status(400).json({ errUpdRepresentative });
+    return null;
+  }
+
+  res.status(200).json({ representative, status: 200 });
+  return null;
+});
+
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get representatives from section
 const getRepresentatives = async (section, pag, pattern) => {
@@ -136,9 +166,11 @@ const getRepresentative = async idRepresentative => {
   phone, 
   email, 
   balance, 
-  paidMonths 
-  FROM representatives 
-  WHERE ${idRepresentative} = idRepresentative;`;
+  paidMonths,
+  representatives.idDniType,
+  letter AS dniType  
+  FROM representatives, dnitype 
+  WHERE ${idRepresentative} = idRepresentative AND representatives.idDniType = dnitype.idDniType;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errRepresentative, rows) => {
@@ -150,7 +182,9 @@ const getRepresentative = async idRepresentative => {
           phone,
           email,
           balance,
-          paidMonths
+          paidMonths,
+          idDniType,
+          dniType
         } = rows[0];
         // Function to get represantive's students
         const { students } = await getStudents(idRepresentative, true);
@@ -162,6 +196,8 @@ const getRepresentative = async idRepresentative => {
           email,
           balance,
           paidMonths,
+          idDniType,
+          dniType,
           students
         };
         resolve({ representative });
@@ -302,6 +338,39 @@ const addRepresentative = (
         resolve({ representative });
       } else {
         resolve({ errAddRepresentative });
+      }
+    });
+  });
+};
+
+// Query to update representative
+const updRepresentative = async (
+  idRepresentative,
+  names,
+  lastNames,
+  idDniType,
+  dni,
+  phone,
+  email
+) => {
+  const query = `UPDATE representatives SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" ,phone = "${phone}", email = "${email}", idDniType = ${idDniType} WHERE idRepresentative = ${idRepresentative};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdRepresentative => {
+      if (!errUpdRepresentative) {
+        const representative = {
+          idRepresentative,
+          names,
+          lastNames,
+          idDniType,
+          dni,
+          phone,
+          email
+        };
+        resolve({ representative });
+      } else {
+        console.log(errUpdRepresentative);
+        resolve({ errUpdRepresentative });
       }
     });
   });

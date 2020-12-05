@@ -28,6 +28,7 @@ import JoinStudents from 'react/components/income/JoinStudentsBox';
 // Representatives Screens
 import RepresentativeByGrade from 'react/components/representatives/RepresentativeByGrade';
 import RepresentativeProfile from 'react/components/representatives/RepresentativeProfile';
+import EditRepresentative from 'react/components/representatives/EditRepresentative';
 
 // Config Screens
 import Grades from 'react/components/grades/Grades';
@@ -94,6 +95,11 @@ const AppRouter = () => {
               exact
               path="/representativeProfile/:idRepresentative"
               component={RepresentativeProfile}
+            />
+            <Route
+              exact
+              path="/editRepresentative/:id"
+              component={EditRepresentative}
             />
 
             {/* Config Screens */}

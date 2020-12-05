@@ -49,10 +49,6 @@ const customStyles = {
     ...provided,
     border: state.isFocused ? '1px solid #820101' : '1px solid #e32526'
   })
-  // menuList: provided => ({
-  //   ...provided,
-  //   height: '120px'
-  // })
 };
 
 // Selectors

@@ -175,7 +175,6 @@ export const fetchRepresentativeById = id => {
     dispatch(fetchRepresentativeByIdActions(representative));
     dispatch(isFetched());
     dispatch(isFetching(false));
-    console.log(representative);
   };
 };
 
@@ -183,3 +182,93 @@ const fetchRepresentativeByIdActions = representative => ({
   type: FETCH_REPRESENTATIVEBYID,
   payload: { representative }
 });
+
+export const EDIT_REPRESENTATIVE = 'EDIT_REPRESENTATIVE';
+
+const editRepresentativeAction = representative => ({
+  type: EDIT_REPRESENTATIVE,
+  payload: { representative }
+});
+
+export const editRepresentative = (representative, history) => {
+  return dispatch => {
+    Swal.fire({
+      title: 'Modificando representante',
+      showCancelButton: false,
+      showConfirmButton: false,
+      customClass: {
+        icon: 'icon-class',
+        title: 'title-class'
+      },
+      onOpen: () => {
+        Swal.showLoading();
+        const {
+          idRepresentative,
+          names,
+          lastNames,
+          idDniType,
+          dni,
+          phone,
+          email
+        } = representative;
+        const url = 'http://localhost:3500/api/updRepresentative';
+        const config = {
+          method: 'POST',
+          body: JSON.stringify({
+            idRepresentative,
+            names,
+            lastNames,
+            idDniType,
+            dni,
+            phone,
+            email
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        return fetch(url, config)
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            if (res.status === 200) {
+              dispatch(editRepresentativeAction(representative));
+              Swal.hideLoading();
+              Swal.fire({
+                title: 'El representante se ha modificado con éxito',
+                text: '',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  icon: 'icon-class',
+                  title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
+                }
+              });
+            } else if (res.err.errno === 1062) {
+              // if representative's dni is already used
+              Swal.hideLoading();
+              Swal.fire({
+                title: 'Ya existe un representante con esa cédula',
+                text: '',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  icon: 'icon-class',
+                  title: 'title-class'
+                }
+              });
+            }
+          })
+          .catch(() => {
+            Swal.showValidationMessage('Ha ocurrido un error');
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+      allowEscapeKey: () => !Swal.isLoading()
+    });
+  };
+};

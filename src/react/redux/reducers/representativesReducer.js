@@ -4,7 +4,8 @@ import {
   IS_FECTHED_REPRESENTATIVES,
   ADD_REPRESENTATIVE,
   FETCH_REPRESENTATIVES,
-  FETCH_REPRESENTATIVEBYID
+  FETCH_REPRESENTATIVEBYID,
+  EDIT_REPRESENTATIVE
 } from '../actions/representativesActions';
 
 const initialState = {
@@ -58,6 +59,19 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         ...payload
       };
+
+    case EDIT_REPRESENTATIVE: {
+      const { representative } = payload;
+      const representatives = {
+        ...state.representatives,
+        [representative.idRepresentative]: representative
+      };
+
+      return {
+        ...state,
+        representatives
+      };
+    }
 
     default:
       return state;

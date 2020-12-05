@@ -20,6 +20,8 @@ import BalanceIcon from './BalanceIcon.svg';
 // Selectors
 const representativesSelector = state => state.representatives.representative;
 
+const dolarSelector = state => state.upperbar.dolar;
+
 const RepresentativeProfile = () => {
   // Link Params
   const { idRepresentative } = useParams();
@@ -29,6 +31,7 @@ const RepresentativeProfile = () => {
   // useSelectors
   const representative = useSelector(representativesSelector);
   const isFetching = useSelector(state => state.representatives.isFetching);
+  const dolarPrice = useSelector(dolarSelector);
 
   const studentsData = [];
 
@@ -59,16 +62,20 @@ const RepresentativeProfile = () => {
       // Concat name & lastName / grade & section
       const fullName = `${shortName} ${shortLastName}`;
       const fullGrade = `${grade} ${section}`;
-      // Equalize fullName / fullGrade  in students's name properties
-      representative.students[studentKey].names = fullName;
-      representative.students[studentKey].grade = fullGrade;
       // Convert students object to an array for DataTable
       studentsData[studentKey] = {
         ...representative.students[studentKey],
-        id: representative.students[studentKey].idStudent
+        id: representative.students[studentKey].idStudent,
+        names: fullName,
+        grade: fullGrade
       };
     });
   }
+
+  const bsPrice = representative.balance * dolarPrice;
+
+  const handleClick = () =>
+    history.push(`/editRepresentative/${idRepresentative}`);
 
   return (
     <div className="content-screen">
@@ -90,7 +97,7 @@ const RepresentativeProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={DniIcon} alt="" />
-              <p>{representative.dni}</p>
+              <p>{`${representative.dniType}-${representative.dni}`}</p>
             </div>
             <div className="representative_data_group">
               <img src={PhoneIcon} alt="" />
@@ -102,7 +109,9 @@ const RepresentativeProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={BalanceIcon} alt="" />
-              <p>{representative.balance}</p>
+              <p
+                className={representative.balance >= 0 ? 'green' : 'red'}
+              >{`${representative.balance} $ / ${bsPrice} Bs.S`}</p>
             </div>
           </div>
 
@@ -120,7 +129,7 @@ const RepresentativeProfile = () => {
               onClick={() => history.goBack()}
               text="volver"
             />
-            <Button type="submit" text="editar" />
+            <Button type="submit" text="editar" onClick={handleClick} />
           </div>
         </div>
       ) : (
