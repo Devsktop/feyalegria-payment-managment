@@ -185,8 +185,82 @@ const addStudent = (
         };
         resolve({ student });
       } else {
-        console.log(errAddStudent);
         resolve({ errAddStudent });
+      }
+    });
+  });
+};
+
+// 5.- Update Student http://localhost:3500/api/updStudent
+router.post('/updStudent', async (req, res) => {
+  const {
+    idStudent,
+    names,
+    lastNames,
+    dniOption,
+    dni,
+    birthDate,
+    relationship,
+    idGrade,
+    idSection,
+    status
+  } = req.body;
+  // Query to update student
+  const { student, errUpdStudent } = await updStudent(
+    idStudent,
+    names,
+    lastNames,
+    dniOption,
+    dni,
+    birthDate,
+    relationship,
+    idGrade,
+    idSection,
+    status
+  );
+  if (errUpdStudent) {
+    res.status(400).json({ errUpdStudent });
+    return null;
+  }
+
+  res.status(200).json({ student, status: 200 });
+  return null;
+});
+
+// Query to update student
+const updStudent = async (
+  idStudent,
+  names,
+  lastNames,
+  dniOption,
+  dni,
+  birthDate,
+  relationship,
+  idGrade,
+  idSection,
+  status
+) => {
+  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , birthDate = "${birthDate}", relationship = "${relationship}", idDniType = ${dniOption}, idGrade = ${idGrade}, idSection = ${idSection}, status = ${status} WHERE idStudent = ${idStudent};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdStudent => {
+      if (!errUpdStudent) {
+        const student = {
+          idStudent,
+          names,
+          lastNames,
+          dniOption,
+          dni,
+          birthDate,
+          relationship,
+          idGrade,
+          idSection,
+          status
+        };
+        resolve({ student });
+      } else {
+        console.log(errUpdStudent);
+        resolve({ errUpdStudent });
       }
     });
   });

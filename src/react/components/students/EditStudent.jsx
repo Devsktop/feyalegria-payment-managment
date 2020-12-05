@@ -1,24 +1,21 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
-import { fetchGrades } from 'react/redux/actions/gradesActions';
-import {
-  resetRepresentative,
-  addStudent
-} from 'react/redux/actions/incomeActions';
+import { editStudent } from 'react/redux/actions/studentsActions';
 
 // Components
 import Button from 'react/components/Button';
 import Minput from 'react/components/Minput';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import RepresentativeData from './RepresentativeData';
+import RepresentativeData from '../income/RepresentativeData';
 
 // Import imgs
-import TimelinePersonal from './TimelinePersonal.svg';
-import TimelineScholar from './TimelineScholar.svg';
+import TimelinePersonal from '../income/TimelinePersonal.svg';
+import TimelineScholar from '../income/TimelineScholar.svg';
 
 // Import Css
 import 'react-datepicker/dist/react-datepicker.css';
@@ -52,27 +49,24 @@ const customStyles = {
 };
 
 // Selectors
-const representativeExistSelector = state => {
-  return state.income.representativeExist;
-};
-
 const gradesSelector = state => state.grades.grades;
 
-const AddStudent = () => {
-  const representativeExist = useSelector(representativeExistSelector);
-  const grades = useSelector(gradesSelector);
-  const isFetched = useSelector(state => state.grades.isFetched);
-  const [form, setForm] = useState(true);
-  const [names, setNames] = useState('');
-  const [lastNames, setLastNames] = useState('');
-  const [dniOption, setDniOption] = useState(1);
-  const [dni, setDni] = useState('');
-  const [bornDate, setBornDate] = useState(new Date());
-  const [relationship, setRelationship] = useState('');
-  const [scholarYear, setScholarYear] = useState('');
-  const [section, setSection] = useState('');
-  const [status, setStatus] = useState('');
+const EditStudent = ({ match: { params } }) => {
+  const { id } = params;
   const dispatch = useDispatch();
+  // Selector
+  const currentStudent = useSelector(state => state.students.student);
+  const grades = useSelector(gradesSelector);
+  const [form, setForm] = useState(true);
+  const [names, setNames] = useState(currentStudent.name);
+  const [lastNames, setLastNames] = useState(currentStudent.lastNames);
+  const [dniOption, setDniOption] = useState(currentStudent.idDniType);
+  const [dni, setDni] = useState(currentStudent.dni);
+  const [birthDate, setBirthDate] = useState(currentStudent.birthDate);
+  const [relationship, setRelationship] = useState(currentStudent.relationship);
+  const [scholarYear, setScholarYear] = useState(currentStudent.grade);
+  const [section, setSection] = useState(currentStudent.section);
+  const [status, setStatus] = useState(currentStudent.status);
   const history = useHistory();
 
   const gradesData = [];
@@ -97,10 +91,6 @@ const AddStudent = () => {
     }
     // Change Section's Select Options
   }, [scholarYear, form, section, status]);
-
-  if (!isFetched) {
-    dispatch(fetchGrades());
-  }
 
   const handleNames = e => {
     setNames(e.target.value);
@@ -128,7 +118,7 @@ const AddStudent = () => {
       lastNames.length === 0 ||
       dniOption.length === 0 ||
       dni.length === 0 ||
-      bornDate.length === 0 ||
+      birthDate.length === 0 ||
       relationship.length === 0
     )
       return true;
@@ -160,12 +150,13 @@ const AddStudent = () => {
     const idSection = parseInt(section.value);
     const gradeName = scholarYear.label;
     const sectionName = section.label;
-    const student = {
+    const newStudent = {
+      idStudent: id,
       names,
       lastNames,
       dniOption,
       dni,
-      bornDate,
+      birthDate,
       relationship,
       idGrade,
       idSection,
@@ -173,17 +164,8 @@ const AddStudent = () => {
       sectionName,
       status
     };
-    dispatch(addStudent(student));
+    dispatch(editStudent(newStudent));
     history.push('/JoinStudents');
-  };
-
-  const handleGoBack = () => {
-    if (representativeExist) {
-      dispatch(resetRepresentative());
-      history.goBack();
-    } else {
-      history.goBack();
-    }
   };
 
   return (
@@ -226,8 +208,8 @@ const AddStudent = () => {
             <div className="form-group">
               <label>Fecha de nacimiento:</label>
               <DatePicker
-                selected={bornDate}
-                onChange={date => setBornDate(date)}
+                selected={birthDate}
+                onChange={date => setBirthDate(date)}
               />
             </div>
 
@@ -243,7 +225,11 @@ const AddStudent = () => {
             </div>
 
             <div className="button_container">
-              <Button type="button" onClick={handleGoBack} text="volver" />
+              <Button
+                type="button"
+                onClick={() => history.goBack()}
+                text="volver"
+              />
               <Button
                 type="button"
                 disabled={validatePersonalInputs()}
@@ -340,4 +326,4 @@ const AddStudent = () => {
   );
 };
 
-export default AddStudent;
+export default EditStudent;

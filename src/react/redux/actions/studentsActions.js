@@ -100,3 +100,103 @@ export const addStudent = (newStudent, history) => {
     });
   };
 };
+
+export const EDIT_STUDENT = 'EDIT_STUDENT';
+
+const editStudentActions = student => ({
+  type: EDIT_STUDENT,
+  payload: { student }
+});
+
+export const editRepresentative = (student, history) => {
+  return dispatch => {
+    Swal.fire({
+      title: 'Modificando estudiante',
+      showCancelButton: false,
+      showConfirmButton: false,
+      customClass: {
+        icon: 'icon-class',
+        title: 'title-class'
+      },
+      onOpen: () => {
+        Swal.showLoading();
+        const {
+          idStudent,
+          names,
+          lastNames,
+          dniOption,
+          dni,
+          birthDate,
+          relationship,
+          idGrade,
+          idSection,
+          gradeName,
+          sectionName,
+          status
+        } = student;
+        const url = 'http://localhost:3500/api/updStudent';
+        const config = {
+          method: 'POST',
+          body: JSON.stringify({
+            idStudent,
+            names,
+            lastNames,
+            dniOption,
+            dni,
+            birthDate,
+            relationship,
+            idGrade,
+            idSection,
+            gradeName,
+            sectionName,
+            status
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        return fetch(url, config)
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            if (res.status === 200) {
+              dispatch(editStudentActions(student));
+              Swal.hideLoading();
+              Swal.fire({
+                title: 'El estudiante se ha modificado con éxito',
+                text: '',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  icon: 'icon-class',
+                  title: 'title-class'
+                },
+                preConfirm: () => {
+                  history.goBack();
+                }
+              });
+            } else if (res.err.errno === 1062) {
+              // if student's dni is already used
+              Swal.hideLoading();
+              Swal.fire({
+                title: 'Ya existe un estudiante con esa cédula',
+                text: '',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  icon: 'icon-class',
+                  title: 'title-class'
+                }
+              });
+            }
+          })
+          .catch(() => {
+            Swal.showValidationMessage('Ha ocurrido un error');
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+      allowEscapeKey: () => !Swal.isLoading()
+    });
+  };
+};

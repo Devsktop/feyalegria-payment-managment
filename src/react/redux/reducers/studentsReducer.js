@@ -1,4 +1,8 @@
-import { FETCH_STUDENTS, ADD_STUDENT } from '../actions/studentsActions';
+import {
+  FETCH_STUDENTS,
+  ADD_STUDENT,
+  EDIT_STUDENT
+} from '../actions/studentsActions';
 
 const initialState = {
   students: {},
@@ -27,6 +31,19 @@ export default function reducer(state = initialState, { type, payload }) {
         students
       };
     }
+
+    case EDIT_STUDENT: {
+      const { student } = payload;
+      const students = {
+        ...state.students,
+        [student.idStudent]: student
+      };
+      return {
+        ...state,
+        students
+      };
+    }
+
     default:
       return state;
   }
