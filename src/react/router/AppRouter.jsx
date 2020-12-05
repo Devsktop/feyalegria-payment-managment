@@ -24,7 +24,7 @@ import VerifyRepresentative from 'react/components/income/VerifyRepresentative';
 import AddRepresentative from 'react/components/income/AddRepresentative';
 import AddStudent from 'react/components/income/AddStudent';
 import JoinStudents from 'react/components/income/JoinStudentsBox';
-import IncomePaymenet from 'react/components/income/IncomePayment';
+import IncomePaymenet from 'react/components/income/IncomePaymentBox';
 
 // Config Screens
 import Grades from 'react/components/grades/Grades';
