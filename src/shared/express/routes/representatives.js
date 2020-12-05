@@ -25,10 +25,10 @@ router.get('/representatives/:section', async (req, res) => {
 });
 
 // 2.- Get representative http://localhost:3500/api/representatives/[idRepresentative]
-router.get('/representatives/:idRepresentative', async (req, res) => {
+router.get('/representativebyid/:idRepresentative', async (req, res) => {
   const { idRepresentative } = req.params;
   // Query to get representative
-  const { representative, status, errRepresentative } = await getRepresentative(
+  const { representative, errRepresentative } = await getRepresentative(
     idRepresentative
   );
   if (errRepresentative) {
@@ -36,7 +36,7 @@ router.get('/representatives/:idRepresentative', async (req, res) => {
     return null;
   }
 
-  res.status(200).json({ representative, status });
+  res.status(200).json(representative);
   return null;
 });
 
@@ -92,6 +92,36 @@ router.post('/representative', async (req, res) => {
   return null;
 });
 
+// 5.- Update Representative http://localhost:3500/api/updRepresentative
+router.post('/updRepresentative', async (req, res) => {
+  const {
+    idRepresentative,
+    names,
+    lastNames,
+    idDniType,
+    dni,
+    phone,
+    email
+  } = req.body;
+  // Query to update product
+  const { representative, errUpdRepresentative } = await updRepresentative(
+    idRepresentative,
+    names,
+    lastNames,
+    idDniType,
+    dni,
+    phone,
+    email
+  );
+  if (errUpdRepresentative) {
+    res.status(400).json({ errUpdRepresentative });
+    return null;
+  }
+
+  res.status(200).json({ representative, status: 200 });
+  return null;
+});
+
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get representatives from section
 const getRepresentatives = async (section, pag, pattern) => {
@@ -99,7 +129,8 @@ const getRepresentatives = async (section, pag, pattern) => {
   const representatives = {};
   const patternQuery = `AND representatives.names LIKE "%${pattern}%" OR representatives.lastnames LIKE "%${pattern}%" OR representatives.dni LIKE "%${pattern}%" OR representatives.phone LIKE "%${pattern}%" OR representatives.email LIKE "%${pattern}%" OR representatives.balance LIKE "%${pattern}%" OR representatives.idRepresentative LIKE "%${pattern}%"`;
   const query = `SELECT DISTINCT 
-  CONCAT(representatives.names, ' ', representatives.lastnames) AS name, 
+  representatives.names,
+  representatives.lastnames AS lastNames, 
   representatives.dni, 
   representatives.phone, 
   representatives.email, 
@@ -126,31 +157,47 @@ const getRepresentatives = async (section, pag, pattern) => {
   });
 };
 
-// Query to get representative
+// Query to get representative by id
 const getRepresentative = async idRepresentative => {
   const query = `SELECT 
-  CONCAT(names, ' ', lastnames) AS name, 
+  names, 
+  lastnames AS lastNames, 
   dni, 
   phone, 
   email, 
   balance, 
-  paidMonths 
-  FROM representatives 
-  WHERE ${idRepresentative} = idRepresentative;`;
+  paidMonths,
+  representatives.idDniType,
+  letter AS dniType  
+  FROM representatives, dnitype 
+  WHERE ${idRepresentative} = idRepresentative AND representatives.idDniType = dnitype.idDniType;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errRepresentative, rows) => {
       if (!errRepresentative) {
-        const { name, dni, phone, email, balance, paidMonths } = rows[0];
-        // Function to get represantive's students
-        const { students } = await getStudents(idRepresentative, true);
-        const representative = {
-          name,
+        const {
+          names,
+          lastNames,
           dni,
           phone,
           email,
           balance,
           paidMonths,
+          idDniType,
+          dniType
+        } = rows[0];
+        // Function to get represantive's students
+        const { students } = await getStudents(idRepresentative, true);
+        const representative = {
+          names,
+          lastNames,
+          dni,
+          phone,
+          email,
+          balance,
+          paidMonths,
+          idDniType,
+          dniType,
           students
         };
         resolve({ representative });
@@ -294,6 +341,39 @@ const addRepresentative = (
         resolve({ representative });
       } else {
         resolve({ errAddRepresentative });
+      }
+    });
+  });
+};
+
+// Query to update representative
+const updRepresentative = async (
+  idRepresentative,
+  names,
+  lastNames,
+  idDniType,
+  dni,
+  phone,
+  email
+) => {
+  const query = `UPDATE representatives SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" ,phone = "${phone}", email = "${email}", idDniType = ${idDniType} WHERE idRepresentative = ${idRepresentative};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, errUpdRepresentative => {
+      if (!errUpdRepresentative) {
+        const representative = {
+          idRepresentative,
+          names,
+          lastNames,
+          idDniType,
+          dni,
+          phone,
+          email
+        };
+        resolve({ representative });
+      } else {
+        console.log(errUpdRepresentative);
+        resolve({ errUpdRepresentative });
       }
     });
   });

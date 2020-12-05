@@ -26,6 +26,11 @@ import AddStudent from 'react/components/income/AddStudent';
 import JoinStudents from 'react/components/income/JoinStudentsBox';
 import IncomePaymenet from 'react/components/income/IncomePaymentBox';
 
+// Representatives Screens
+import RepresentativeByGrade from 'react/components/representatives/RepresentativeByGrade';
+import RepresentativeProfile from 'react/components/representatives/RepresentativeProfile';
+import EditRepresentative from 'react/components/representatives/EditRepresentative';
+
 // Config Screens
 import Grades from 'react/components/grades/Grades';
 import AddGrade from 'react/components/grades/AddGrade';
@@ -82,7 +87,24 @@ const AppRouter = () => {
             <Route exact path="/JoinStudents" component={JoinStudents} />
             <Route exact path="/incomePayment" component={IncomePaymenet} />
 
-            {/* Ionfig Screens */}
+            {/* Representatives Screens */}
+            <Route
+              exact
+              path="/representativeByGrade/:id"
+              component={RepresentativeByGrade}
+            />
+            <Route
+              exact
+              path="/representativeProfile/:idRepresentative"
+              component={RepresentativeProfile}
+            />
+            <Route
+              exact
+              path="/editRepresentative/:id"
+              component={EditRepresentative}
+            />
+
+            {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />
             <Route exact path="/addGrade" component={AddGrade} />
             <Route exact path="/editGrade/:id" component={EditGrade} />

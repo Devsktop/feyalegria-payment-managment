@@ -36,29 +36,30 @@ const Representatives = () => {
     isEmpty = true;
   }
 
-  const sectiosnByGrade = [];
-
-  const gradesData = [];
+  const sectionsByGrade = [];
 
   Object.keys(grades).forEach(gradeKey => {
-    const {
-      scholarYear,
-      gradesSections,
-      gradeStudents,
-      gradeRepresentative
-    } = grades[gradeKey];
+    const { scholarYear, gradesSections } = grades[gradeKey];
     Object.keys(gradesSections).forEach(sectionKey => {
-      sectiosnByGrade.push({
+      const {
+        section,
+        sectionStudents,
+        sectionRepresentatives
+      } = gradesSections[sectionKey];
+      sectionsByGrade[sectionKey] = {
         id: sectionKey,
         scholarYear,
-        gradeStudents,
-        gradeRepresentative
-      });
+        section,
+        sectionStudents,
+        sectionRepresentatives
+      };
     });
-    gradesData.push({ ...grades[gradeKey], id: grades[gradeKey].idGrade });
   });
 
-  const handleClick = id => history.push(`/representativeByGrade/${id}`);
+  const handleClick = id =>
+    history.push(
+      `/representativeByGrade/${id}?scholarYear=${sectionsByGrade[id].scholarYear}&section=${sectionsByGrade[id].section}`
+    );
 
   return (
     <div className="content-screen">
@@ -70,7 +71,7 @@ const Representatives = () => {
         ) : (
           <DataTable
             className="table"
-            data={gradesData}
+            data={sectionsByGrade}
             properties={[
               'Año Escolar',
               'Sección',
@@ -79,9 +80,9 @@ const Representatives = () => {
             ]}
             order={[
               'scholarYear',
-              'sectionsNumber',
-              'gradeStudents',
-              'gradeRepresentatives'
+              'section',
+              'sectionStudents',
+              'sectionRepresentatives'
             ]}
             onClickRow={handleClick}
           />

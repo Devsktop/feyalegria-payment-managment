@@ -84,7 +84,6 @@ router.post('/updGrade', async (req, res) => {
 // ----------------------------- FUNCTIONS ----------------------------- //
 // Query to get grades
 const getGrades = () => {
-  console.log('hola');
   const grades = {};
   const query = `SELECT grades.idGrade, grades.scholarYear AS scholarYear, COUNT(sections.idGrade) AS sectionsNumber FROM grades LEFT JOIN sections ON sections.idGrade = grades.idGrade WHERE grades.deleted = false AND sections.deleted = false GROUP BY grades.idGrade;`;
 
@@ -132,10 +131,8 @@ const getSections = () => {
             ...peopleBySection[row.idSection]
           };
         });
-        console.log(sections);
         resolve({ sections });
       } else {
-        console.log(errGrades);
         resolve({ errGrades });
       }
     });
@@ -144,14 +141,16 @@ const getSections = () => {
 
 // Query to get students by section
 const getStudentsBySection = () => {
+  const peopleBySection = {};
   const query = `SELECT sections.idSection, COUNT(students.idStudent) AS sectionStudents, COUNT(DISTINCT students.idRepresentative) AS sectionRepresentatives FROM sections LEFT JOIN students ON students.idSection = sections.idSection GROUP BY sections.idSection;`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, async (errGetStudentsBySection, rows) => {
       if (!errGetStudentsBySection) {
-        const { sectionStudents } = rows[0];
-        const peopleBySection = { sectionStudents };
-        resolve({ peopleBySection });
+        rows.forEach(row => {
+          peopleBySection[row.idSection] = { ...row };
+        });
+        resolve(peopleBySection);
       } else {
         resolve({ errGetStudentsBySection });
       }
@@ -295,7 +294,6 @@ const addSection = (idGrade, Gradesection) => {
           capacity,
           idGrade
         };
-        console.log(seccion);
         resolve({ seccion });
       } else {
         resolve({ errAddSection });
@@ -324,7 +322,6 @@ const updGrade = (idGrade, scholarYear, gradesSections, deleted) => {
 
         // Iterate in gradesSections with each key
         gradesSectionsKeys.forEach(async sectionKey => {
-          console.log(sectionKey);
           // Verify if idSection is positive or negative ('+ = Update', '- = Delete')
           if (gradesSections[sectionKey].idSection > 0) {
             // Query to update a section
@@ -378,7 +375,6 @@ const updSection = Gradesection => {
 
 // Query to delete section
 const deleteSection = async id => {
-  console.log(id);
   const query = `UPDATE sections SET deleted = true WHERE idSection = ${id}`;
 
   return new Promise(resolve => {
