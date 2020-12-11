@@ -31,6 +31,9 @@ import RepresentativeByGrade from 'react/components/representatives/Representati
 import RepresentativeProfile from 'react/components/representatives/RepresentativeProfile';
 import EditRepresentative from 'react/components/representatives/EditRepresentative';
 
+// Studens Screen
+import EditStudent from 'react/components/students/EditStudent';
+
 // Config Screens
 import Grades from 'react/components/grades/Grades';
 import AddGrade from 'react/components/grades/AddGrade';
@@ -103,6 +106,9 @@ const AppRouter = () => {
               path="/editRepresentative/:id"
               component={EditRepresentative}
             />
+
+            {/* Students Screens  */}
+            <Route exact path="/editStudent/:id" component={EditStudent} />
 
             {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />

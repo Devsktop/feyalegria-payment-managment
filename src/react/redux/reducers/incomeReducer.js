@@ -4,6 +4,7 @@ import {
   RESET_INCOME,
   RESET_REPRESENTATIVE,
   ADD_STUDENT,
+  EDIT_STUDENT,
   TOGGLE_STUDENT
 } from '../actions/incomeActions';
 
@@ -92,6 +93,25 @@ export default function reducer(state = initialState, { type, payload }) {
         ...state,
         representative,
         idNewStudent
+      };
+    }
+
+    case EDIT_STUDENT: {
+      const representative = {
+        ...state.representative,
+        students: {
+          ...state.representative.students,
+          [payload.student.idStudent]: {
+            idStudent: payload.student.idStudent,
+            ...payload.student,
+            willJoin: false
+          }
+        }
+      };
+
+      return {
+        ...state,
+        representative
       };
     }
 

@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
-import { editStudent } from 'react/redux/actions/studentsActions';
+import { editStudent as fromStudentsActions } from 'react/redux/actions/studentsActions';
+import { editStudent as fromIncommeActions } from 'react/redux/actions/incomeActions';
 
 // Components
 import Button from 'react/components/Button';
@@ -51,23 +53,42 @@ const customStyles = {
 // Selectors
 const gradesSelector = state => state.grades.grades;
 
+// Selector from StudentRow
+const fromStudentRow = (state, id) => state.income.representative.students[id];
+
 const EditStudent = ({ match: { params } }) => {
   const { id } = params;
+  const history = useHistory();
+  const { from } = history.location.state;
   const dispatch = useDispatch();
+
+  const studentSelector = from === 'StudentRow' ? fromStudentRow : '';
+  const StudentAction =
+    from === 'StudentRow' ? fromIncommeActions : fromStudentsActions;
   // Selector
-  const currentStudent = useSelector(state => state.students.student);
+  const currentStudent = useSelector(state => studentSelector(state, id));
+
   const grades = useSelector(gradesSelector);
   const [form, setForm] = useState(true);
-  const [names, setNames] = useState(currentStudent.name);
+  const [names, setNames] = useState(currentStudent.names);
   const [lastNames, setLastNames] = useState(currentStudent.lastNames);
-  const [dniOption, setDniOption] = useState(currentStudent.idDniType);
+  const [idDniType, setIdDniType] = useState(currentStudent.idDniType);
   const [dni, setDni] = useState(currentStudent.dni);
   const [birthDate, setBirthDate] = useState(currentStudent.birthDate);
-  const [relationship, setRelationship] = useState(currentStudent.relationship);
-  const [scholarYear, setScholarYear] = useState(currentStudent.grade);
-  const [section, setSection] = useState(currentStudent.section);
+
+  const [relationship, setRelationship] = useState(
+    options.filter(option => option.label === currentStudent.relationship)[0]
+      .value
+  );
+  const [scholarYear, setScholarYear] = useState({
+    value: currentStudent.idGrade,
+    label: currentStudent.gradeName
+  });
+  const [section, setSection] = useState({
+    value: currentStudent.idSection,
+    label: currentStudent.sectionName
+  });
   const [status, setStatus] = useState(currentStudent.status);
-  const history = useHistory();
 
   const gradesData = [];
   const sectionsData = [];
@@ -100,8 +121,8 @@ const EditStudent = ({ match: { params } }) => {
     setLastNames(e.target.value);
   };
 
-  const handleDniOption = e => {
-    setDniOption(e.value);
+  const handleidDniType = e => {
+    setIdDniType(e.value);
   };
 
   const handleDni = e => {
@@ -116,7 +137,7 @@ const EditStudent = ({ match: { params } }) => {
     if (
       names.length === 0 ||
       lastNames.length === 0 ||
-      dniOption.length === 0 ||
+      idDniType.length === 0 ||
       dni.length === 0 ||
       birthDate.length === 0 ||
       relationship.length === 0
@@ -146,33 +167,35 @@ const EditStudent = ({ match: { params } }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const idGrade = parseInt(scholarYear.value);
-    const idSection = parseInt(section.value);
+    const idGrade = parseInt(scholarYear.value, 10);
+    const idSection = parseInt(section.value, 10);
     const gradeName = scholarYear.label;
     const sectionName = section.label;
     const newStudent = {
       idStudent: id,
       names,
       lastNames,
-      dniOption,
+      idDniType,
       dni,
       birthDate,
-      relationship,
+      relationship: options[relationship].label,
       idGrade,
       idSection,
       gradeName,
       sectionName,
       status
     };
-    dispatch(editStudent(newStudent));
-    history.push('/JoinStudents');
+    dispatch(StudentAction(newStudent));
+    history.goBack();
   };
+
+  console.log(relationship);
 
   return (
     <div className="add_student_box">
       <RepresentativeData />
       <form className="sweet-form add_student_form" onSubmit={handleSubmit}>
-        <h1 className="box_title">Agregar un Estudiante</h1>
+        <h1 className="box_title">Editar Estudiante</h1>
         {form ? (
           <div className="personal">
             <img src={TimelinePersonal} alt="" />
@@ -193,9 +216,9 @@ const EditStudent = ({ match: { params } }) => {
               <Select
                 options={dniTypeOptions}
                 defaultValue={dniTypeOptions[0]}
-                value={dniTypeOptions[dniOption - 1]}
+                value={dniTypeOptions[idDniType - 1]}
                 styles={customStyles}
-                onChange={handleDniOption}
+                onChange={handleidDniType}
               />
               <Minput
                 type="number"

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,7 @@ import { toggleStudent } from 'react/redux/actions/incomeActions';
 
 const StudentRow = ({ student }) => {
   const disipatch = useDispatch();
+  const history = useHistory();
   const [check, setCheck] = useState(false);
   const {
     names,
@@ -29,7 +31,14 @@ const StudentRow = ({ student }) => {
     <div
       className={`studentrow ${check ? 'checked' : ''}`}
       onClick={handleToggleStudent}
-      onContextMenu={() => console.log('right click')}
+      onContextMenu={() =>
+        history.push({
+          pathname: `editStudent/${idStudent}`,
+          state: {
+            from: 'StudentRow'
+          }
+        })
+      }
     >
       <span className="checkmark">
         <FontAwesomeIcon icon={faCheck} className="checkicon" />

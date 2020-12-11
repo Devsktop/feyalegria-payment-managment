@@ -31,6 +31,13 @@ export const addStudent = student => ({
   payload: { student }
 });
 
+export const EDIT_STUDENT = 'EDIT_STUDENT';
+
+export const editStudent = student => ({
+  type: EDIT_STUDENT,
+  payload: { student }
+});
+
 export const TOGGLE_STUDENT = 'TOGGLE_STUDENT';
 
 export const toggleStudent = (idStudent, toggle) => ({
