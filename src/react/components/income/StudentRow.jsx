@@ -11,7 +11,6 @@ import { toggleStudent } from 'react/redux/actions/incomeActions';
 const StudentRow = ({ student }) => {
   const disipatch = useDispatch();
   const history = useHistory();
-  const [check, setCheck] = useState(false);
   const {
     names,
     lastNames,
@@ -19,8 +18,10 @@ const StudentRow = ({ student }) => {
     relationship,
     gradeName,
     sectionName,
-    idStudent
+    idStudent,
+    willJoin
   } = student;
+  const [check, setCheck] = useState(willJoin);
 
   const handleToggleStudent = () => {
     setCheck(!check);
@@ -61,6 +62,7 @@ StudentRow.propTypes = {
     relationship: PropTypes.string.isRequired,
     gradeName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
-    idStudent: PropTypes.number.isRequired
+    idStudent: PropTypes.number.isRequired,
+    willJoin: PropTypes.bool.isRequired
   }).isRequired
 };
