@@ -56,17 +56,23 @@ const gradesSelector = state => state.grades.grades;
 // Selector from StudentRow
 const fromStudentRow = (state, id) => state.income.representative.students[id];
 
+// Selector from students
+const fromStudents = state => state.students.student;
+
 const EditStudent = ({ match: { params } }) => {
+  console.log('dfsdfsdfsdfsdf');
   const { id } = params;
   const history = useHistory();
   const { from } = history.location.state;
   const dispatch = useDispatch();
 
-  const studentSelector = from === 'StudentRow' ? fromStudentRow : '';
+  const studentSelector = from === 'StudentRow' ? fromStudentRow : fromStudents;
   const StudentAction =
     from === 'StudentRow' ? fromIncommeActions : fromStudentsActions;
   // Selector
   const currentStudent = useSelector(state => studentSelector(state, id));
+
+  console.log(currentStudent);
 
   const grades = useSelector(gradesSelector);
 
@@ -191,8 +197,6 @@ const EditStudent = ({ match: { params } }) => {
     dispatch(StudentAction(newStudent));
     history.goBack();
   };
-
-  console.log(relationship);
 
   return (
     <div className="add_student_box">

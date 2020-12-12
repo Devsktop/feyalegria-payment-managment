@@ -4,12 +4,12 @@ const mysqlConnection = require('../database');
 const router = express.Router();
 
 // Rutas o Endpoints
-// // 1.- Get representatives http://localhost:3500/api/representatives/[section] - ?pag=number - ?pattern
+// 1.- Get representatives by section http://localhost:3500/api/representatives/[section] - ?pag=number - ?pattern
 router.get('/representatives/:section', async (req, res) => {
   const { section } = req.params;
   const { pag, pattern } = req.query;
 
-  // Query to get representative
+  // Query to get representatives by section
   const { representatives, errRepresentatives } = await getRepresentatives(
     section,
     pag,

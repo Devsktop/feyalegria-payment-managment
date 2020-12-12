@@ -11,7 +11,7 @@ import { DataTable } from 'react-pulpo';
 // Selectors
 const representativesSelector = state => state.representatives.representatives;
 
-const Representatives = () => {
+const RepresentativesByGrade = () => {
   // States
   const [pag, setPag] = useState(0);
   // Link Params
@@ -98,6 +98,6 @@ const Representatives = () => {
   );
 };
 
-Representatives.displayName = 'Representatives';
+RepresentativesByGrade.displayName = 'RepresentativesByGrade';
 
-export default Representatives;
+export default RepresentativesByGrade;
