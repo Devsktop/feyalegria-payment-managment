@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +10,7 @@ import { toggleStudent } from 'react/redux/actions/incomeActions';
 
 const StudentRow = ({ student }) => {
   const disipatch = useDispatch();
-  const [check, setCheck] = useState(false);
+  const history = useHistory();
   const {
     names,
     lastNames,
@@ -17,8 +18,10 @@ const StudentRow = ({ student }) => {
     relationship,
     gradeName,
     sectionName,
-    idStudent
+    idStudent,
+    willJoin
   } = student;
+  const [check, setCheck] = useState(willJoin);
 
   const handleToggleStudent = () => {
     setCheck(!check);
@@ -29,7 +32,14 @@ const StudentRow = ({ student }) => {
     <div
       className={`studentrow ${check ? 'checked' : ''}`}
       onClick={handleToggleStudent}
-      onContextMenu={() => console.log('right click')}
+      onContextMenu={() =>
+        history.push({
+          pathname: `editStudent/${idStudent}`,
+          state: {
+            from: 'StudentRow'
+          }
+        })
+      }
     >
       <span className="checkmark">
         <FontAwesomeIcon icon={faCheck} className="checkicon" />
@@ -52,6 +62,7 @@ StudentRow.propTypes = {
     relationship: PropTypes.string.isRequired,
     gradeName: PropTypes.string.isRequired,
     sectionName: PropTypes.string.isRequired,
-    idStudent: PropTypes.number.isRequired
+    idStudent: PropTypes.number.isRequired,
+    willJoin: PropTypes.bool.isRequired
   }).isRequired
 };

@@ -34,6 +34,7 @@ import EditRepresentative from 'react/components/representatives/EditRepresentat
 // Students Screens
 import StudentsByGrade from 'react/components/students/StudentsByGrade';
 import StudentProfile from 'react/components/students/StudentProfile';
+import EditStudent from 'react/components/students/EditStudent';
 
 // Config Screens
 import Grades from 'react/components/grades/Grades';
@@ -119,6 +120,7 @@ const AppRouter = () => {
               path="/studentProfile/:idStudent"
               component={StudentProfile}
             />
+            <Route exact path="/editStudent/:id" component={EditStudent} />
 
             {/* Config Screens */}
             <Route exact path="/grades" component={Grades} />

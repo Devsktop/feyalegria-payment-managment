@@ -108,7 +108,7 @@ const editStudentActions = student => ({
   payload: { student }
 });
 
-export const editRepresentative = (student, history) => {
+export const editStudent = (student, history) => {
   return dispatch => {
     Swal.fire({
       title: 'Modificando estudiante',
