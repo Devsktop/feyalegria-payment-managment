@@ -216,6 +216,8 @@ const getStudents = async (idRepresentative, inscription) => {
   students.lastnames AS lastNames,
   students.dni,
   relationship,
+  birthDate,
+  students.idDniType,
   scholarYear AS gradeName,
   section AS sectionName,
   students.idGrade AS idGrade,

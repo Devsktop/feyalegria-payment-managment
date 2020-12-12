@@ -69,12 +69,15 @@ const EditStudent = ({ match: { params } }) => {
   const currentStudent = useSelector(state => studentSelector(state, id));
 
   const grades = useSelector(gradesSelector);
+
   const [form, setForm] = useState(true);
   const [names, setNames] = useState(currentStudent.names);
   const [lastNames, setLastNames] = useState(currentStudent.lastNames);
   const [idDniType, setIdDniType] = useState(currentStudent.idDniType);
   const [dni, setDni] = useState(currentStudent.dni);
-  const [birthDate, setBirthDate] = useState(currentStudent.birthDate);
+  const [birthDate, setBirthDate] = useState(
+    new Date(currentStudent.birthDate)
+  );
 
   const [relationship, setRelationship] = useState(
     options.filter(option => option.label === currentStudent.relationship)[0]
