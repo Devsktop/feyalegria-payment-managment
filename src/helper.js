@@ -28,6 +28,7 @@ export const decimalValidator = (
   minNumber = 0
 ) => {
   const parsedValue = value.toString();
+
   if (e.target.value.length > 18 && e.keyCode !== 8) return e.target.value;
   const reg = /\d/;
   if (reg.test(e.key)) {
@@ -67,6 +68,20 @@ export const intValidator = (
     )
       return e.target.value + e.key;
   } else if (e.keyCode === 8) {
+    // KeyCode 8 = Delete button
+    return parsedValue.substr(0, parsedValue.length - 1);
+  }
+
+  return e.target.value;
+};
+
+export const intStringValidator = (e, value) => {
+  const parsedValue = value.toString();
+  const reg = /\d/;
+  if (reg.test(e.key)) {
+    return e.target.value + e.key;
+  }
+  if (e.keyCode === 8) {
     // KeyCode 8 = Delete button
     return parsedValue.substr(0, parsedValue.length - 1);
   }

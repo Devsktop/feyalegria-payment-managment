@@ -5,7 +5,9 @@ import {
   RESET_REPRESENTATIVE,
   ADD_STUDENT,
   EDIT_STUDENT,
-  TOGGLE_STUDENT
+  TOGGLE_STUDENT,
+  TOGGLE_PAYMETN_METHOD,
+  UPDATE_TRANSFERENCE
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -26,8 +28,12 @@ const initialState = {
   incomeBalance: {
     balance: 0,
     transference: true,
+    transferenceAmount: 0,
+    transferenceRef: '',
     cash: false,
-    dolar: false
+    cashAmount: 0,
+    dolar: false,
+    dolarAmount: 0
   },
   products: {},
   dniTypeById: {
@@ -125,6 +131,43 @@ export default function reducer(state = initialState, { type, payload }) {
       };
     }
 
+    case TOGGLE_PAYMETN_METHOD: {
+      const transference =
+        payload.method === 'transference'
+          ? !state.incomeBalance.transference
+          : state.incomeBalance.transference;
+      const dolar =
+        payload.method === 'dolar'
+          ? !state.incomeBalance.dolar
+          : state.incomeBalance.dolar;
+      const cash =
+        payload.method === 'cash'
+          ? !state.incomeBalance.cash
+          : state.incomeBalance.cash;
+
+      const incomeBalance = {
+        ...state.incomeBalance,
+        transference,
+        dolar,
+        cash
+      };
+
+      return {
+        ...state,
+        incomeBalance
+      };
+    }
+
+    case UPDATE_TRANSFERENCE: {
+      return {
+        ...state,
+        incomeBalance: {
+          ...state.incomeBalance,
+          transferenceAmount: payload.amount,
+          transferenceRef: payload.ref
+        }
+      };
+    }
     default:
       return state;
   }

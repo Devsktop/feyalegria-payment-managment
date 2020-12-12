@@ -44,3 +44,17 @@ export const toggleStudent = (idStudent, toggle) => ({
   type: TOGGLE_STUDENT,
   payload: { idStudent, toggle }
 });
+
+export const TOGGLE_PAYMETN_METHOD = 'TOGGLE_PAYMETN_METHOD';
+
+export const togglePaymentMethod = method => ({
+  type: TOGGLE_PAYMETN_METHOD,
+  payload: { method }
+});
+
+export const UPDATE_TRANSFERENCE = 'UPDATE_TRANSFERENCE';
+
+export const updateTransference = (amount, ref) => ({
+  type: UPDATE_TRANSFERENCE,
+  payload: { amount, ref }
+});
