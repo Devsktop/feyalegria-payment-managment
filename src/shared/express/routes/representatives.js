@@ -221,7 +221,8 @@ const getStudents = async (idRepresentative, inscription) => {
   scholarYear AS gradeName,
   section AS sectionName,
   students.idGrade AS idGrade,
-  students.idSection AS idSection
+  students.idSection AS idSection,
+  status
   FROM students
   INNER JOIN representatives ON ${idRepresentative} = representatives.idRepresentative AND students.idRepresentative = representatives.idRepresentative 
   INNER JOIN grades ON students.idGrade = grades.idGrade

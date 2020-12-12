@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
+import { fetchGrades } from 'react/redux/actions/gradesActions';
 import { editStudent as fromStudentsActions } from 'react/redux/actions/studentsActions';
 import { editStudent as fromIncommeActions } from 'react/redux/actions/incomeActions';
 
@@ -60,7 +61,7 @@ const fromStudentRow = (state, id) => state.income.representative.students[id];
 const fromStudents = state => state.students.student;
 
 const EditStudent = ({ match: { params } }) => {
-  console.log('dfsdfsdfsdfsdf');
+  const isFetched = useSelector(state => state.grades.isFetched);
   const { id } = params;
   const history = useHistory();
   const { from } = history.location.state;
@@ -71,8 +72,6 @@ const EditStudent = ({ match: { params } }) => {
     from === 'StudentRow' ? fromIncommeActions : fromStudentsActions;
   // Selector
   const currentStudent = useSelector(state => studentSelector(state, id));
-
-  console.log(currentStudent);
 
   const grades = useSelector(gradesSelector);
 
@@ -99,6 +98,10 @@ const EditStudent = ({ match: { params } }) => {
   });
   const [status, setStatus] = useState(currentStudent.status);
 
+  if (!isFetched) {
+    dispatch(fetchGrades());
+  }
+
   const gradesData = [];
   const sectionsData = [];
   // Convert Grades object to array
@@ -110,7 +113,7 @@ const EditStudent = ({ match: { params } }) => {
   });
 
   useEffect(() => {
-    if (scholarYear) {
+    if (scholarYear && Object.keys(grades).length > 0) {
       const { value } = scholarYear;
       Object.keys(grades[value].gradesSections).forEach(sectionKey => {
         sectionsData[sectionKey] = {
