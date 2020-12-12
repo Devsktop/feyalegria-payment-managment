@@ -117,7 +117,7 @@ const AppRouter = () => {
             />
             <Route
               exact
-              path="/studentProfile/:idStudent"
+              path="/studentProfile/:id"
               component={StudentProfile}
             />
             <Route exact path="/editStudent/:id" component={EditStudent} />

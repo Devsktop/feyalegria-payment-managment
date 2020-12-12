@@ -167,6 +167,7 @@ const getStudent = async idStudent => {
   sections.section,
   balance, 
   state,
+  relationship,
   students.idDniType,
   letter AS dniType  
   FROM students, dnitype, grades, sections 
@@ -184,6 +185,7 @@ const getStudent = async idStudent => {
           section,
           state,
           balance,
+          relationship,
           idDniType,
           dniType
         } = rows[0];
@@ -196,6 +198,7 @@ const getStudent = async idStudent => {
           section,
           state,
           balance,
+          relationship,
           idDniType,
           dniType
         };

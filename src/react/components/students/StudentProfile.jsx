@@ -25,7 +25,7 @@ const dolarSelector = state => state.upperbar.dolar;
 
 const StudentProfile = () => {
   // Link Params
-  const { idStudent } = useParams();
+  const { id } = useParams();
   const history = useHistory();
   // Dispatch
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const StudentProfile = () => {
   const studentsData = [];
 
   useEffect(() => {
-    dispatch(fetchStudentById(idStudent));
+    dispatch(fetchStudentById(id));
   }, []);
 
   if (isFetching) {
@@ -73,9 +73,24 @@ const StudentProfile = () => {
   //     });
   //   }
 
+  // Date
+  const date = new Date(student.birthDate);
+  const day = `${`0${date.getDate()}`.slice(-2)}`;
+  const month = `${`0${date.getMonth() + 1}`.slice(-2)}`;
+  const year = date.getFullYear();
+  const finalDate = `${day}-${month}-${year}`;
+
   const bsPrice = student.balance * dolarPrice;
 
-  const handleClick = () => history.push(`/editStudent/${idStudent}`);
+  const handleClick = () => {
+    console.log(id);
+    history.push({
+      pathname: `/editStudent/${id}`,
+      state: {
+        from: 'StudentProfile'
+      }
+    });
+  };
 
   return (
     <div className="content-screen">
@@ -101,7 +116,7 @@ const StudentProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={BirthDateIcon} alt="" />
-              <p>{student.birthDate}</p>
+              <p>{finalDate}</p>
             </div>
             <div className="representative_data_group">
               <img src={GradeIcon} alt="" />
@@ -133,7 +148,7 @@ const StudentProfile = () => {
               onClick={() => history.goBack()}
               text="volver"
             />
-            <Button type="submit" text="editar" onClick={handleClick} />
+            <Button type="button" text="editar" onClick={handleClick} />
           </div>
         </div>
       ) : (

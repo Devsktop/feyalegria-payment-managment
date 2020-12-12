@@ -50,7 +50,6 @@ const StudentsByGrade = () => {
   }
 
   if (Object.keys(students).length > 0) {
-    console.log(students);
     Object.keys(students).forEach(studentKey => {
       const { names, lastNames, representative, birthDate } = students[
         studentKey
