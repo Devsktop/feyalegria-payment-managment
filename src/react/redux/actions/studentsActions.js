@@ -225,14 +225,33 @@ export const fetchStudentsBySection = (id, pag) => {
     const response = await fetch(
       `http://localhost:3500/api/students/${id}?pag=${pag}`
     );
-    const students = await response.json();
-    dispatch(fetchStudentsBySectionActions(students));
+    const studentsBySection = await response.json();
+    dispatch(fetchStudentsBySectionActions(studentsBySection));
     dispatch(isFetched());
     dispatch(isFetching(false));
   };
 };
 
-const fetchStudentsBySectionActions = students => ({
+const fetchStudentsBySectionActions = studentsBySection => ({
   type: FETCH_STUDENTSBYSECTION,
-  payload: { students }
+  payload: { studentsBySection }
+});
+
+export const FETCH_STUDENTBYID = 'FETCH_STUDENTBYID';
+
+export const fetchStudentById = id => {
+  return async dispatch => {
+    dispatch(isFetching(true));
+    // HACER FETCH A LA BDD
+    const response = await fetch(`http://localhost:3500/api/studentbyid/${id}`);
+    const student = await response.json();
+    dispatch(fetchStudentByIdActions(student));
+    dispatch(isFetched());
+    dispatch(isFetching(false));
+  };
+};
+
+const fetchStudentByIdActions = student => ({
+  type: FETCH_STUDENTBYID,
+  payload: { student }
 });

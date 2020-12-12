@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 
 // Actions
-import { fetchStudents } from 'react/redux/actions/studentsActions';
+import { fetchStudentsBySection } from 'react/redux/actions/studentsActions';
 
 // Components
 import { DataTable } from 'react-pulpo';
 
 // Selectors
-const studentsSelector = state => state.students.students;
+const studentsSelector = state => state.students.studentsBySection;
 
 const StudentsByGrade = () => {
   // States
@@ -33,7 +33,7 @@ const StudentsByGrade = () => {
   const studentsData = [];
 
   useEffect(() => {
-    dispatch(fetchStudents(id, pag));
+    dispatch(fetchStudentsBySection(id, pag));
   }, [pag, id]);
 
   if (isFetching) {
@@ -49,26 +49,41 @@ const StudentsByGrade = () => {
     isEmpty = true;
   }
 
-  Object.keys(students).forEach(studentKey => {
-    const { names, lastNames } = students[studentKey];
-    // Split to names & lastNames
-    const name = names.split(' ');
-    const lastName = lastNames.split(' ');
-    // Array Destructuring
-    const [shortName] = name;
-    const [shortLastName] = lastName;
-    // Equalize shortName & shortLastName in students's name & lastNames properties
-    students[studentKey].names = shortName;
-    students[studentKey].lastNames = shortLastName;
-    // Convert students object to an array for DataTable
-    studentsData[studentKey] = {
-      ...students[studentKey],
-      id: students[studentKey].idStudent
-    };
-  });
+  if (Object.keys(students).length > 0) {
+    console.log(students);
+    Object.keys(students).forEach(studentKey => {
+      const { names, lastNames, representative, birthDate } = students[
+        studentKey
+      ];
+      // Split to names & lastNames
+      const name = names.split(' ');
+      const lastName = lastNames.split(' ');
+      const representativeFullName = representative.split(' ');
+      // Array Destructuring
+      const [shortName] = name;
+      const [shortLastName] = lastName;
+      const finalName = `${shortName} ${shortLastName}`;
+      const representativeName = `${representativeFullName[0]} ${representativeFullName[2]}`;
+      // Date
+      const date = new Date(birthDate);
+      const day = `${('0' + date.getDate()).slice(-2)}`;
+      const month = `${('0' + (date.getMonth() + 1)).slice(-2)}`;
+      const year = date.getFullYear();
+      const finalDate = `${day}-${month}-${year}`;
 
-  const handleClick = idRepresentative =>
-    history.push(`/representativeProfile/${idRepresentative}`);
+      // Equalize shortName & shortLastName in students's name & lastNames properties
+      students[studentKey].names = finalName;
+      students[studentKey].representative = representativeName;
+      students[studentKey].birthDate = finalDate;
+      // Convert students object to an array for DataTable
+      studentsData[studentKey] = {
+        ...students[studentKey],
+        id: students[studentKey].idStudent
+      };
+    });
+  }
+
+  const handleClick = idStudent => history.push(`/studentProfile/${idStudent}`);
 
   return (
     <div className="content-screen">
@@ -82,21 +97,13 @@ const StudentsByGrade = () => {
             className="table"
             data={studentsData}
             properties={[
-              'Nombre',
-              'Apellido',
+              'Nombre y apellido',
               'Cédula',
-              'Fecha Nac',
+              'Fecha de nacimiento',
               'Representante',
               'Saldo $'
             ]}
-            order={[
-              'names',
-              'lastNames',
-              'dni',
-              'birthDate',
-              'representative',
-              'balance'
-            ]}
+            order={['names', 'dni', 'birthDate', 'representative', 'balance']}
             onClickRow={handleClick}
           />
         )}

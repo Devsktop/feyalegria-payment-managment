@@ -90,28 +90,27 @@ router.get('/students', (req, res) => {
 
 // 2.- Get students by section http://localhost:3500/api/students/[section] - ?pag=number - ?pattern
 router.get('/students/:section', async (req, res) => {
+  console.log('here');
   const { section } = req.params;
   const { pag, pattern } = req.query;
 
   // Query to get students by section
-  const { students, errGetStudentsBySection } = await getStudentsBySection(
-    section,
-    pag,
-    pattern
-  );
+  const {
+    studentsBySection,
+    errGetStudentsBySection
+  } = await getStudentsBySection(section, pag, pattern);
   if (errGetStudentsBySection) {
     res.status(400).json({ errGetStudentsBySection });
     return null;
   }
-
-  res.status(200).json(students);
+  res.status(200).json(studentsBySection);
   return null;
 });
 
 // Query to get students from section
 const getStudentsBySection = async (section, pag, pattern) => {
   const pagIndex = pag * 10;
-  const students = {};
+  const studentsBySection = {};
   const patternQuery = `AND students.names LIKE "%${pattern}%" OR students.lastnames LIKE "%${pattern}%" OR students.dni LIKE "%${pattern}%" OR students.birthDate LIKE "%${pattern}%" OR representatives.names LIKE "%${pattern}%" OR students.balance LIKE "%${pattern}%" OR students.idRepresentative LIKE "%${pattern}%"`;
   const query = `SELECT DISTINCT 
   students.idStudent,
@@ -133,9 +132,9 @@ const getStudentsBySection = async (section, pag, pattern) => {
     mysqlConnection.query(query, async (errGetStudentsBySection, rows) => {
       if (!errGetStudentsBySection) {
         rows.forEach(row => {
-          students[row.idStudent] = { ...row };
+          studentsBySection[row.idStudent] = { ...row };
         });
-        resolve({ students });
+        resolve({ studentsBySection });
       } else {
         resolve({ errGetStudentsBySection });
       }
@@ -143,78 +142,70 @@ const getStudentsBySection = async (section, pag, pattern) => {
   });
 };
 
-//   const students = {};
+// 2.- Get student http://localhost:3500/api/representatives/[idRepresentative]
+router.get('/studentbyid/:idStudent', async (req, res) => {
+  const { idStudent } = req.params;
+  // Query to get representative
+  const { student, errStudent } = await getStudent(idStudent);
+  if (errStudent) {
+    res.status(400).json({ errStudent });
+    return null;
+  }
 
-//   // Query to select students by section
-//   const query = `SELECT
-//   idStudent,
-//   students.names,
-//   students.lastnames AS lastNames,
-//   students.dni,
-//   birthdate,
-//   CONCAT(representatives.names, " ", representatives.lastnames) AS representative,
-//   students.balance
-//   FROM students, representatives
-//   WHERE representatives.idRepresentative = students.idRepresentative
-//   AND students.idSection = ${section};`;
+  res.status(200).json(student);
+  return null;
+});
 
-//   mysqlConnection.query(query, (err, rows) => {
-//     if (!err) {
-//       rows.forEach(row => {
-//         if (row.balance >= 0) {
-//           students[row.idStudent] = { ...row, solvent: true };
-//         } else {
-//           students[row.idStudent] = { ...row, solvent: false };
-//         }
-//       });
-//       res.status(200).json({
-//         students
-//       });
-//     } else {
-//       res.status(404).json({
-//         err
-//       });
-//     }
-//   });
-// });
+// Query to get representative by id
+const getStudent = async idStudent => {
+  const query = `SELECT 
+  names, 
+  lastnames AS lastNames, 
+  dni, 
+  birthDate, 
+  grades.scholarYear, 
+  sections.section,
+  balance, 
+  state,
+  students.idDniType,
+  letter AS dniType  
+  FROM students, dnitype, grades, sections 
+  WHERE ${idStudent} = idStudent AND students.idDniType = dnitype.idDniType AND students.idGrade = grades.idGrade AND students.idSection = sections.idSection;`;
 
-// // 2.-Select Students By Section http://localhost:3500/api/students/:section
-// router.get('/students/:section', (req, res) => {
-//   const { section } = req.params;
-//   const students = {};
-
-//   // Query to select students by section
-//   const query = `SELECT
-//   idStudent,
-//   students.names,
-//   students.lastnames AS lastNames,
-//   students.dni,
-//   birthdate,
-//   CONCAT(representatives.names, " ", representatives.lastnames) AS representative,
-//   students.balance
-//   FROM students, representatives
-//   WHERE representatives.idRepresentative = students.idRepresentative
-//   AND students.idSection = ${section};`;
-
-//   mysqlConnection.query(query, (err, rows) => {
-//     if (!err) {
-//       rows.forEach(row => {
-//         if (row.balance >= 0) {
-//           students[row.idStudent] = { ...row, solvent: true };
-//         } else {
-//           students[row.idStudent] = { ...row, solvent: false };
-//         }
-//       });
-//       res.status(200).json({
-//         students
-//       });
-//     } else {
-//       res.status(404).json({
-//         err
-//       });
-//     }
-//   });
-// });
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async (errStudent, rows) => {
+      if (!errStudent) {
+        const {
+          names,
+          lastNames,
+          dni,
+          birthDate,
+          scholarYear,
+          section,
+          state,
+          balance,
+          idDniType,
+          dniType
+        } = rows[0];
+        const student = {
+          names,
+          lastNames,
+          dni,
+          birthDate,
+          scholarYear,
+          section,
+          state,
+          balance,
+          idDniType,
+          dniType
+        };
+        resolve({ student });
+      } else {
+        resolve({ errStudent });
+      }
+    });
+  });
+};
 
 // 3.- Post add student http://localhost:3500/api/student
 router.post('/student', async (req, res) => {
