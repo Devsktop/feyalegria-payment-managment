@@ -10,7 +10,7 @@ import PaymentInputBox from './PaymentInputBox';
 import { updateTransference } from 'react/redux/actions/incomeActions';
 
 // Helpers
-import { intStringValidator } from 'helper';
+import { intStringValidator, intValidator } from 'helper';
 
 const PaymentsTransference = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,12 @@ const PaymentsTransference = () => {
 
   const handleOnChangeRef = e => {
     const referenceValue = intStringValidator(e, reference);
-    dispatch(updateTransference(0, referenceValue));
+    dispatch(updateTransference(amount, referenceValue));
   };
-
+  const handleOnChangeAmount = e => {
+    const amountValue = parseInt(intValidator(e, amount), 10) || '';
+    dispatch(updateTransference(amountValue, reference));
+  };
   return (
     <PaymentInputBox desc="Transferencia bancaria">
       <Minput
@@ -33,6 +36,13 @@ const PaymentsTransference = () => {
         type="text"
         onKeyDown={handleOnChangeRef}
         value={reference}
+        onChange={() => {}}
+      />
+      <Minput
+        label="Monto"
+        type="text"
+        onKeyDown={handleOnChangeAmount}
+        value={amount}
         onChange={() => {}}
       />
     </PaymentInputBox>

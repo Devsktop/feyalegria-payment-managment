@@ -58,7 +58,7 @@ export const intValidator = (
   minNumber = 0
 ) => {
   const parsedValue = value.toString();
-  if (e.target.value.length > 18 && e.keyCode !== 8) return e.target.value;
+  if (e.target.value.length > 14 && e.keyCode !== 8) return e.target.value;
   const reg = /\d/;
   if (reg.test(e.key)) {
     if (
