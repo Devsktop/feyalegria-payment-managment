@@ -27,7 +27,8 @@ const DolarPortal = ({ onClose }) => {
   };
 
   const handleDolar = e => {
-    if (validateInput(e.target.value)) setDolarValue(e.target.value);
+    if (validateInput(e.target.value))
+      setDolarValue(parseInt(e.target.value, 10) || 0);
   };
 
   const disableAccept = () => {
