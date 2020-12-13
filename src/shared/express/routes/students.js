@@ -163,8 +163,10 @@ const getStudent = async idStudent => {
   lastnames AS lastNames, 
   dni, 
   birthDate, 
-  grades.scholarYear, 
-  sections.section,
+  grades.scholarYear AS gradeName,
+  students.idGrade,
+  students.idSection,
+  sections.section AS sectionName,
   balance, 
   status,
   relationship,
@@ -181,26 +183,30 @@ const getStudent = async idStudent => {
           lastNames,
           dni,
           birthDate,
-          scholarYear,
-          section,
+          gradeName,
+          sectionName,
           status,
           balance,
           relationship,
           idDniType,
-          dniType
+          dniType,
+          idGrade,
+          idSection
         } = rows[0];
         const student = {
           names,
           lastNames,
           dni,
           birthDate,
-          scholarYear,
-          section,
+          gradeName,
+          sectionName,
           status,
           balance,
           relationship,
           idDniType,
-          dniType
+          dniType,
+          idGrade,
+          idSection
         };
         resolve({ student });
       } else {
