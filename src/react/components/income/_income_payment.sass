@@ -8,7 +8,7 @@
 
 
     .incomepayment    
-        padding: 40px
+        padding: 30px
         
         &_title
             font: $title
@@ -100,7 +100,8 @@
             transform: rotate(45deg)
             box-shadow: $shadow
 
-
+    .payments_box
+        min-height: 415px
     .payment_input_box
         position: relative
         margin: 35px 0
@@ -128,4 +129,16 @@
             font-weight: bold
             text-align: left
         
+    .payments_bottom
+        display: flex
+        justify-content: space-between
+        align-items: flex-end
+        margin-top: 30px
+
+        .payments_totals
+            text-align: left
+            color: $title-color
+            font-weight: bold
+            font-size: 1.1rem
+
 

@@ -20,7 +20,7 @@ const totalSelector = state => {
   dolar = dolarChecked ? dolar : 0;
 
   const bolivarTotal = transference + cash + dolar * dolarPrice;
-  const dolarTotal = (transference + cash) / dolarPrice + dolar;
+  const dolarTotal = ((transference + cash) / dolarPrice + dolar).toFixed(2);
 
   return { bolivarTotal, dolarTotal };
 };
@@ -29,14 +29,8 @@ const PaymenetsTotals = () => {
   const totals = useSelector(totalSelector);
   return (
     <div className="payments_totals">
-      <p>
-        Total a pagar dólares:
-        {totals.dolarTotal}
-      </p>
-      <p>
-        Total a pagar Bs.S:
-        {totals.bolivarTotal}
-      </p>
+      <p>{`Total a pagar dólares: ${totals.dolarTotal}`}</p>
+      <p>{`Total a pagar Bs.S: ${totals.bolivarTotal}`}</p>
     </div>
   );
 };

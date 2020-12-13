@@ -12,7 +12,10 @@ const IncomePayment = () => {
       <h2 className="incomepayment_subtitle">Ingrese los datos del pago</h2>
       <PaymentMethodBox />
       <PaymentsBox />
-      <PaymentsTotals />
+      <div className="payments_bottom">
+        <PaymentsTotals />
+        <button>botton</button>
+      </div>
     </div>
   );
 };

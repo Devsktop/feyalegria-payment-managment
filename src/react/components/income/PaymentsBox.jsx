@@ -14,7 +14,7 @@ const showPaymentsSelector = state => {
 const PaymentsBox = () => {
   const showPayments = useSelector(showPaymentsSelector);
   return (
-    <div>
+    <div className="payments_box">
       {showPayments.transference && <PaymentsTrasference />}
       {showPayments.cash && <PaymentsCash />}
       {showPayments.dolar && <PaymentsDolar />}
