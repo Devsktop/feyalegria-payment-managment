@@ -124,7 +124,7 @@ const StudentProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={StateIcon} alt="" />
-              <p>{student.state}</p>
+              <p>{student.status}</p>
             </div>
             <div className="representative_data_group">
               <img src={BalanceIcon} alt="" />
