@@ -203,7 +203,7 @@ const EditStudent = ({ match: { params } }) => {
 
   return (
     <div className="add_student_box">
-      <RepresentativeData />
+      {from === 'StudentRow' && <RepresentativeData />}
       <form className="sweet-form add_student_form" onSubmit={handleSubmit}>
         <h1 className="box_title">Editar Estudiante</h1>
         {form ? (
