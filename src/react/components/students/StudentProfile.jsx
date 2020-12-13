@@ -120,7 +120,7 @@ const StudentProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={GradeIcon} alt="" />
-              <p>{`${student.scholarYear} ${student.section}`}</p>
+              <p>{`${student.gradeName} ${student.sectionName}`}</p>
             </div>
             <div className="representative_data_group">
               <img src={StateIcon} alt="" />
