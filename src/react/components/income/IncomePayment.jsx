@@ -3,6 +3,7 @@ import React from 'react';
 // Components
 import PaymentMethodBox from './PaymentMethodBox';
 import PaymentsBox from './PaymentsBox';
+import PaymentsTotals from './PaymentsTotals';
 
 const IncomePayment = () => {
   return (
@@ -11,6 +12,7 @@ const IncomePayment = () => {
       <h2 className="incomepayment_subtitle">Ingrese los datos del pago</h2>
       <PaymentMethodBox />
       <PaymentsBox />
+      <PaymentsTotals />
     </div>
   );
 };
