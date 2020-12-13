@@ -7,7 +7,9 @@ import {
   EDIT_STUDENT,
   TOGGLE_STUDENT,
   TOGGLE_PAYMETN_METHOD,
-  UPDATE_TRANSFERENCE
+  UPDATE_TRANSFERENCE,
+  UPDATE_CASH,
+  UPDATE_DOLAR
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -165,6 +167,26 @@ export default function reducer(state = initialState, { type, payload }) {
           ...state.incomeBalance,
           transferenceAmount: payload.amount,
           transferenceRef: payload.ref
+        }
+      };
+    }
+
+    case UPDATE_CASH: {
+      return {
+        ...state,
+        incomeBalance: {
+          ...state.incomeBalance,
+          cashAmount: payload.amount
+        }
+      };
+    }
+
+    case UPDATE_DOLAR: {
+      return {
+        ...state,
+        incomeBalance: {
+          ...state.incomeBalance,
+          dolarAmount: payload.amount
         }
       };
     }

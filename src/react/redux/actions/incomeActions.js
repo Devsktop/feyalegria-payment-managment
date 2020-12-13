@@ -58,3 +58,17 @@ export const updateTransference = (amount, ref) => ({
   type: UPDATE_TRANSFERENCE,
   payload: { amount, ref }
 });
+
+export const UPDATE_CASH = 'UPDATE_CASH';
+
+export const updateCash = amount => ({
+  type: UPDATE_CASH,
+  payload: { amount }
+});
+
+export const UPDATE_DOLAR = 'UPDATE_DOLAR';
+
+export const updateDolar = amount => ({
+  type: UPDATE_DOLAR,
+  payload: { amount }
+});
