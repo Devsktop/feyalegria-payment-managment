@@ -27,8 +27,7 @@ const DolarPortal = ({ onClose }) => {
   };
 
   const handleDolar = e => {
-    if (validateInput(e.target.value))
-      setDolarValue(parseInt(e.target.value, 10) || 0);
+    if (validateInput(e.target.value)) setDolarValue(e.target.value);
   };
 
   const disableAccept = () => {
@@ -38,29 +37,7 @@ const DolarPortal = ({ onClose }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(setDolar(dolar));
-    // const url = 'http://localhost:3500/api/tasks/actdolar';
-    // const config = {
-    //   method: 'POST',
-    //   body: JSON.stringify({ Dolar: dolar }),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // };
-
-    // fetch(url, config)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     if (res.status === 'ok') {
-    //       dispatch(setDolar(parseInt(dolar, 10)));
-    //     } else {
-    //       console.log('hubo un error');
-    //     }
-    //   })
-    //   .catch(() => {
-    //     console.log('hubo un error');
-    //   });
-
+    dispatch(setDolar(parseInt(dolar, 10)));
     if (onClose) onClose();
   };
 
