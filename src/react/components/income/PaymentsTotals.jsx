@@ -20,17 +20,37 @@ const totalSelector = state => {
   dolar = dolarChecked ? dolar : 0;
 
   const bolivarTotal = transference + cash + dolar * dolarPrice;
-  const dolarTotal = ((transference + cash) / dolarPrice + dolar).toFixed(2);
+  const dolarTotal = parseFloat(
+    ((transference + cash) / dolarPrice + dolar).toFixed(2)
+  );
 
   return { bolivarTotal, dolarTotal };
 };
 
+const balanceSelector = state => {
+  const { balance } = state.income.incomeBalance;
+  const { dolar } = state.upperbar;
+
+  return { dolarBalance: balance, bolivarBalance: balance * dolar };
+};
+
 const PaymenetsTotals = () => {
   const totals = useSelector(totalSelector);
+  const balances = useSelector(balanceSelector);
+  const finalBalanceDolar = totals.dolarTotal + balances.dolarBalance;
+  const finalBalanceBolivar = totals.bolivarTotal + balances.bolivarBalance;
   return (
     <div className="payments_totals">
       <p>{`Total a pagar dólares: ${totals.dolarTotal}`}</p>
       <p>{`Total a pagar Bs.S: ${totals.bolivarTotal}`}</p>
+      <p className={finalBalanceDolar >= 0 ? 'green' : 'red'}>
+        {`Balance final dólares: 
+      ${finalBalanceDolar.toFixed(2)}`}
+      </p>
+      <p className={finalBalanceBolivar >= 0 ? 'green' : 'red'}>
+        {`Balance final Bs.S: 
+      ${finalBalanceBolivar.toFixed(2)}`}
+      </p>
     </div>
   );
 };

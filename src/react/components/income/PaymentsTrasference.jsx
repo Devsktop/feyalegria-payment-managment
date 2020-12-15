@@ -26,7 +26,7 @@ const PaymentsTransference = () => {
     dispatch(updateTransference(amount, referenceValue));
   };
   const handleOnChangeAmount = e => {
-    const amountValue = parseInt(intValidator(e, amount), 10) || '';
+    const amountValue = parseInt(intValidator(e, amount), 10) || 0;
     dispatch(updateTransference(amountValue, reference));
   };
   return (

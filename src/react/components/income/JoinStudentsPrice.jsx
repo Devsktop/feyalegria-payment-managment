@@ -64,29 +64,38 @@ const totalMonthlySelector = createSelector(
   (monthlyDebt, checkedStudents) => monthlyDebt * checkedStudents
 );
 
+const dolarPriceSelector = state => {
+  const { dolar } = state.upperbar;
+  return dolar;
+};
+
 const JoinStudentsPrice = () => {
   const dispatch = useDispatch();
   const inscriptionPrice = useSelector(totalInscriptionSelector);
   const monthlyDebt = useSelector(totalMonthlySelector);
   const representativeBalance = useSelector(representativeBalanceSelector);
+  const dolarPrice = useSelector(dolarPriceSelector);
   const totalBalance = representativeBalance - (inscriptionPrice + monthlyDebt);
-
   useEffect(() => {
     dispatch(updateBalance(totalBalance));
   }, [totalBalance]);
 
   return (
     <div className="joinstudents_price">
-      <p>{`Total inscripciones: ${inscriptionPrice}`}</p>
-      <p>{`Mensualidades pendientes: ${monthlyDebt}`}</p>
+      <p>{`Total inscripciones: ${inscriptionPrice}$`}</p>
+      <p>{`Mensualidades pendientes: ${monthlyDebt}$`}</p>
       <p
         className={representativeBalance < 0 ? 'balance_red' : 'balance_green'}
       >
-        {`Balance actual: ${representativeBalance}`}
+        {`Balance actual: ${representativeBalance}$`}
       </p>
       <p className={totalBalance < 0 ? 'balance_red' : 'balance_green'}>
         {totalBalance < 0 ? 'Saldo deudor: ' : 'Saldo acreedor: '}
-        {Math.abs(totalBalance)}
+        {`${Math.abs(totalBalance)}$`}
+      </p>
+      <p className={totalBalance < 0 ? 'balance_red' : 'balance_green'}>
+        {totalBalance < 0 ? 'Saldo deudor: ' : 'Saldo acreedor: '}
+        {`${Math.abs(totalBalance) * dolarPrice} Bs.S`}
       </p>
     </div>
   );

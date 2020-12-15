@@ -18,7 +18,7 @@ const PaymentsCash = () => {
   const amount = useSelector(state => state.income.incomeBalance.cashAmount);
 
   const handleOnChangeAmount = e => {
-    const amountValue = parseInt(intValidator(e, amount), 10) || '';
+    const amountValue = parseInt(intValidator(e, amount), 10) || 0;
     dispatch(updateCash(amountValue));
   };
   return (
