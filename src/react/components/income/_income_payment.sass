@@ -1,7 +1,7 @@
 .incomepayment_box
     width: 700px
     max-height: none!important
-    min-height: 755px
+    min-height: 791px
 
     &.box
         padding: 0
@@ -13,6 +13,7 @@
         &_title
             font: $title
             color: $title-color
+            margin: 0
 
         &_subtitle
             font: $subtitle
@@ -22,10 +23,11 @@
         display: flex 
         justify-content: space-between
         align-items: center
+        margin-bottom: 15px
     .payment_method
         position: relative
         width: 160px
-        margin: 10px
+        margin: 0 10px
         display: flex
         align-items: center
         justify-content: flex-start
@@ -101,10 +103,11 @@
             box-shadow: $shadow
 
     .payments_box
-        min-height: 415px
+        padding: 1px
+        min-height: 448px
     .payment_input_box
         position: relative
-        margin: 35px 0
+        margin: 30px 0
         padding: 1px 15px
         box-shadow: $shadow
         border-radius: $bradius
@@ -113,6 +116,7 @@
             margin: 20px 0
 
             .MuiInputBase-input
+                padding: 5px
                 padding-left: 10px
 
         & > span 
@@ -133,13 +137,19 @@
         display: flex
         justify-content: space-between
         align-items: flex-end
-        margin-top: 30px
+        margin-top: 5px
 
         .payments_totals
             text-align: left
             color: $title-color
             font-weight: bold
             font-size: 1.1rem
+            padding: 10px
+            box-shadow: $shadow
+            border-radius: $bradius
+
+            p 
+                margin: 5px 0
 
             .green
                 color: $succes
@@ -147,4 +157,8 @@
             .red 
                 color: $primary
 
+        .payments_buttons
+            width: 50%
+            display: flex
+            justify-content: space-between
 

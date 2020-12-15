@@ -45,11 +45,11 @@ const PaymenetsTotals = () => {
       <p>{`Total a pagar Bs.S: ${totals.bolivarTotal}`}</p>
       <p className={finalBalanceDolar >= 0 ? 'green' : 'red'}>
         {`Balance final dólares: 
-      ${finalBalanceDolar.toFixed(2)}`}
+      ${Math.abs(finalBalanceDolar).toFixed(2)}`}
       </p>
       <p className={finalBalanceBolivar >= 0 ? 'green' : 'red'}>
         {`Balance final Bs.S: 
-      ${finalBalanceBolivar.toFixed(2)}`}
+      ${Math.abs(finalBalanceBolivar).toFixed(2)}`}
       </p>
     </div>
   );

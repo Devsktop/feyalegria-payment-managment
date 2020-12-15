@@ -4,6 +4,7 @@ import React from 'react';
 import PaymentMethodBox from './PaymentMethodBox';
 import PaymentsBox from './PaymentsBox';
 import PaymentsTotals from './PaymentsTotals';
+import PaymentsButtons from './PaymentsButtons';
 
 const IncomePayment = () => {
   return (
@@ -14,7 +15,7 @@ const IncomePayment = () => {
       <PaymentsBox />
       <div className="payments_bottom">
         <PaymentsTotals />
-        <button>botton</button>
+        <PaymentsButtons />
       </div>
     </div>
   );
