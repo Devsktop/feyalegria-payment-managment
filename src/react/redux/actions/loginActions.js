@@ -3,6 +3,7 @@ import { fetchPayments } from 'react/redux/actions/paymentsActions';
 import { fetchRates } from 'react/redux/actions/ratesActions';
 import { fetchConcepts } from 'react/redux/actions/conceptsActions';
 import { fetchGlobals } from 'react/redux/actions/globalsActions';
+import { fetchProducts } from 'react/redux/actions/productsActions';
 
 export const IS_LOGIN = 'IS_LOGIN';
 
@@ -76,6 +77,8 @@ export function fetchData() {
 
       const globals = await fetchGlobals();
       await dispatch(globals);
+
+      await dispatch(fetchProducts());
 
       // Data loaded set to true
       await dispatch(dataLoadedAction());

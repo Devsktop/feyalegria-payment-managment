@@ -3,10 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // Actions
-import {
-  fetchProducts,
-  deleteProduct
-} from 'react/redux/actions/productsActions';
+import { deleteProduct } from 'react/redux/actions/productsActions';
 
 // Components
 import Button from 'react/components/Button';
@@ -18,22 +15,7 @@ const productsSelector = state => state.products.products;
 const Products = () => {
   const dispatch = useDispatch();
   const products = useSelector(productsSelector);
-  const isFetched = useSelector(state => state.products.isFetched);
-  const isFetching = useSelector(state => state.products.isFetching);
   const history = useHistory();
-
-  if (isFetching) {
-    return (
-      <div className="loader-container">
-        <div className="loader">Loading...</div>
-        <p>Cargando Datos...</p>
-      </div>
-    );
-  }
-
-  if (!isFetched) {
-    dispatch(fetchProducts());
-  }
 
   let isEmpty = false;
   if (Object.keys(products).length === 0) {
