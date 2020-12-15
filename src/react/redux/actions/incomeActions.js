@@ -72,3 +72,10 @@ export const updateDolar = amount => ({
   type: UPDATE_DOLAR,
   payload: { amount }
 });
+
+export const UPDATE_BALANCE = 'UPDATE_BALANCE';
+
+export const updateBalance = balance => ({
+  type: UPDATE_BALANCE,
+  payload: { balance }
+});

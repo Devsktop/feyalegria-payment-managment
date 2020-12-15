@@ -1,6 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
+
+// Actions
+import { updateBalance } from 'react/redux/actions/incomeActions';
 
 const inscriptionPriceSelector = state => {
   const { rates } = state;
@@ -62,10 +65,16 @@ const totalMonthlySelector = createSelector(
 );
 
 const JoinStudentsPrice = () => {
+  const dispatch = useDispatch();
   const inscriptionPrice = useSelector(totalInscriptionSelector);
   const monthlyDebt = useSelector(totalMonthlySelector);
   const representativeBalance = useSelector(representativeBalanceSelector);
-  const totalBalance = inscriptionPrice + monthlyDebt - representativeBalance;
+  const totalBalance = representativeBalance - (inscriptionPrice + monthlyDebt);
+
+  useEffect(() => {
+    dispatch(updateBalance(totalBalance));
+  }, [totalBalance]);
+
   return (
     <div className="joinstudents_price">
       <p>{`Total inscripciones: ${inscriptionPrice}`}</p>
@@ -75,8 +84,8 @@ const JoinStudentsPrice = () => {
       >
         {`Balance actual: ${representativeBalance}`}
       </p>
-      <p className={totalBalance > 0 ? 'balance_red' : 'balance_green'}>
-        {totalBalance > 0 ? 'Saldo deudor: ' : 'Saldo acreedor: '}
+      <p className={totalBalance < 0 ? 'balance_red' : 'balance_green'}>
+        {totalBalance < 0 ? 'Saldo deudor: ' : 'Saldo acreedor: '}
         {Math.abs(totalBalance)}
       </p>
     </div>

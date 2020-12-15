@@ -9,7 +9,8 @@ import {
   TOGGLE_PAYMETN_METHOD,
   UPDATE_TRANSFERENCE,
   UPDATE_CASH,
-  UPDATE_DOLAR
+  UPDATE_DOLAR,
+  UPDATE_BALANCE
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -187,6 +188,15 @@ export default function reducer(state = initialState, { type, payload }) {
         incomeBalance: {
           ...state.incomeBalance,
           dolarAmount: payload.amount
+        }
+      };
+    }
+    case UPDATE_BALANCE: {
+      return {
+        ...state,
+        incomeBalance: {
+          ...state.incomeBalance,
+          balance: payload.balance
         }
       };
     }
