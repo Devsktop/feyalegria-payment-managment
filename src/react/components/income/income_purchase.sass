@@ -1,0 +1,75 @@
+.purchase_box
+    width: 700px
+    padding: 0!important
+
+    .purchase
+        padding: 30px
+
+        &_title
+            font: $title
+            color: $title-color
+
+    .product_box
+        position: relative
+        padding: 10px
+        box-shadow: $shadow
+        border-radius: $bradius
+        display: flex
+        justify-content: center
+        align-items: start
+
+        svg 
+            width: 60px
+            height: auto
+            margin-right: 15px
+            padding: 10px
+            border-radius: $bradius
+            background-color: $primary-light
+            color: #ffffff
+            box-shadow: $shadow
+
+        &_desc
+            text-align: left
+            color: $primary
+            font-size: 1.1rem
+
+            p:nth-child(2) 
+                font-weight: bold
+
+        &_counter
+            position: absolute
+            bottom: -10px
+            right: -20px
+            color: $title-color
+
+            button
+                width: 30px
+                height: 30px
+                padding: 5px
+                margin: 2px
+                font-weight: bold
+                font-size: 1.5rem
+                background-color: #fff
+                border: none
+                border-radius: 50%
+                box-shadow: $shadow
+                color: $title-color
+                cursor: pointer
+                line-height: 10px
+                transition: .5s ease-out
+
+                &:hover
+                    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2)
+
+
+            .number
+                display: inline-block
+                width: 55px
+                height: 30px
+                padding: 5px
+                font-weight: bold
+                font-size: 1.2rem
+                background-color: #fff
+                border: none
+                border-radius: $bradius
+                box-shadow: $shadow

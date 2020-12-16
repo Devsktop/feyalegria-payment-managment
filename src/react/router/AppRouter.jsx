@@ -25,6 +25,7 @@ import AddRepresentative from 'react/components/income/AddRepresentative';
 import AddStudent from 'react/components/income/AddStudent';
 import JoinStudents from 'react/components/income/JoinStudentsBox';
 import IncomePaymenet from 'react/components/income/IncomePaymentBox';
+import PurchaseProducts from 'react/components/income/PurchaseProductsBox';
 
 // Representatives Screens
 import RepresentativeByGrade from 'react/components/representatives/RepresentativeByGrade';
@@ -91,6 +92,11 @@ const AppRouter = () => {
             <Route exact path="/addStudent" component={AddStudent} />
             <Route exact path="/JoinStudents" component={JoinStudents} />
             <Route exact path="/incomePayment" component={IncomePaymenet} />
+            <Route
+              exact
+              path="/purchaseProducts"
+              component={PurchaseProducts}
+            />
 
             {/* Representatives Screens */}
             <Route
