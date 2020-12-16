@@ -12,10 +12,25 @@ export const updateRepresentative = (representative, exist) => ({
   payload: { representative, exist }
 });
 
+export const resetIncome = () => {
+  return (dispatch, getState) => {
+    const { products } = getState().products;
+    dispatch(resetIncomeAction());
+    dispatch(setProducts(products));
+  };
+};
+
 export const RESET_INCOME = 'RESET_INCOME';
 
-export const resetIncome = () => ({
+export const resetIncomeAction = () => ({
   type: RESET_INCOME
+});
+
+export const SET_INITIAL_PRODUCTS = 'SET_INITIAL_PRODUCTS';
+
+export const setProducts = products => ({
+  type: SET_INITIAL_PRODUCTS,
+  payload: { products }
 });
 
 export const RESET_REPRESENTATIVE = 'RESET_REPRESENTATIVE';
@@ -78,4 +93,18 @@ export const UPDATE_BALANCE = 'UPDATE_BALANCE';
 export const updateBalance = balance => ({
   type: UPDATE_BALANCE,
   payload: { balance }
+});
+
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+
+export const addProduct = idProduct => ({
+  type: ADD_PRODUCT,
+  payload: { idProduct }
+});
+
+export const SUBSTRACT_PRODUCT = 'SUBSTRACT_PRODUCT';
+
+export const substractProduct = idProduct => ({
+  type: SUBSTRACT_PRODUCT,
+  payload: { idProduct }
 });

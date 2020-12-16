@@ -1,18 +1,27 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
-const ProductBox = ({
-  product,
-  price,
-  idProduct,
-  handleMinus,
-  handlePlus,
-  amount
-}) => {
+// Actions
+import {
+  addProduct,
+  substractProduct
+} from 'react/redux/actions/incomeActions';
+
+const ProductBox = ({ product, price, idProduct, amount, mandatory }) => {
+  const dispatch = useDispatch();
+
+  const handlePlus = () => {
+    dispatch(addProduct(idProduct));
+  };
+
+  const handleMinus = () => {
+    dispatch(substractProduct(idProduct));
+  };
   return (
-    <div className="product_box">
+    <div className={`product_box ${mandatory ? 'mandatory' : ''}`}>
       <FontAwesomeIcon icon={faCoins} />
       <div className="product_box_desc">
         <p>{product}</p>
@@ -35,6 +44,7 @@ const ProductBox = ({
           +
         </button>
       </div>
+      <div className="mandatory_check">*</div>
     </div>
   );
 };
@@ -43,9 +53,8 @@ ProductBox.propTypes = {
   product: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   idProduct: PropTypes.number.isRequired,
-  handleMinus: PropTypes.func.isRequired,
-  handlePlus: PropTypes.func.isRequired,
-  amount: PropTypes.number.isRequired
+  amount: PropTypes.number.isRequired,
+  mandatory: PropTypes.bool.isRequired
 };
 
-export default ProductBox;
+export default React.memo(ProductBox);

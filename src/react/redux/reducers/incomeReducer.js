@@ -10,7 +10,10 @@ import {
   UPDATE_TRANSFERENCE,
   UPDATE_CASH,
   UPDATE_DOLAR,
-  UPDATE_BALANCE
+  UPDATE_BALANCE,
+  SET_INITIAL_PRODUCTS,
+  SUBSTRACT_PRODUCT,
+  ADD_PRODUCT
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -200,6 +203,54 @@ export default function reducer(state = initialState, { type, payload }) {
         }
       };
     }
+
+    case SET_INITIAL_PRODUCTS: {
+      const products = {};
+      Object.keys(payload.products).forEach(productKey => {
+        products[productKey] = { ...payload.products[productKey], amount: 0 };
+      });
+      return {
+        ...state,
+        products
+      };
+    }
+    case ADD_PRODUCT: {
+      if (state.products[payload.idProduct].amount === 99) {
+        return {
+          ...state
+        };
+      }
+      const products = {
+        ...state.products,
+        [payload.idProduct]: {
+          ...state.products[payload.idProduct],
+          amount: state.products[payload.idProduct].amount + 1
+        }
+      };
+      return {
+        ...state,
+        products
+      };
+    }
+    case SUBSTRACT_PRODUCT: {
+      if (state.products[payload.idProduct].amount === 0) {
+        return {
+          ...state
+        };
+      }
+      const products = {
+        ...state.products,
+        [payload.idProduct]: {
+          ...state.products[payload.idProduct],
+          amount: state.products[payload.idProduct].amount - 1
+        }
+      };
+      return {
+        ...state,
+        products
+      };
+    }
+
     default:
       return state;
   }
