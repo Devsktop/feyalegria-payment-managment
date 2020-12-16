@@ -38,7 +38,7 @@ const AddProduct = () => {
 
     const newProduct = {
       productName,
-      price,
+      price: parseFloat(price),
       mandatory
     };
     dispatch(createProduct(newProduct, history));

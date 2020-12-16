@@ -43,7 +43,7 @@ const EditProduct = ({ match: { params } }) => {
     const newProduct = {
       idProduct: id,
       productName,
-      price,
+      price: parseFloat(price),
       mandatory
     };
     dispatch(editProduct(newProduct, history));
@@ -62,7 +62,7 @@ const EditProduct = ({ match: { params } }) => {
         <Minput
           type="number"
           onChange={handlePrice}
-          value={parseFloat(price)}
+          value={price}
           label="Precio $:"
         />
         <div className="checkbox">
@@ -86,7 +86,7 @@ const EditProduct = ({ match: { params } }) => {
             type="submit"
             className="button"
             disabled={validateInputs()}
-            text="editar product"
+            text="editar producto"
           />
         </div>
       </form>
