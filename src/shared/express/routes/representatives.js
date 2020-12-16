@@ -278,6 +278,9 @@ const getRepresentativeByDni = async representativeDni => {
           } = rows[0];
 
           const { students } = await getStudents(idRepresentative, false);
+
+          const { idProducts } = await getProducts(idRepresentative);
+
           const representative = {
             idRepresentative,
             names,
@@ -289,7 +292,8 @@ const getRepresentativeByDni = async representativeDni => {
             balance,
             paidMonths,
             students,
-            inscription
+            inscription,
+            idProducts
           };
           resolve({ representative, status: 200 });
         } else {
@@ -297,6 +301,24 @@ const getRepresentativeByDni = async representativeDni => {
         }
       } else {
         resolve({ errRepresentative });
+      }
+    });
+  });
+};
+
+const getProducts = async idRepresentative => {
+  const query = `SELECT idProduct FROM productsbalance WHERE idRepresentative = ${idRepresentative};`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, (errGetProducts, rows) => {
+      if (!errGetProducts) {
+        const idProducts = [];
+        rows.forEach(row => {
+          idProducts.push(row.idProduct);
+        });
+        resolve({ idProducts });
+      } else {
+        resolve({ errGetProducts });
       }
     });
   });
