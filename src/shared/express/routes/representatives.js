@@ -307,7 +307,7 @@ const getRepresentativeByDni = async representativeDni => {
 };
 
 const getProducts = async idRepresentative => {
-  const query = `SELECT idProduct FROM productsbalance WHERE idRepresentative = ${idRepresentative};`;
+  const query = `SELECT DISTINCT idProduct FROM productsbalance WHERE idRepresentative = ${idRepresentative};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetProducts, rows) => {
