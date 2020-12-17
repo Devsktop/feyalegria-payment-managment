@@ -1,9 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 // components
 import Button from 'react/components/Button';
+
+// Actions
+import { resetRepresentative } from 'react/redux/actions/incomeActions';
 
 const studentsValidSelector = state => {
   const { students } = state.income.representative;
@@ -15,11 +18,17 @@ const studentsValidSelector = state => {
 };
 
 const JoinStudentsButton = () => {
+  const dispatch = useDispatch();
   const studentValid = useSelector(studentsValidSelector);
   const history = useHistory();
+
+  const handleGoBack = () => {
+    dispatch(resetRepresentative());
+    history.push('/verifyRepresentative');
+  };
   return (
     <div className="joinstudents_buttons">
-      <Button link="/verifyRepresentative" text="Volver" />
+      <Button onClick={handleGoBack} text="Volver" />
       <Button
         onClick={() => history.push('/incomePayment')}
         text="Inscribir"

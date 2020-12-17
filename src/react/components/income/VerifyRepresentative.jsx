@@ -93,7 +93,7 @@ const VerifyRepresentative = () => {
         <div className="button_container">
           <Button
             type="button"
-            onClick={() => history.goBack()}
+            onClick={() => history.push('/income')}
             text="volver"
           />
           <Button type="submit" disabled={validateInputs()} text="aceptar" />
