@@ -7,8 +7,14 @@ const productsSelector = state => {
   return products;
 };
 
+const mandatoryBoughtProductsSelector = state => {
+  const { idProducts } = state.income.representative;
+  return idProducts;
+};
+
 const PurchaseProducts = () => {
   const products = useSelector(productsSelector);
+  const mandatoryBoughtProducts = useSelector(mandatoryBoughtProductsSelector);
 
   return (
     <div className="purchase">
@@ -18,7 +24,11 @@ const PurchaseProducts = () => {
           const { productName, price, mandatory, amount } = products[
             productKey
           ];
-          if (mandatory)
+
+          if (
+            mandatory &&
+            !mandatoryBoughtProducts.includes(parseInt(productKey, 10))
+          )
             return (
               <ProductBox
                 product={productName}
@@ -26,6 +36,7 @@ const PurchaseProducts = () => {
                 idProduct={productKey}
                 amount={amount}
                 mandatory={mandatory}
+                key={productKey}
               />
             );
           return null;
@@ -42,6 +53,7 @@ const PurchaseProducts = () => {
                 idProduct={productKey}
                 amount={amount}
                 mandatory={mandatory}
+                key={productKey}
               />
             );
           return null;

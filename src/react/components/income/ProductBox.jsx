@@ -52,9 +52,9 @@ const ProductBox = ({ product, price, idProduct, amount, mandatory }) => {
 ProductBox.propTypes = {
   product: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  idProduct: PropTypes.number.isRequired,
+  idProduct: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
-  mandatory: PropTypes.bool.isRequired
+  mandatory: PropTypes.number.isRequired
 };
 
 export default React.memo(ProductBox);
