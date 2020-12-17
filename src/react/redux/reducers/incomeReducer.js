@@ -28,11 +28,14 @@ const initialState = {
     balance: 0,
     paidMonths: 0,
     inscription: false,
+    inscriptionPending: 0,
     idDniType: 1,
     students: {}
   },
   incomeBalance: {
     balance: 0,
+    inscriptionBalance: 0,
+    monthlyBalance: 0,
     transference: true,
     transferenceAmount: 0,
     transferenceRef: '',

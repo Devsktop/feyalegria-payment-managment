@@ -256,7 +256,8 @@ const getRepresentativeByDni = async representativeDni => {
   email, 
   balance, 
   paidMonths,
-  inscription 
+  inscription,
+  inscriptionPending 
   FROM representatives 
   WHERE ${representativeDni} = dni AND deleted = false;`;
 
