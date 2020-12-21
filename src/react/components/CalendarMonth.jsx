@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,15 +8,26 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
-const CalendarMonth = ({ month, status }) => {
+const CalendarMonth = ({ month, status, onClick }) => {
   let icon;
-  if (status === 1) icon = faCheckCircle;
-  else if (status === 2) icon = faMinusCircle;
-  else icon = faDotCircle;
+  let iconClass = '';
+  if (status === 1) {
+    icon = faCheckCircle;
+    iconClass = 'solvent';
+  } else if (status === 2) {
+    icon = faMinusCircle;
+    iconClass = 'insolvent';
+  } else {
+    icon = faDotCircle;
+    iconClass = 'payment';
+  }
   return (
-    <div className="calendar_month">
-      <span className="calendar_month_name">{month}</span>
-      <div className="calendar_month_status">
+    <div
+      className={`calendar_month ${onClick ? 'action' : ''}`}
+      onClick={onClick}
+    >
+      <p className="calendar_month_name">{month}</p>
+      <div className={`calendar_month_status ${iconClass}`}>
         <FontAwesomeIcon icon={icon} />
       </div>
     </div>
@@ -24,7 +36,12 @@ const CalendarMonth = ({ month, status }) => {
 
 CalendarMonth.propTypes = {
   month: PropTypes.string.isRequired,
-  status: PropTypes.number.isRequired
+  status: PropTypes.number.isRequired,
+  onClick: PropTypes.func
+};
+
+CalendarMonth.defaultProps = {
+  onClick: null
 };
 
 export default CalendarMonth;

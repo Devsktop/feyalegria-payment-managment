@@ -1,0 +1,36 @@
+.calendar
+
+    &_month
+        box-shadow: $shadow
+        border: none
+        border-radius: $bradius
+        max-width: 120px
+        text-align: center
+        overflow: hidden
+
+        &.action
+            cursor: pointer
+
+        &_name
+            margin: 0
+            padding: 5px
+            background-color: $primary
+            color: #fff
+            font-weight: bold
+            font-size: 1.1rem
+
+        &_status
+            padding: 10px
+            background-color: #fff
+
+            &.solvent
+                color: $succes
+
+            &.insolvent
+                color: $primary
+
+            &.payment
+                color: #e0d100    
+
+            svg 
+                font-size: 3.3rem        
