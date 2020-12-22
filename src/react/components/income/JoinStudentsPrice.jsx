@@ -76,6 +76,7 @@ const JoinStudentsPrice = () => {
   const representativeBalance = useSelector(representativeBalanceSelector);
   const dolarPrice = useSelector(dolarPriceSelector);
   const totalBalance = representativeBalance - (inscriptionPrice + monthlyDebt);
+
   useEffect(() => {
     dispatch(updateBalance(totalBalance));
   }, [totalBalance]);
