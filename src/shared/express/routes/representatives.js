@@ -50,6 +50,7 @@ router.get('/representativesbydni/:dni', async (req, res) => {
     errRepresentative
   } = await getRepresentativeByDni(dni);
   if (errRepresentative) {
+    console.log(errRepresentative);
     res.status(400).json({ errRepresentative });
     return null;
   }
