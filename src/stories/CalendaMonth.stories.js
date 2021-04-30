@@ -3,6 +3,7 @@ import React from 'react';
 import '../react/style.sass';
 
 import CalendarMonth from '../react/components/CalendarMonth';
+import PaymentStatus from '../react/components/income/PaymentStatus';
 
 export default {
   title: 'Calendar',

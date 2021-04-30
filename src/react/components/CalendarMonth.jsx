@@ -17,16 +17,19 @@ const CalendarMonth = ({ month, status, onClick }) => {
   } else if (status === 2) {
     icon = faMinusCircle;
     iconClass = 'insolvent';
-  } else {
+  } else if (status === 3) {
     icon = faDotCircle;
     iconClass = 'payment';
+  } else {
+    icon = faDotCircle;
+    iconClass = "undecored"
   }
   return (
     <div
-      className={`calendar_month ${onClick ? 'action' : ''}`}
+      className={`calendar_month ${onClick ? 'action' : ''} `}
       onClick={onClick}
     >
-      <p className="calendar_month_name">{month}</p>
+      <p className={`calendar_month_name ${iconClass === "undecored" ? 'undecored' : ''}`}>{month}</p>
       <div className={`calendar_month_status ${iconClass}`}>
         <FontAwesomeIcon icon={icon} />
       </div>

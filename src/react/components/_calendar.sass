@@ -1,10 +1,27 @@
 .calendar
+    position: relative
+    padding: 20px
+    margin: 30px
+    box-shadow: $shadow
+    border-radius: $bradius
+    background-color: #fff
+
+    &_months
+        padding: 10px
+        display: grid
+        grid-template-columns: repeat(4, 1fr)
+        grid-gap: 20px
+        height: 400px
+        overflow: auto
+        @media only screen and (max-width: 600px)
+            grid-template-columns: repeat(2, 1fr)
 
     &_month
         box-shadow: $shadow
         border: none
         border-radius: $bradius
-        max-width: 120px
+        width: 110px
+        height: 105px
         text-align: center
         overflow: hidden
 
@@ -19,6 +36,9 @@
             font-weight: bold
             font-size: 1.1rem
 
+            &.undecored
+                background-color: #d89393
+
         &_status
             padding: 10px
             background-color: #fff
@@ -30,7 +50,47 @@
                 color: $primary
 
             &.payment
-                color: #e0d100    
+                color: #e0d100
 
-            svg 
-                font-size: 3.3rem        
+            &.undecored
+                color: #fff
+
+            svg
+                font-size: 3.3rem
+
+    &_titlebox
+        position: absolute
+        top: -20px
+        left: -30px
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: 0px 5px
+        font-size: 1.2rem
+        color: $title-color
+        font-weight: bold
+        background-color: #fff
+        border-radius: $bradius
+        box-shadow: $shadow
+
+        &_title
+            margin: 0 20px
+
+        &_arrow
+            cursor: pointer
+            color: $primary
+            font-size: 2rem
+            &.arrow_right
+                order: 2
+
+    &_status
+        display: flex
+        justify-content: space-between
+        align-items: center
+        color: $primary
+        font-weight: bold
+        font-size: 1.2rem
+
+        p
+            padding: 0 10px
+            margin: 0
