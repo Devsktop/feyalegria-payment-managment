@@ -20,6 +20,7 @@ router.post('/login', (req, res) => {
         res.status(200).json({ err: 'no user' });
       }
     } else {
+      console.log(err)
       res.status(404).json({
         err
       });

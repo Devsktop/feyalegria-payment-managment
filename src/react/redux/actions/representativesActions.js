@@ -14,12 +14,7 @@ export const fetchRepresentativeByDni = (dni, idDniType, history) => {
 
     if (status === 200) {
       dispatch(updateRepresentative(representative, true));
-      const hasStudents = Object.keys(representative.students).length > 0;
-      if (hasStudents) {
-        history.push('/joinStudents');
-      } else {
-        history.push('/addStudent');
-      }
+      history.push("/paymentStatus");
     } else if (status === 404) {
       dispatch(updateRepresentative({ dni, idDniType }, false));
       history.push('/addRepresentative');

@@ -1,7 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+
+// components
 import PaymentStatusCalendar from '../Calendar';
 import DetailsBox from '../DetailsBox';
+import Button from '../Button';
+
+// Actions 
+import { resetRepresentative } from 'react/redux/actions/incomeActions';
 
 const representativeSelector = state => {
   const { representative } = state.income.representative;
@@ -109,12 +116,26 @@ const details = [
 ]
 
 const PaymentStatus = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleGoBack = () => {
+    history.goBack();
+    dispatch(resetRepresentative());
+  }
+
   return (
-    <div className="box">
-      <h1>Balance: 8000</h1>
-      <div className="status_box">
-        <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
-        <DetailsBox details={details} />
+    <div className="box payment_status_box">
+      <div className="container">
+        <h1>Balance: 8000$</h1>
+        <div className="status_box">
+          <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
+          <DetailsBox details={details} />
+        </div>
+        <div className="payments_buttons">
+          <Button text="Volver" onClick={handleGoBack} />
+          <Button link="/purchaseProducts" text="Inscribir" />
+        </div>
       </div>
     </div>
   );
