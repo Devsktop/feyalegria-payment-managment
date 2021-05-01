@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PaymentStatusCalendar from '../Calendar';
+import DetailsBox from '../DetailsBox';
 
 const representativeSelector = state => {
   const { representative } = state.income.representative;
@@ -89,11 +90,32 @@ const onClickArrow = (arrow) => {
   console.log(arrow);
 }
 
+const total = 500000000;
+const cancelado = 200;
+
+const details = [
+  {
+    title: "Total a cancelar",
+    data: [`Total a pagar: ${total}`, `Total cancelado: ${cancelado}`, `Restante: ${total - cancelado}`]
+  },
+  {
+    title: "Total a cancelar",
+    data: [`Total a pagar: ${total}`, `Total cancelado: ${cancelado}`, `Restante: ${total - cancelado}`]
+  },
+  {
+    title: "Total a cancelar",
+    data: [`Total a pagar: ${total}`, `Total cancelado: ${cancelado}`, `Restante: ${total - cancelado}`]
+  }
+]
+
 const PaymentStatus = () => {
   return (
     <div className="box">
       <h1>Balance: 8000</h1>
-      <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
+      <div className="status_box">
+        <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
+        <DetailsBox details={details} />
+      </div>
     </div>
   );
 };

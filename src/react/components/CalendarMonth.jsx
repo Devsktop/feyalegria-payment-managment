@@ -39,7 +39,7 @@ const CalendarMonth = ({ month, status, onClick }) => {
 
 CalendarMonth.propTypes = {
   month: PropTypes.string.isRequired,
-  status: PropTypes.number.isRequired,
+  status: PropTypes.number,
   onClick: PropTypes.func
 };
 
