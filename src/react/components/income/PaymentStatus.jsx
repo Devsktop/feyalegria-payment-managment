@@ -126,13 +126,13 @@ const PaymentStatus = () => {
 
   return (
     <div className="box payment_status_box">
-      <div className="container">
+      <div >
         <h1>Balance: 8000$</h1>
         <div className="status_box">
           <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
           <DetailsBox details={details} />
         </div>
-        <div className="payments_buttons">
+        <div className="button_container">
           <Button text="Volver" onClick={handleGoBack} />
           <Button link="/purchaseProducts" text="Inscribir" />
         </div>

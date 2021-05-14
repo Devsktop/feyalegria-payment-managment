@@ -31,9 +31,9 @@ const monthPriceSelector = state => {
   return monthlyPrice;
 };
 
-const joinedStudentsSelector = state => state.students.joinedStudents;
+const joinedStudentsSelector = state => state.students.joinedStudents || 0;
 
-const monthIncomeSelector = state => state.payments.month.total;
+const monthIncomeSelector = state => state.payments.month.total || 0;
 
 const monthPaymentsSelector = createSelector(
   monthPriceSelector,
