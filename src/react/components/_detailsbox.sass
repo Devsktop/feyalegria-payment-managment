@@ -1,0 +1,57 @@
+.details_box
+    position: relative
+    padding: 10px 0!important
+    min-width: 400px
+    margin-right: 0
+    align-self: stretch
+    box-shadow: -3px 3px 4px rgba(0, 0, 0, 0.3)!important
+
+    &_detail
+        padding: 0 10px
+        width: 100%
+        margin: 5px 0
+
+        .detail_title
+            position: relative
+            left: -30px
+            text-align: left
+            display: block
+            min-width: 200px
+            max-width: 360px
+            padding: 2px
+            padding-left: 30px
+            background-color: #fff
+            box-shadow: $shadow
+            font: bold 1.2rem 'Roboto'
+            color: $subtitle-color
+            border-radius: $bradius
+
+        .detail_data
+            margin: 15px 0
+            color: $subtitle-color
+            font-size: 1.3rem
+            text-align: left
+
+.details_box_scroll
+    margin: 30px
+    padding-left: 40px
+    height: 464px
+    overflow-y: auto
+    box-shadow: 18px 22px 6px -21px rgba(0, 0, 0, 0.4), 20px -21px 6px -22px rgba(0, 0, 0, 0.4)
+    border-radius: $bradius
+
+    &::-webkit-scrollbar
+        display: block
+    &::-webkit-scrollbar-track
+        margin-top: 15px
+        margin-bottom: 15px
+
+    &::-webkit-scrollbar-thumb
+        border-right: none
+        border-left: none
+
+    &::-webkit-scrollbar-track-piece:end
+        background: transparent!important
+
+    &::-webkit-scrollbar-track-piece:start
+        background: transparent!important
