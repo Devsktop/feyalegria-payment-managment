@@ -23,9 +23,14 @@ const JoinStudentsButton = () => {
   const history = useHistory();
 
   const handleGoBack = () => {
-    dispatch(resetRepresentative());
-    history.push('/verifyRepresentative');
+    if (history.location.state && history.location.state.prevPath === 'PaymentStatus') {
+      history.push('/paymentStatus');
+    } else {
+      dispatch(resetRepresentative());
+      history.push('/verifyRepresentative');
+    }
   };
+
   return (
     <div className="joinstudents_buttons">
       <Button onClick={handleGoBack} text="Volver" />

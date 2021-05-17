@@ -120,7 +120,7 @@ const PaymentStatus = () => {
   const history = useHistory();
 
   const handleGoBack = () => {
-    history.goBack();
+    history.push('/verifyRepresentative');
     dispatch(resetRepresentative());
   }
 
@@ -134,7 +134,15 @@ const PaymentStatus = () => {
         </div>
         <div className="button_container">
           <Button text="Volver" onClick={handleGoBack} />
-          <Button link="/purchaseProducts" text="Inscribir" />
+          <Button
+            link={{
+              pathname: '/JoinStudents',
+              state: {
+                prevPath: 'PaymentStatus'
+              }
+            }}
+            text="Inscribir"
+          />
         </div>
       </div>
     </div>
