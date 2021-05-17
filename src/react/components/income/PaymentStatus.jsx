@@ -118,6 +118,7 @@ const details = [
 const PaymentStatus = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const balance = useSelector(state => state.income.representative.balance);
 
   const handleGoBack = () => {
     history.push('/verifyRepresentative');
@@ -127,7 +128,7 @@ const PaymentStatus = () => {
   return (
     <div className="box payment_status_box">
       <div >
-        <h1>Balance: 8000$</h1>
+        <h1 className={balance >= 0 ? 'green' : 'red'} >Balance: {balance}$</h1>
         <div className="status_box">
           <PaymentStatusCalendar months={months} balance={8} dolar={50} title="Estatus de pago 2021" onClickArrow={onClickArrow} />
           <DetailsBox details={details} />
