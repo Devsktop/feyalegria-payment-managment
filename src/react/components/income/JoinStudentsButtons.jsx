@@ -17,10 +17,22 @@ const studentsValidSelector = state => {
   return disabled;
 };
 
+
+const productsCountSelector = (state) => {
+  const { products } = state.products;
+  return Object.keys(products).length;
+}
+
 const JoinStudentsButton = () => {
   const dispatch = useDispatch();
   const studentValid = useSelector(studentsValidSelector);
   const history = useHistory();
+  const productsCount = useSelector(productsCountSelector);
+
+  const handleOnClick = () => {
+    if (productsCount > 0) history.push("/purchaseProducts");
+    else history.push("/incomePayment");
+  }
 
   const handleGoBack = () => {
     if (history.location.state && history.location.state.prevPath === 'PaymentStatus') {
@@ -35,7 +47,7 @@ const JoinStudentsButton = () => {
     <div className="joinstudents_buttons">
       <Button onClick={handleGoBack} text="Volver" />
       <Button
-        onClick={() => history.push('/purchaseProducts')}
+        onClick={handleOnClick}
         text="Continuar"
         disabled={studentValid}
       />
