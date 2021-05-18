@@ -2,6 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import ProductBox from './ProductBox';
 
+import IncomeTotals from './IncomeTotals';
+import PurchaseProductsButtons from './PurchaseProductsButtons';
+
 const productsSelector = state => {
   const { products } = state.income;
   return products;
@@ -58,6 +61,10 @@ const PurchaseProducts = () => {
             );
           return null;
         })}
+      </div>
+      <div className="purchase_box_bottom">
+        <IncomeTotals />
+        <PurchaseProductsButtons />
       </div>
     </div>
   );

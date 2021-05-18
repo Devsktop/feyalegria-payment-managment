@@ -1,6 +1,7 @@
 .purchase_box
     width: 700px
     padding: 0!important
+    max-height: none!important
 
     .purchase
         width: 100%
@@ -51,7 +52,7 @@
             text-align: center
             line-height: 25px
 
-        svg 
+        svg
             width: 60px
             height: auto
             margin-right: 15px
@@ -60,14 +61,13 @@
             background-color: $primary-light
             color: #ffffff
             box-shadow: $shadow
-            
 
         &_desc
             text-align: left
             color: $primary
             font-size: 1.1rem
 
-            p:nth-child(2) 
+            p:nth-child(2)
                 font-weight: bold
 
         &_counter
@@ -96,7 +96,6 @@
                 &:hover
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2)
 
-
             .number
                 display: inline-block
                 width: 55px
@@ -108,3 +107,18 @@
                 border: none
                 border-radius: $bradius
                 box-shadow: $shadow
+
+    &_bottom
+        display: flex
+        align-items: flex-end
+        justify-content: space-between
+        margin-top: 40px
+        height: 100%
+
+        &_buttons
+            flex: 1
+            display: flex
+            align-items: flex-end
+            justify-content: space-between
+
+            .btn

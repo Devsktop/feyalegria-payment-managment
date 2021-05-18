@@ -35,8 +35,8 @@ const JoinStudentsButton = () => {
     <div className="joinstudents_buttons">
       <Button onClick={handleGoBack} text="Volver" />
       <Button
-        onClick={() => history.push('/incomePayment')}
-        text="Inscribir"
+        onClick={() => history.push('/purchaseProducts')}
+        text="Continuar"
         disabled={studentValid}
       />
     </div>
