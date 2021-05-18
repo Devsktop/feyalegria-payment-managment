@@ -78,6 +78,7 @@ const getProducts = async () => {
   return new Promise(resolve => {
     mysqlConnection.query(query, (errGetProducts, rows) => {
       if (!errGetProducts) {
+        console.log(rows);
         rows.forEach(row => {
           products[row.idProduct] = { ...row };
         });

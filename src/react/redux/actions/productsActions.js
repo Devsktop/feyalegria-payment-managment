@@ -7,7 +7,9 @@ export const fetchProducts = () => {
     dispatch(isFetching(true));
     // HACER FETCH A LA BDD
     const response = await fetch('http://localhost:3500/api/products');
+    console.log(response);
     const products = await response.json();
+    console.log(products);
     dispatch(fetchProductsActions(products));
     dispatch(isFetched());
     dispatch(isFetching(false));
