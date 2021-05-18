@@ -64,27 +64,39 @@ const totalMonthlySelector = createSelector(
   (monthlyDebt, checkedStudents) => monthlyDebt * checkedStudents
 );
 
+const totalProductsSelector = (state) => {
+  const { products } = state.income;
+  let totalProducts = 0;
+  Object.keys(products).forEach(productKey => {
+    const { amount, price } = products[productKey];
+    totalProducts += amount * price;
+  });
+  return totalProducts;
+}
+
 const dolarPriceSelector = state => {
   const { dolar } = state.upperbar;
   return dolar;
 };
 
-const JoinStudentsPrice = () => {
+const IncomeTotals = () => {
   const dispatch = useDispatch();
   const inscriptionPrice = useSelector(totalInscriptionSelector);
   const monthlyDebt = useSelector(totalMonthlySelector);
   const representativeBalance = useSelector(representativeBalanceSelector);
   const dolarPrice = useSelector(dolarPriceSelector);
-  const totalBalance = representativeBalance - (inscriptionPrice + monthlyDebt);
+  const totalProducts = useSelector(totalProductsSelector);
+  const totalBalance = representativeBalance - (inscriptionPrice + monthlyDebt + totalProducts);
 
   useEffect(() => {
     dispatch(updateBalance(totalBalance));
   }, [totalBalance]);
 
   return (
-    <div className="joinstudents_price">
+    <div className="income_totals">
       <p>{`Total inscripciones: ${inscriptionPrice}$`}</p>
       <p>{`Mensualidades pendientes: ${monthlyDebt}$`}</p>
+      <p>{`Total productos: ${totalProducts}$`}</p>
       <p
         className={representativeBalance < 0 ? 'balance_red' : 'balance_green'}
       >
@@ -102,4 +114,4 @@ const JoinStudentsPrice = () => {
   );
 };
 
-export default JoinStudentsPrice;
+export default IncomeTotals;

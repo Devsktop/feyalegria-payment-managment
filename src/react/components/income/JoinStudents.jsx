@@ -3,7 +3,7 @@ import React from 'react';
 // Components
 import StudentRowBox from './StudentRowBox';
 import JoinStudentAddButton from './JoinStudentAddButton';
-import JoinStudentPrice from './JoinStudentsPrice';
+import IncomeTotals from './IncomeTotals';
 import JoinStudentsButtons from './JoinStudentsButtons';
 
 const JoinStudents = () => {
@@ -16,7 +16,7 @@ const JoinStudents = () => {
       <StudentRowBox />
       <JoinStudentAddButton />
       <div className="joinstudents_bottom">
-        <JoinStudentPrice />
+        <IncomeTotals />
         <JoinStudentsButtons />
       </div>
     </div>
