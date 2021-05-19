@@ -27,6 +27,7 @@ import JoinStudents from 'react/components/income/JoinStudentsBox';
 import IncomePaymenet from 'react/components/income/IncomePaymentBox';
 import PurchaseProducts from 'react/components/income/PurchaseProductsBox';
 import PaymentStatus from 'react/components/income/PaymentStatus';
+import PaymentResume from 'react/components/income/PaymentResume';
 
 
 // Representatives Screens
@@ -94,16 +95,9 @@ const AppRouter = () => {
             <Route exact path="/addStudent" component={AddStudent} />
             <Route exact path="/JoinStudents" component={JoinStudents} />
             <Route exact path="/incomePayment" component={IncomePaymenet} />
-            <Route
-              exact
-              path="/purchaseProducts"
-              component={PurchaseProducts}
-            />
-            <Route
-              exact
-              path="/paymentStatus"
-              component={PaymentStatus}
-            />
+            <Route exact path="/purchaseProducts" component={PurchaseProducts} />
+            <Route exact path="/paymentStatus" component={PaymentStatus} />
+            <Route exact path="/paymentResume" component={PaymentResume} />
 
             {/* Representatives Screens */}
             <Route
