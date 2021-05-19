@@ -13,7 +13,8 @@ import {
   UPDATE_BALANCE,
   SET_INITIAL_PRODUCTS,
   SUBSTRACT_PRODUCT,
-  ADD_PRODUCT
+  ADD_PRODUCT,
+  FETCH_INCOME
 } from '../actions/incomeActions';
 
 const initialState = {
@@ -52,7 +53,8 @@ const initialState = {
     4: 'M'
   },
   representativeExist: false,
-  idNewStudent: -1
+  idNewStudent: -1,
+  incomeFetched: false
 };
 
 export default function reducer(state = initialState, { type, payload }) {

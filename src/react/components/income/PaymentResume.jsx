@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 
 // Components
@@ -87,8 +88,9 @@ const details = [
     }
 ]
 
-const PaymentResume = ({ incomeFetched }) => {
-
+const PaymentResume = () => {
+    const incomeFetched = useSelector(state => state.income.incomeFetched);
+    console.log(incomeFetched);
     useEffect(() => {
         if (!incomeFetched) {
             console.log("empieza lo bueno baby")

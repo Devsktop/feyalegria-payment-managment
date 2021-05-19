@@ -108,3 +108,11 @@ export const substractProduct = idProduct => ({
   type: SUBSTRACT_PRODUCT,
   payload: { idProduct }
 });
+
+export const FETCH_INCOME = 'FETCH_INCOME';
+
+export const fetchIncome = () => {
+  return (dispatch, getState) => {
+    
+  };
+};
