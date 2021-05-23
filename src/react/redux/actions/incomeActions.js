@@ -112,7 +112,34 @@ export const substractProduct = idProduct => ({
 export const FETCH_INCOME = 'FETCH_INCOME';
 
 export const fetchIncome = () => {
-  return (dispatch, getState) => {
-    
+  return async (dispatch, getState) => {
+    // Revisar representante y alumnos y registrarlos o no
+    const {income} = getState();
+    await createRepresentative(income.representative);
+    // Crear el registro con los montos totales
+
   };
 };
+
+const createRepresentative = (representative) => new Promise( async (resolve,reject) => {
+  if (representative.idRepresentative === 0) {
+
+    const url = "http://localhost:3500/api/representative";
+    const config = {
+      method: 'POST', 
+      body: JSON.stringify(representative),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    const response = await fetch(url, config);
+    if (response.status === 400)  {
+      reject(await response.json());
+    }else if(response.status === 200) {
+      const createdRepresentative = await response.json();
+      console.log(createdRepresentative);
+    }
+  }
+}) 
+

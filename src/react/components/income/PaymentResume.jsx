@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import DetailsBox from '../DetailsBox';
 import Calendar from '../Calendar';
 import Button from '../Button';
+
+// Actions
+import { fetchIncome } from 'react/redux/actions/incomeActions';
 
 // Import imgs
 import Success from './Success.svg';
@@ -89,11 +91,12 @@ const details = [
 ]
 
 const PaymentResume = () => {
+    const dispatch = useDispatch();
     const incomeFetched = useSelector(state => state.income.incomeFetched);
-    console.log(incomeFetched);
+
     useEffect(() => {
         if (!incomeFetched) {
-            console.log("empieza lo bueno baby")
+            dispatch(fetchIncome());
         }
     }, [incomeFetched]);
 
