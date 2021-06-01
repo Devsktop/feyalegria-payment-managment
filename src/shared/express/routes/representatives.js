@@ -68,8 +68,6 @@ router.post('/representative', async (req, res) => {
     phone,
     email,
     balance,
-    paidMonths,
-    inscription,
     idDniType
   } = req.body;
   // Query to add representative
@@ -80,8 +78,6 @@ router.post('/representative', async (req, res) => {
     phone,
     email,
     balance,
-    paidMonths,
-    inscription,
     idDniType
   );
   if (errAddRepresentative) {
