@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const express = require('express');
 const mysqlConnection = require('../database');
 
@@ -61,15 +62,7 @@ router.get('/representativesbydni/:dni', async (req, res) => {
 
 // 4.- Post add representative http://localhost:3500/api/representative
 router.post('/representative', async (req, res) => {
-  const {
-    names,
-    lastNames,
-    dni,
-    phone,
-    email,
-    balance,
-    idDniType
-  } = req.body;
+  const { names, lastNames, dni, phone, email, balance, idDniType } = req.body;
   // Query to add representative
   const { representative, errAddRepresentative } = await addRepresentative(
     names,
