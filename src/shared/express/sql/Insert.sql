@@ -22,7 +22,7 @@ VALUES
 
 // students
 
-INSERT INTO students(names, lastnames, dni, birthDate, relationship, state, blood, weight, size, email, phone, socialMedia, balance, inscription, paidMonths, idRepresentative, idDniType, idSection, idGrade) VALUES 
+INSERT INTO students(names, lastnames, dni, bornDate, relationship, state, blood, weight, size, email, phone, socialMedia, balance, inscription, paidMonths, idRepresentative, idDniType, idSection, idGrade) VALUES 
 ('Alejandro José','González Duarte','27849217','2000-10-05','child','regular','A+','45','1.60','alejandrogonzalezduarte@hotmail.com','04246438964','@alejandrogonzalezdu',0,true,0,1,1,1,5), 
 ('Jhoseph Jefferson','Guerrero Puche','27456321','1998-08-01','child','regular','A+','45','1.60','jhosephgph@gmail.com','04146613245','@jhoseph',-1,true,0,2,1,2,5), 
 ('Jhostteen Jeremy','Guerrero Puche','27456322','2005-09-26','child','regular','A+','45','1.60','jhosephgph@gmail.com','04146613245','@jhostten',-2,true,0,2,1,2,5), 

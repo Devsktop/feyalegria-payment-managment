@@ -60,7 +60,7 @@ CREATE TABLE students (
   names VARCHAR(45) NOT NULL,
   lastNames VARCHAR(45) NOT NULL,
   dni VARCHAR(45) NOT NULL,
-  birthDate DATE NOT NULL,
+  bornDate DATE NOT NULL,
   relationship VARCHAR(45) NOT NULL,
   state VARCHAR(45) NOT NULL,
   blood VARCHAR(45) NULL,

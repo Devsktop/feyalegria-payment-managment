@@ -11,7 +11,7 @@ interface students {
     idStudent: {
       name: string;
       dni: string;
-      birthdate: Date;
+      borndate: Date;
       representative: string;
       balance: number;
       solvent: boolean;
@@ -30,7 +30,7 @@ interface students {
     idStudent: {
       name: string;
       dni: string;
-      birthdate: Date;
+      borndate: Date;
       representative: string;
       balance: number;
       solvent: boolean;

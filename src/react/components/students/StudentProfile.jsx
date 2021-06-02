@@ -13,7 +13,7 @@ import { fetchStudentById } from 'react/redux/actions/studentsActions';
 import ProfilePic from '../representatives/ProfilePic.svg';
 import NameIcon from './NameIcon.svg';
 import DniIcon from '../representatives/DniIcon.svg';
-import BirthDateIcon from './BirthDateIcon.svg';
+import BornDateIcon from './BirthDateIcon.svg';
 import GradeIcon from './GradeIcon.svg';
 import StateIcon from './StateIcon.svg';
 import BalanceIcon from '../representatives/BalanceIcon.svg';
@@ -74,7 +74,7 @@ const StudentProfile = () => {
   //   }
 
   // Date
-  const date = new Date(student.birthDate);
+  const date = new Date(student.bornDate);
   const day = `${`0${date.getDate()}`.slice(-2)}`;
   const month = `${`0${date.getMonth() + 1}`.slice(-2)}`;
   const year = date.getFullYear();
@@ -115,7 +115,7 @@ const StudentProfile = () => {
               <p>{`${student.dniType}-${student.dni}`}</p>
             </div>
             <div className="representative_data_group">
-              <img src={BirthDateIcon} alt="" />
+              <img src={BornDateIcon} alt="" />
               <p>{finalDate}</p>
             </div>
             <div className="representative_data_group">
@@ -128,9 +128,9 @@ const StudentProfile = () => {
             </div>
             <div className="representative_data_group">
               <img src={BalanceIcon} alt="" />
-              <p
-                className={student.balance >= 0 ? 'green' : 'red'}
-              >{`${student.balance} $ / ${bsPrice} Bs.S`}</p>
+              <p className={student.balance >= 0 ? 'green' : 'red'}>
+                {`${student.balance} $ / ${bsPrice} Bs.S`}
+              </p>
             </div>
           </div>
 

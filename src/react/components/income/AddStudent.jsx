@@ -68,7 +68,7 @@ const AddStudent = () => {
   const [lastNames, setLastNames] = useState('');
   const [idDniType, setIdDniType] = useState(1);
   const [dni, setDni] = useState('');
-  const [birthDate, setBirthDate] = useState(new Date());
+  const [bornDate, setBornDate] = useState(new Date());
   const [relationship, setRelationship] = useState('');
   const [scholarYear, setScholarYear] = useState('');
   const [section, setSection] = useState('');
@@ -129,7 +129,7 @@ const AddStudent = () => {
       lastNames.length === 0 ||
       idDniType.length === 0 ||
       dni.length === 0 ||
-      birthDate.length === 0 ||
+      bornDate.length === 0 ||
       relationship.length === 0
     )
       return true;
@@ -166,7 +166,7 @@ const AddStudent = () => {
       lastNames,
       idDniType,
       dni,
-      birthDate,
+      bornDate,
       relationship: options[relationship].label,
       idGrade,
       idSection,
@@ -231,8 +231,8 @@ const AddStudent = () => {
             <div className="form-group">
               <label>Fecha de nacimiento:</label>
               <DatePicker
-                selected={birthDate}
-                onChange={date => setBirthDate(date)}
+                selected={bornDate}
+                onChange={date => setBornDate(date)}
               />
             </div>
 

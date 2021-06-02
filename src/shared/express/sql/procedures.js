@@ -1,10 +1,10 @@
 const p1 = `
 
-CREATE PROCEDURE updStudent (IN idStudent INT ,IN names VARCHAR(45), IN lastnames VARCHAR(45), IN dni VARCHAR(45), IN birthDate DATE, IN relationship VARCHAR(45), IN state VARCHAR(45), IN blood VARCHAR(45), IN weight DOUBLE, IN size DOUBLE, IN email VARCHAR(45), IN phone VARCHAR(45), IN socialMedia VARCHAR(45))
+CREATE PROCEDURE updStudent (IN idStudent INT ,IN names VARCHAR(45), IN lastnames VARCHAR(45), IN dni VARCHAR(45), IN bornDate DATE, IN relationship VARCHAR(45), IN state VARCHAR(45), IN blood VARCHAR(45), IN weight DOUBLE, IN size DOUBLE, IN email VARCHAR(45), IN phone VARCHAR(45), IN socialMedia VARCHAR(45))
 
 BEGIN
 
-UPDATE students  SET names = names, lastnames = lastnames , dni = dni, birthDate = birthDate , relationship = relationship, state = state, blood = blood , weight = weight, size = size, email = email, phone = phone, socialMedia = socialMedia where idStudents = idStudent;
+UPDATE students  SET names = names, lastnames = lastnames , dni = dni, bornDate = bornDate , relationship = relationship, state = state, blood = blood , weight = weight, size = size, email = email, phone = phone, socialMedia = socialMedia where idStudents = idStudent;
 
 END
 `;

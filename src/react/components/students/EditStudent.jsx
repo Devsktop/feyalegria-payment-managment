@@ -80,9 +80,7 @@ const EditStudent = ({ match: { params } }) => {
   const [lastNames, setLastNames] = useState(currentStudent.lastNames);
   const [idDniType, setIdDniType] = useState(currentStudent.idDniType);
   const [dni, setDni] = useState(currentStudent.dni);
-  const [birthDate, setBirthDate] = useState(
-    new Date(currentStudent.birthDate)
-  );
+  const [bornDate, setBornDate] = useState(new Date(currentStudent.bornDate));
 
   const [relationship, setRelationship] = useState(
     options.filter(option => option.label === currentStudent.relationship)[0]
@@ -151,7 +149,7 @@ const EditStudent = ({ match: { params } }) => {
       lastNames.length === 0 ||
       idDniType.length === 0 ||
       dni.length === 0 ||
-      birthDate.length === 0 ||
+      bornDate.length === 0 ||
       relationship.length === 0
     )
       return true;
@@ -189,7 +187,7 @@ const EditStudent = ({ match: { params } }) => {
       lastNames,
       idDniType,
       dni,
-      birthDate,
+      bornDate,
       relationship: options[relationship].label,
       idGrade,
       idSection,
@@ -241,8 +239,8 @@ const EditStudent = ({ match: { params } }) => {
             <div className="form-group">
               <label>Fecha de nacimiento:</label>
               <DatePicker
-                selected={birthDate}
-                onChange={date => setBirthDate(date)}
+                selected={bornDate}
+                onChange={date => setBornDate(date)}
               />
             </div>
 

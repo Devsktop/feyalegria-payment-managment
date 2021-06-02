@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 export const SET_INCOME = 'SET_INCOME';
 
 export const setIncome = income => ({
@@ -118,6 +120,8 @@ export const fetchIncome = () => {
     try {
       const representative = await handleRepresentative(income.representative);
       console.log(representative);
+      const students = await handleStudents(income.representative.students);
+      console.log(students);
     } catch (error) {
       console.log(error);
     }
@@ -136,16 +140,43 @@ const createRepresentative = async representative => {
     method: 'POST',
     body: JSON.stringify(representative),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      mode: 'no-cors'
     }
   };
 
-  const response = await fetch(url, config);
+  const res = await fetch(url, config);
 
-  if (response.status === 400) {
-    throw new Error(response.json());
-  } else if (response.status === 200) {
-    return response.json();
+  if (res.status === 400) {
+    throw await res.json();
+  } else if (res.status === 200) {
+    return res.json();
   }
   return null;
+};
+
+const handleStudents = async students => {
+  const finalStudents = {};
+  for (const studentKey of Object.keys(students)) {
+    if (studentKey > 0) finalStudents[studentKey] = students[studentKey];
+    else {
+      const url = 'http://localhost:3500/api/student';
+      const config = {
+        method: 'POST',
+        body: JSON.stringify(students[studentKey]),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      const res = await fetch(url, config);
+      if (res.status === 400) {
+        throw await res.json();
+      } else if (res.status === 200) {
+        const resStudent = await res.json();
+        finalStudents[resStudent.idStudent] = resStudent;
+      }
+    }
+  }
+  return finalStudents;
 };

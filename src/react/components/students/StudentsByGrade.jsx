@@ -51,7 +51,7 @@ const StudentsByGrade = () => {
 
   if (Object.keys(students).length > 0) {
     Object.keys(students).forEach(studentKey => {
-      const { names, lastNames, representative, birthDate } = students[
+      const { names, lastNames, representative, bornDate } = students[
         studentKey
       ];
       // Split to names & lastNames
@@ -64,16 +64,16 @@ const StudentsByGrade = () => {
       const finalName = `${shortName} ${shortLastName}`;
       const representativeName = `${representativeFullName[0]} ${representativeFullName[2]}`;
       // Date
-      const date = new Date(birthDate);
-      const day = `${('0' + date.getDate()).slice(-2)}`;
-      const month = `${('0' + (date.getMonth() + 1)).slice(-2)}`;
+      const date = new Date(bornDate);
+      const day = `${`0${date.getDate()}`.slice(-2)}`;
+      const month = `${`0${date.getMonth() + 1}`.slice(-2)}`;
       const year = date.getFullYear();
       const finalDate = `${day}-${month}-${year}`;
 
       // Equalize shortName & shortLastName in students's name & lastNames properties
       students[studentKey].names = finalName;
       students[studentKey].representative = representativeName;
-      students[studentKey].birthDate = finalDate;
+      students[studentKey].bornDate = finalDate;
       // Convert students object to an array for DataTable
       studentsData[studentKey] = {
         ...students[studentKey],
@@ -102,7 +102,7 @@ const StudentsByGrade = () => {
               'Representante',
               'Saldo $'
             ]}
-            order={['names', 'dni', 'birthDate', 'representative', 'balance']}
+            order={['names', 'dni', 'bornDate', 'representative', 'balance']}
             onClickRow={handleClick}
           />
         )}

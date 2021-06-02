@@ -52,7 +52,7 @@ router.get('/representativesbydni/:dni', async (req, res) => {
   } = await getRepresentativeByDni(dni);
   if (errRepresentative) {
     console.log(errRepresentative);
-    res.status(400).json({ errRepresentative });
+    res.status(400).json(errRepresentative);
     return null;
   }
 
@@ -74,7 +74,7 @@ router.post('/representative', async (req, res) => {
     idDniType
   );
   if (errAddRepresentative) {
-    res.status(400).json({ errAddRepresentative });
+    res.status(400).json(errAddRepresentative);
     return null;
   }
 
@@ -203,7 +203,7 @@ const getStudents = async (idRepresentative, inscription) => {
   students.lastnames AS lastNames,
   students.dni,
   relationship,
-  birthDate,
+  bornDate,
   students.idDniType,
   scholarYear AS gradeName,
   section AS sectionName,

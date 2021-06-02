@@ -14,7 +14,7 @@ router.get('/students', (req, res) => {
 
   // Query to select 10 Solvent Students
   let query =
-    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, birthdate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance >= 0 LIMIT 10;';
+    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, borndate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance >= 0 LIMIT 10;';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
       rows.forEach(row => {
@@ -29,7 +29,7 @@ router.get('/students', (req, res) => {
 
   // Query to select 10 Insolvent Students
   query =
-    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, birthdate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance < 0 LIMIT 10;';
+    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, borndate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance < 0 LIMIT 10;';
   mysqlConnection.query(query, (err, rows) => {
     if (!err) {
       rows.forEach(row => {
@@ -111,13 +111,13 @@ router.get('/students/:section', async (req, res) => {
 const getStudentsBySection = async (section, pag, pattern) => {
   const pagIndex = pag * 10;
   const studentsBySection = {};
-  const patternQuery = `AND students.names LIKE "%${pattern}%" OR students.lastnames LIKE "%${pattern}%" OR students.dni LIKE "%${pattern}%" OR students.birthDate LIKE "%${pattern}%" OR representatives.names LIKE "%${pattern}%" OR students.balance LIKE "%${pattern}%" OR students.idRepresentative LIKE "%${pattern}%"`;
+  const patternQuery = `AND students.names LIKE "%${pattern}%" OR students.lastnames LIKE "%${pattern}%" OR students.dni LIKE "%${pattern}%" OR students.bornDate LIKE "%${pattern}%" OR representatives.names LIKE "%${pattern}%" OR students.balance LIKE "%${pattern}%" OR students.idRepresentative LIKE "%${pattern}%"`;
   const query = `SELECT DISTINCT 
   students.idStudent,
   students.names,
   students.lastnames AS lastNames, 
   students.dni, 
-  students.birthDate, 
+  students.bornDate, 
   CONCAT(representatives.names, " ", representatives.lastnames) AS representative, 
   students.balance, 
   students.idRepresentative
@@ -162,7 +162,7 @@ const getStudent = async idStudent => {
   names, 
   lastnames AS lastNames, 
   dni, 
-  birthDate, 
+  bornDate, 
   grades.scholarYear AS gradeName,
   students.idGrade,
   students.idSection,
@@ -182,7 +182,7 @@ const getStudent = async idStudent => {
           names,
           lastNames,
           dni,
-          birthDate,
+          bornDate,
           gradeName,
           sectionName,
           status,
@@ -197,7 +197,7 @@ const getStudent = async idStudent => {
           names,
           lastNames,
           dni,
-          birthDate,
+          bornDate,
           gradeName,
           sectionName,
           status,
@@ -224,8 +224,8 @@ router.post('/student', async (req, res) => {
     dni,
     bornDate,
     relationship,
-    scholarYear,
-    section,
+    idGrade,
+    idSection,
     status
   } = req.body;
   // Query to add student
@@ -235,12 +235,12 @@ router.post('/student', async (req, res) => {
     dni,
     bornDate,
     relationship,
-    scholarYear,
-    section,
+    idGrade,
+    idSection,
     status
   );
   if (errAddStudent) {
-    res.status(400).json({ errAddStudent });
+    res.status(400).json(errAddStudent);
     return null;
   }
 
@@ -255,19 +255,19 @@ const addStudent = (
   dni,
   bornDate,
   relationship,
-  scholarYear,
-  section,
+  idGrade,
+  idSection,
   status
 ) => {
-  const query = `INSERT INTO students(names, lastNames, dni, birthDate, relationship, idGrade, idSection, state) 
+  const query = `INSERT INTO students(names, lastNames, dni, bornDate, relationship, idGrade, idSection, status) 
   VALUES
   ("${names}", 
   "${lastNames}", 
   "${dni}", 
   "${bornDate}", 
   "${relationship}",
-  ${scholarYear.value}, 
-  ${section.value},
+  ${idGrade}, 
+  ${idSection},
   "${status}");`;
 
   return new Promise(resolve => {
@@ -280,8 +280,8 @@ const addStudent = (
           dni,
           bornDate,
           relationship,
-          scholarYear,
-          section,
+          idGrade,
+          idSection,
           status
         };
         resolve({ student });
@@ -300,7 +300,7 @@ router.post('/updStudent', async (req, res) => {
     lastNames,
     dniOption,
     dni,
-    birthDate,
+    bornDate,
     relationship,
     idGrade,
     idSection,
@@ -313,7 +313,7 @@ router.post('/updStudent', async (req, res) => {
     lastNames,
     dniOption,
     dni,
-    birthDate,
+    bornDate,
     relationship,
     idGrade,
     idSection,
@@ -335,13 +335,13 @@ const updStudent = async (
   lastNames,
   dniOption,
   dni,
-  birthDate,
+  bornDate,
   relationship,
   idGrade,
   idSection,
   status
 ) => {
-  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , birthDate = "${birthDate}", relationship = "${relationship}", idDniType = ${dniOption}, idGrade = ${idGrade}, idSection = ${idSection}, status = ${status} WHERE idStudent = ${idStudent};`;
+  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , bornDate = "${bornDate}", relationship = "${relationship}", idDniType = ${dniOption}, idGrade = ${idGrade}, idSection = ${idSection}, status = ${status} WHERE idStudent = ${idStudent};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errUpdStudent => {
@@ -352,7 +352,7 @@ const updStudent = async (
           lastNames,
           dniOption,
           dni,
-          birthDate,
+          bornDate,
           relationship,
           idGrade,
           idSection,
