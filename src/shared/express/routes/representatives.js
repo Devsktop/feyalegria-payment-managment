@@ -155,8 +155,7 @@ const getRepresentative = async idRepresentative => {
   dni, 
   phone, 
   email, 
-  balance, 
-  paidMonths,
+  balance,
   representatives.idDniType,
   letter AS dniType  
   FROM representatives, dnitype 
@@ -172,7 +171,6 @@ const getRepresentative = async idRepresentative => {
           phone,
           email,
           balance,
-          paidMonths,
           idDniType,
           dniType
         } = rows[0];
@@ -185,7 +183,6 @@ const getRepresentative = async idRepresentative => {
           phone,
           email,
           balance,
-          paidMonths,
           idDniType,
           dniType,
           students
@@ -244,10 +241,7 @@ const getRepresentativeByDni = async representativeDni => {
   idDniType, 
   phone, 
   email, 
-  balance, 
-  paidMonths,
-  inscription,
-  inscriptionPending 
+  balance
   FROM representatives 
   WHERE ${representativeDni} = dni AND deleted = false;`;
 
@@ -263,9 +257,7 @@ const getRepresentativeByDni = async representativeDni => {
             idDniType,
             phone,
             email,
-            balance,
-            paidMonths,
-            inscription
+            balance
           } = rows[0];
 
           const { students } = await getStudents(idRepresentative, false);
@@ -281,9 +273,7 @@ const getRepresentativeByDni = async representativeDni => {
             phone,
             email,
             balance,
-            paidMonths,
             students,
-            inscription,
             idProducts
           };
           resolve({ representative, status: 200 });
@@ -323,8 +313,6 @@ const addRepresentative = (
   phone,
   email,
   balance,
-  paidMonths,
-  inscription,
   idDniType
 ) => {
   const query = `INSERT INTO representatives(names, lastNames, dni, phone, email, balance, paidMonths, inscription, idDniType) 
@@ -335,8 +323,6 @@ const addRepresentative = (
   "${phone}", 
   "${email}", 
   ${balance},
-  ${paidMonths}, 
-  ${inscription}, 
   ${idDniType});`;
 
   return new Promise(resolve => {
@@ -350,8 +336,6 @@ const addRepresentative = (
           phone,
           email,
           balance,
-          paidMonths,
-          inscription,
           idDniType
         };
         resolve({ representative });
