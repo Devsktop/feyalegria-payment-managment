@@ -118,10 +118,47 @@ const duplicatedAlert = () => {
 
 export const EDIT_STUDENT = 'EDIT_STUDENT';
 
-export const editStudent = student => ({
+export const editStudentAction = student => ({
   type: EDIT_STUDENT,
   payload: { student }
 });
+
+export const editStudent = (student, history) => {
+  return async (dispatch, getState) => {
+    Swal.fire({
+      title: 'Verificando cedula',
+      showCancelButton: false,
+      showConfirmButton: false,
+      onOpen: () => editStudentFunction(student, history, dispatch, getState),
+      allowOutsideClick: () => !Swal.isLoading()
+    });
+  };
+};
+
+const editStudentFunction = async (student, history, dispatch, getState) => {
+  Swal.showLoading();
+  const { students } = getState().income.representative;
+  const prevStudentData = students[student.idStudent];
+  if (prevStudentData.dni === student.dni) {
+    Swal.close();
+    dispatch(editStudentAction(student));
+    history.push('/JoinStudents');
+  } else {
+    try {
+      const resStudent = await getStudentByDni(student.dni);
+      if (isDniDuplicated(resStudent, student.dni, getState())) {
+        duplicatedAlert();
+      } else {
+        Swal.close();
+        dispatch(editStudentAction(student));
+        history.push('/JoinStudents');
+      }
+    } catch (error) {
+      Swal.hideLoading();
+      Swal.fire({ text: `Request failed: ${JSON.stringify(error)}` });
+    }
+  }
+};
 
 export const TOGGLE_STUDENT = 'TOGGLE_STUDENT';
 

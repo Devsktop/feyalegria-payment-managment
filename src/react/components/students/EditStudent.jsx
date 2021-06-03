@@ -182,7 +182,7 @@ const EditStudent = ({ match: { params } }) => {
     const gradeName = scholarYear.label;
     const sectionName = section.label;
     const newStudent = {
-      idStudent: id,
+      idStudent: parseInt(id, 10),
       names,
       lastNames,
       idDniType,
@@ -195,8 +195,7 @@ const EditStudent = ({ match: { params } }) => {
       sectionName,
       status
     };
-    dispatch(StudentAction(newStudent));
-    history.goBack();
+    dispatch(StudentAction(newStudent, history));
   };
 
   return (
