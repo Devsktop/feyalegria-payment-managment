@@ -216,6 +216,87 @@ const getStudent = async idStudent => {
   });
 };
 
+router.post('/studentbydni', async (req, res) => {
+  console.log('holiwiris');
+  const { dniStudent } = req.body;
+  // Query to get representative
+  const { student, errStudent } = await getStudentByDni(dniStudent);
+  if (errStudent) {
+    res.status(400).json(errStudent);
+    return null;
+  }
+
+  res.status(200).json(student);
+  return null;
+});
+
+const getStudentByDni = async dniStudent => {
+  const query = `SELECT 
+  idStudent,
+  names, 
+  lastnames AS lastNames, 
+  dni, 
+  bornDate, 
+  grades.scholarYear AS gradeName,
+  students.idGrade,
+  students.idSection,
+  sections.section AS sectionName,
+  balance, 
+  status,
+  relationship,
+  students.idDniType,
+  letter AS dniType  
+  FROM students, dnitype, grades, sections 
+  WHERE ${dniStudent} = dni AND students.idDniType = dnitype.idDniType AND students.idGrade = grades.idGrade AND students.idSection = sections.idSection;`;
+
+  return new Promise(resolve => {
+    mysqlConnection.query(query, async (errStudent, rows) => {
+      if (rows.length === 1) {
+        console.log('obvio entro');
+        if (!errStudent) {
+          const {
+            idStudent,
+            names,
+            lastNames,
+            dni,
+            bornDate,
+            gradeName,
+            sectionName,
+            status,
+            balance,
+            relationship,
+            idDniType,
+            dniType,
+            idGrade,
+            idSection
+          } = rows[0];
+          const student = {
+            idStudent,
+            names,
+            lastNames,
+            dni,
+            bornDate,
+            gradeName,
+            sectionName,
+            status,
+            balance,
+            relationship,
+            idDniType,
+            dniType,
+            idGrade,
+            idSection
+          };
+          resolve({ student });
+        } else {
+          resolve({ errStudent });
+        }
+      } else {
+        resolve({ student: {} });
+      }
+    });
+  });
+};
+
 // 3.- Post add student http://localhost:3500/api/student
 router.post('/student', async (req, res) => {
   const {

@@ -1,5 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+import Swal from 'sweetalert2';
+
 export const SET_INCOME = 'SET_INCOME';
 
 export const setIncome = income => ({
@@ -43,10 +45,64 @@ export const resetRepresentative = () => ({
 
 export const ADD_STUDENT = 'ADD_STUDENT';
 
-export const addStudent = student => ({
+export const addStudentAction = student => ({
   type: ADD_STUDENT,
   payload: { student }
 });
+
+export const addStudent = (student, history) => {
+  return async (dispatch, getState) => {
+    const { students } = getState().income.representative;
+    const currentDnis = Object.keys(students).map(
+      studentKey => students[studentKey].dni
+    );
+    console.log(currentDnis);
+    Swal.fire({
+      title: 'Verificando cedula',
+      showCancelButton: false,
+      showConfirmButton: false,
+      onOpen: async () => {
+        Swal.showLoading();
+        const url = 'http://localhost:3500/api/studentbydni';
+        const config = {
+          method: 'POST',
+          body: JSON.stringify({ dniStudent: student.dni }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        try {
+          const res = await fetch(url, config);
+          if (res.status === 200) {
+            const resStudent = await res.json();
+            console.log(resStudent);
+            if (!resStudent.idStudent && !currentDnis.includes(student.dni)) {
+              Swal.close();
+              dispatch(addStudentAction(student));
+              history.push('/JoinStudents');
+            } else {
+              Swal.fire({
+                title: 'La cedula ingresa ya se encuentra asignada.',
+                text: '',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  icon: 'icon-class',
+                  title: 'title-class'
+                }
+              });
+            }
+          } else throw await res.json();
+        } catch (error) {
+          Swal.hideLoading();
+          Swal.fire({ text: `Request failed: ${JSON.stringify(error)}` });
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    });
+  };
+};
 
 export const EDIT_STUDENT = 'EDIT_STUDENT';
 

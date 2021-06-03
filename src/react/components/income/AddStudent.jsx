@@ -174,8 +174,7 @@ const AddStudent = () => {
       sectionName,
       status
     };
-    dispatch(addStudent(student));
-    history.push('/JoinStudents');
+    dispatch(addStudent(student, history));
   };
 
   // When path come from join student do not reset
