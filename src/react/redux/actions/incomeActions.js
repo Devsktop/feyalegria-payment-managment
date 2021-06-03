@@ -56,25 +56,27 @@ export const addStudent = (student, history) => {
       title: 'Verificando cedula',
       showCancelButton: false,
       showConfirmButton: false,
-      onOpen: async () => {
-        Swal.showLoading();
-        try {
-          const resStudent = await getStudentByDni(student.dni);
-          if (isDniDuplicated(resStudent, student.dni, getState())) {
-            duplicatedAlert();
-          } else {
-            Swal.close();
-            dispatch(addStudentAction(student));
-            history.push('/JoinStudents');
-          }
-        } catch (error) {
-          Swal.hideLoading();
-          Swal.fire({ text: `Request failed: ${JSON.stringify(error)}` });
-        }
-      },
+      onOpen: () => addStudentFunction(student, history, dispatch, getState),
       allowOutsideClick: () => !Swal.isLoading()
     });
   };
+};
+
+const addStudentFunction = async (student, history, dispatch, getState) => {
+  Swal.showLoading();
+  try {
+    const resStudent = await getStudentByDni(student.dni);
+    if (isDniDuplicated(resStudent, student.dni, getState())) {
+      duplicatedAlert();
+    } else {
+      Swal.close();
+      dispatch(addStudentAction(student));
+      history.push('/JoinStudents');
+    }
+  } catch (error) {
+    Swal.hideLoading();
+    Swal.fire({ text: `Request failed: ${JSON.stringify(error)}` });
+  }
 };
 
 const getStudentByDni = async dni => {
