@@ -17,6 +17,10 @@ import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import RepresentativeData from './RepresentativeData';
 
+// Helper
+// eslint-disable-next-line import/order
+import { parseDateToYMD } from 'helper';
+
 // Import imgs
 import TimelinePersonal from './TimelinePersonal.svg';
 import TimelineScholar from './TimelineScholar.svg';
@@ -166,7 +170,7 @@ const AddStudent = () => {
       lastNames,
       idDniType,
       dni,
-      bornDate,
+      bornDate: parseDateToYMD(bornDate),
       relationship: options[relationship].label,
       idGrade,
       idSection,

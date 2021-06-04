@@ -233,7 +233,7 @@ export const fetchIncome = () => {
   };
 };
 
-const handleRepresentative = async representative => {
+const handleRepresentative = representative => {
   return representative.idRepresentative !== 0
     ? representative
     : createRepresentative(representative);
@@ -252,37 +252,60 @@ const createRepresentative = async representative => {
 
   const res = await fetch(url, config);
 
-  if (res.status === 400) {
-    throw await res.json();
-  } else if (res.status === 200) {
+  if (res.status === 200) {
     return res.json();
   }
-  return null;
+  throw await res.json();
 };
 
 const handleStudents = async students => {
   const finalStudents = {};
   for (const studentKey of Object.keys(students)) {
     if (studentKey > 0) {
-      finalStudents[studentKey] = students[studentKey];
+      const student = await updateStudent(students[studentKey]).catch(error => {
+        throw error;
+      });
+      finalStudents[student.idStudent] = student;
     } else {
-      const url = 'http://localhost:3500/api/student';
-      const config = {
-        method: 'POST',
-        body: JSON.stringify(students[studentKey]),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      const res = await fetch(url, config);
-      if (res.status === 400) {
-        throw await res.json();
-      } else if (res.status === 200) {
-        const resStudent = await res.json();
-        finalStudents[resStudent.idStudent] = resStudent;
-      }
+      const student = await createStudent(students[studentKey]).catch(error => {
+        throw error;
+      });
+      finalStudents[student.idStudent] = student;
     }
   }
   return finalStudents;
+};
+
+const createStudent = async student => {
+  const url = 'http://localhost:3500/api/student';
+  const config = {
+    method: 'POST',
+    body: JSON.stringify(student),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const res = await fetch(url, config);
+  if (res.status === 200) {
+    return res.json();
+  }
+  throw await res.json();
+};
+
+const updateStudent = async student => {
+  const url = 'http://localhost:3500/api/updStudent';
+  const config = {
+    method: 'POST',
+    body: JSON.stringify(student),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const res = await fetch(url, config);
+  if (res.status === 200) {
+    return res.json();
+  }
+  throw await res.json();
 };

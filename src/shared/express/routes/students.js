@@ -386,7 +386,7 @@ router.post('/updStudent', async (req, res) => {
     idStudent,
     names,
     lastNames,
-    dniOption,
+    idDniType,
     dni,
     bornDate,
     relationship,
@@ -399,7 +399,7 @@ router.post('/updStudent', async (req, res) => {
     idStudent,
     names,
     lastNames,
-    dniOption,
+    idDniType,
     dni,
     bornDate,
     relationship,
@@ -421,7 +421,7 @@ const updStudent = async (
   idStudent,
   names,
   lastNames,
-  dniOption,
+  idDniType,
   dni,
   bornDate,
   relationship,
@@ -429,7 +429,7 @@ const updStudent = async (
   idSection,
   status
 ) => {
-  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , bornDate = "${bornDate}", relationship = "${relationship}", idDniType = ${dniOption}, idGrade = ${idGrade}, idSection = ${idSection}, status = ${status} WHERE idStudent = ${idStudent};`;
+  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , bornDate = "${bornDate}", relationship = "${relationship}", idDniType = ${idDniType}, idGrade = ${idGrade}, idSection = ${idSection}, status = "${status}" WHERE idStudent = ${idStudent};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errUpdStudent => {
@@ -438,7 +438,7 @@ const updStudent = async (
           idStudent,
           names,
           lastNames,
-          dniOption,
+          idDniType,
           dni,
           bornDate,
           relationship,
@@ -448,7 +448,6 @@ const updStudent = async (
         };
         resolve({ student });
       } else {
-        console.log(errUpdStudent);
         resolve({ errUpdStudent });
       }
     });

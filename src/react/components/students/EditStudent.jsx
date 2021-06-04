@@ -16,6 +16,10 @@ import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import RepresentativeData from '../income/RepresentativeData';
 
+// Helper
+// eslint-disable-next-line import/order
+import { parseDateToYMD } from 'helper';
+
 // Import imgs
 import TimelinePersonal from '../income/TimelinePersonal.svg';
 import TimelineScholar from '../income/TimelineScholar.svg';
@@ -187,7 +191,7 @@ const EditStudent = ({ match: { params } }) => {
       lastNames,
       idDniType,
       dni,
-      bornDate,
+      bornDate: parseDateToYMD(bornDate),
       relationship: options[relationship].label,
       idGrade,
       idSection,

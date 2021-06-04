@@ -88,3 +88,14 @@ export const intStringValidator = (e, value) => {
 
   return e.target.value;
 };
+
+export const parseDateToYMD = date => {
+  const dd = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+
+  const mm =
+    date.getMonth() < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+
+  const yyyy = date.getFullYear();
+
+  return `${yyyy}-${mm}-${dd}`;
+};
