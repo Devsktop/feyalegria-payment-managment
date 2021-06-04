@@ -216,21 +216,25 @@ const getStudent = async idStudent => {
   });
 };
 
-router.post('/studentbydni', async (req, res) => {
+router.post('/studentbydni', async (req, res, next) => {
   console.log('holiwiris');
   const { dniStudent } = req.body;
   // Query to get representative
-  const { student, errStudent } = await getStudentByDni(dniStudent);
-  if (errStudent) {
-    res.status(400).json(errStudent);
-    return null;
-  }
+  try {
+    const { student, errStudent } = await getStudentByDni(dniStudent);
+    if (errStudent) {
+      res.status(400).json(errStudent);
+      return null;
+    }
 
-  res.status(200).json(student);
-  return null;
+    res.status(200).json(student);
+    return null;
+  } catch (error) {
+    next(error);
+  }
 });
 
-const getStudentByDni = async dniStudent => {
+const getStudentByDni = dniStudent => {
   const query = `SELECT 
   idStudent,
   names, 
@@ -249,49 +253,52 @@ const getStudentByDni = async dniStudent => {
   FROM students, dnitype, grades, sections 
   WHERE ${dniStudent} = dni AND students.idDniType = dnitype.idDniType AND students.idGrade = grades.idGrade AND students.idSection = sections.idSection;`;
 
-  return new Promise(resolve => {
-    mysqlConnection.query(query, async (errStudent, rows) => {
-      if (rows.length === 1) {
-        console.log('obvio entro');
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(query, (errStudent, rows) => {
+      try {
         if (!errStudent) {
-          const {
-            idStudent,
-            names,
-            lastNames,
-            dni,
-            bornDate,
-            gradeName,
-            sectionName,
-            status,
-            balance,
-            relationship,
-            idDniType,
-            dniType,
-            idGrade,
-            idSection
-          } = rows[0];
-          const student = {
-            idStudent,
-            names,
-            lastNames,
-            dni,
-            bornDate,
-            gradeName,
-            sectionName,
-            status,
-            balance,
-            relationship,
-            idDniType,
-            dniType,
-            idGrade,
-            idSection
-          };
-          resolve({ student });
+          if (rows.length === 1) {
+            const {
+              idStudent,
+              names,
+              lastNames,
+              dni,
+              bornDate,
+              gradeName,
+              sectionName,
+              status,
+              balance,
+              relationship,
+              idDniType,
+              dniType,
+              idGrade,
+              idSection
+            } = rows[0];
+            const student = {
+              idStudent,
+              names,
+              lastNames,
+              dni,
+              bornDate,
+              gradeName,
+              sectionName,
+              status,
+              balance,
+              relationship,
+              idDniType,
+              dniType,
+              idGrade,
+              idSection
+            };
+            resolve({ student });
+          } else {
+            resolve({ student: {} });
+          }
         } else {
-          resolve({ errStudent });
+          throw errStudent;
         }
-      } else {
-        resolve({ student: {} });
+      } catch (error) {
+        reject(error);
       }
     });
   });

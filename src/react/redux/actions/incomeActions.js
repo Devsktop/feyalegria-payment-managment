@@ -263,8 +263,9 @@ const createRepresentative = async representative => {
 const handleStudents = async students => {
   const finalStudents = {};
   for (const studentKey of Object.keys(students)) {
-    if (studentKey > 0) finalStudents[studentKey] = students[studentKey];
-    else {
+    if (studentKey > 0) {
+      finalStudents[studentKey] = students[studentKey];
+    } else {
       const url = 'http://localhost:3500/api/student';
       const config = {
         method: 'POST',
