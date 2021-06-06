@@ -225,7 +225,10 @@ export const fetchIncome = () => {
     try {
       const representative = await handleRepresentative(income.representative);
       console.log(representative);
-      const students = await handleStudents(income.representative.students);
+      const students = await handleStudents(
+        income.representative.students,
+        representative.idRepresentative
+      );
       console.log(students);
     } catch (error) {
       console.log(error);
@@ -258,20 +261,31 @@ const createRepresentative = async representative => {
   throw await res.json();
 };
 
-const handleStudents = async students => {
+const handleStudents = async (students, idRepresentative) => {
   const finalStudents = {};
   for (const studentKey of Object.keys(students)) {
-    if (studentKey > 0) {
-      const student = await updateStudent(students[studentKey]).catch(error => {
-        throw error;
-      });
-      finalStudents[student.idStudent] = student;
-    } else {
-      const student = await createStudent(students[studentKey]).catch(error => {
-        throw error;
-      });
-      finalStudents[student.idStudent] = student;
-    }
+    const studentData = {
+      ...students[studentKey],
+      idRepresentative,
+      inscription: true
+    };
+    const saveStudent = studentKey > 0 ? updateStudent : createStudent;
+    const student = await saveStudent(studentData).catch(error => {
+      throw error;
+    });
+    finalStudents[student.idStudent] = student;
+
+    // if (studentKey > 0) {
+    //   const student = await updateStudent(studentData).catch(error => {
+    //     throw error;
+    //   });
+    //   finalStudents[student.idStudent] = student;
+    // } else {
+    //   const student = await createStudent(studentData).catch(error => {
+    //     throw error;
+    //   });
+    //   finalStudents[student.idStudent] = student;
+    // }
   }
   return finalStudents;
 };

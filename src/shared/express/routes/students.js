@@ -7,84 +7,90 @@ const router = express.Router();
 
 // 1.-Select 10 Solvent & 10 Insolvent Students http://localhost:3500/api/students
 router.get('/students', (req, res) => {
-  const students = {};
-  let joinedStudents;
-  let insolventStudents;
-  let solventStudents;
+  // const students = {};
+  // let joinedStudents;
+  // let insolventStudents;
+  // let solventStudents;
 
-  // Query to select 10 Solvent Students
-  let query =
-    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, borndate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance >= 0 LIMIT 10;';
-  mysqlConnection.query(query, (err, rows) => {
-    if (!err) {
-      rows.forEach(row => {
-        students[row.idStudent] = { ...row, solvent: true };
-      });
-    } else {
-      res.status(404).json({
-        err
-      });
-    }
-  });
+  // // Query to select 10 Solvent Students
+  // let query =
+  //   'SELECT students.idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, bornDate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative from students, representatives, monthpayments, paymentconceptsbalance where representatives.idRepresentative = students.idRepresentative AND monthpayments.idStudent = students.idStudent AND students.inscription = true AND monthpayments.paidMonth >= (SELECT currentMonth from globals WHERE idGlobal = 1 ) AND monthpayments.paidAmount = monthpayments.debtAmount AND paymentconceptsbalance.idMonthPayment = monthpayments.idMonthPayment AND paymentconceptsbalance.paidAmount = paymentconceptsbalance.debtAmount LIMIT 10';
+  // mysqlConnection.query(query, (err, rows) => {
+  //   if (!err) {
+  //     rows.forEach(row => {
+  //       students[row.idStudent] = { ...row, solvent: true };
+  //     });
+  //   } else {
+  //     res.status(404).json({
+  //       err
+  //     });
+  //   }
+  // });
 
-  // Query to select 10 Insolvent Students
-  query =
-    'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, borndate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance < 0 LIMIT 10;';
-  mysqlConnection.query(query, (err, rows) => {
-    if (!err) {
-      rows.forEach(row => {
-        students[row.idStudent] = { ...row, solvent: false };
-      });
-    } else {
-      res.status(404).json({
-        err
-      });
-    }
-  });
+  // // Query to select 10 Insolvent Students
+  // query =
+  //   'SELECT idStudent, CONCAT(students.names, " ", students.lastnames) AS name, students.dni, borndate, CONCAT(representatives.names, " ", representatives.lastnames) AS representative, students.balance from students, representatives where representatives.idRepresentative = students.idRepresentative AND students.inscription = true AND students.balance < 0 LIMIT 10;';
+  // mysqlConnection.query(query, (err, rows) => {
+  //   if (!err) {
+  //     rows.forEach(row => {
+  //       students[row.idStudent] = { ...row, solvent: false };
+  //     });
+  //   } else {
+  //     res.status(404).json({
+  //       err
+  //     });
+  //   }
+  // });
 
-  // Query to get students total
-  query =
-    'SELECT COUNT(idStudent) AS joinedStudents from students where inscription = true';
-  mysqlConnection.query(query, (err, rows) => {
-    if (!err) {
-      joinedStudents = rows[0].joinedStudents;
-    } else {
-      res.status(404).json({
-        err
-      });
-    }
-  });
+  // // Query to get students total
+  // query =
+  //   'SELECT COUNT(idStudent) AS joinedStudents from students where inscription = true';
+  // mysqlConnection.query(query, (err, rows) => {
+  //   if (!err) {
+  //     joinedStudents = rows[0].joinedStudents;
+  //   } else {
+  //     res.status(404).json({
+  //       err
+  //     });
+  //   }
+  // });
 
-  // Query to get Students solventStudents
-  query =
-    'SELECT COUNT(idStudent) AS solventStudents from students where inscription = true AND balance >= 0';
-  mysqlConnection.query(query, (err, rows) => {
-    if (!err) {
-      solventStudents = rows[0].solventStudents;
-    } else {
-      res.status(404).json({
-        err
-      });
-    }
-  });
+  // // Query to get Students solventStudents
+  // query =
+  //   'SELECT COUNT(idStudent) AS solventStudents from students where inscription = true AND balance >= 0';
+  // mysqlConnection.query(query, (err, rows) => {
+  //   if (!err) {
+  //     solventStudents = rows[0].solventStudents;
+  //   } else {
+  //     res.status(404).json({
+  //       err
+  //     });
+  //   }
+  // });
 
-  // Query to get Students insolventStudents
-  query =
-    'SELECT COUNT(idStudent) AS insolventStudents from students where balance < 0';
-  mysqlConnection.query(query, (err, rows) => {
-    if (!err) {
-      insolventStudents = rows[0].insolventStudents;
-      res.status(200).json({
-        students,
-        joinedStudents,
-        solventStudents,
-        insolventStudents
-      });
-    } else {
-      res.status(404).json({
-        err
-      });
-    }
+  // // Query to get Students insolventStudents
+  // query =
+  //   'SELECT COUNT(idStudent) AS insolventStudents from students where balance < 0';
+  // mysqlConnection.query(query, (err, rows) => {
+  //   if (!err) {
+  //     insolventStudents = rows[0].insolventStudents;
+  //     res.status(200).json({
+  //       students,
+  //       joinedStudents,
+  //       solventStudents,
+  //       insolventStudents
+  //     });
+  //   } else {
+  //     res.status(404).json({
+  //       err
+  //     });
+  //   }
+  // });
+  res.status(200).json({
+    students: {},
+    joinedStudents: {},
+    solventStudents: {},
+    insolventStudents: {}
   });
 });
 
@@ -245,7 +251,6 @@ const getStudentByDni = dniStudent => {
   students.idGrade,
   students.idSection,
   sections.section AS sectionName,
-  balance, 
   status,
   relationship,
   students.idDniType,
@@ -267,7 +272,6 @@ const getStudentByDni = dniStudent => {
               gradeName,
               sectionName,
               status,
-              balance,
               relationship,
               idDniType,
               dniType,
@@ -283,7 +287,6 @@ const getStudentByDni = dniStudent => {
               gradeName,
               sectionName,
               status,
-              balance,
               relationship,
               idDniType,
               dniType,
@@ -310,29 +313,35 @@ router.post('/student', async (req, res) => {
     names,
     lastNames,
     dni,
+    idDniType,
     bornDate,
     relationship,
     idGrade,
     idSection,
-    status
+    inscription,
+    status,
+    idRepresentative
   } = req.body;
   // Query to add student
   const { student, errAddStudent } = await addStudent(
     names,
     lastNames,
     dni,
+    idDniType,
     bornDate,
     relationship,
     idGrade,
     idSection,
-    status
+    inscription,
+    status,
+    idRepresentative
   );
   if (errAddStudent) {
     res.status(400).json(errAddStudent);
     return null;
   }
 
-  res.status(200).json({ student, status: 200 });
+  res.status(200).json(student);
   return null;
 });
 
@@ -341,22 +350,29 @@ const addStudent = (
   names,
   lastNames,
   dni,
+  idDniType,
   bornDate,
   relationship,
   idGrade,
   idSection,
-  status
+  inscription,
+  status,
+  idRepresentative
 ) => {
-  const query = `INSERT INTO students(names, lastNames, dni, bornDate, relationship, idGrade, idSection, status) 
+  const query = `INSERT INTO students(names, lastNames, dni, idDniType, bornDate, relationship, idGrade, idSection, inscription, status, idRepresentative) 
   VALUES
   ("${names}", 
   "${lastNames}", 
   "${dni}", 
+  ${idDniType},
   "${bornDate}", 
   "${relationship}",
   ${idGrade}, 
   ${idSection},
-  "${status}");`;
+  ${inscription},
+  "${status}",
+  ${idRepresentative}
+  );`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, (errAddStudent, rows) => {
@@ -366,10 +382,12 @@ const addStudent = (
           names,
           lastNames,
           dni,
+          idDniType,
           bornDate,
           relationship,
           idGrade,
           idSection,
+          inscription,
           status
         };
         resolve({ student });
@@ -392,6 +410,7 @@ router.post('/updStudent', async (req, res) => {
     relationship,
     idGrade,
     idSection,
+    inscription,
     status
   } = req.body;
   // Query to update student
@@ -405,6 +424,7 @@ router.post('/updStudent', async (req, res) => {
     relationship,
     idGrade,
     idSection,
+    inscription,
     status
   );
   if (errUpdStudent) {
@@ -412,7 +432,7 @@ router.post('/updStudent', async (req, res) => {
     return null;
   }
 
-  res.status(200).json({ student, status: 200 });
+  res.status(200).json(student);
   return null;
 });
 
@@ -427,9 +447,10 @@ const updStudent = async (
   relationship,
   idGrade,
   idSection,
+  inscription,
   status
 ) => {
-  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , bornDate = "${bornDate}", relationship = "${relationship}", idDniType = ${idDniType}, idGrade = ${idGrade}, idSection = ${idSection}, status = "${status}" WHERE idStudent = ${idStudent};`;
+  const query = `UPDATE students SET names = "${names}", lastnames = "${lastNames}", dni = "${dni}" , bornDate = "${bornDate}", relationship = "${relationship}", idDniType = ${idDniType}, idGrade = ${idGrade}, idSection = ${idSection}, inscription= ${inscription}, status = "${status}" WHERE idStudent = ${idStudent};`;
 
   return new Promise(resolve => {
     mysqlConnection.query(query, errUpdStudent => {
@@ -444,6 +465,7 @@ const updStudent = async (
           relationship,
           idGrade,
           idSection,
+          inscription,
           status
         };
         resolve({ student });
